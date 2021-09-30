@@ -1,7 +1,7 @@
 import React from "react";
 
 function MainScreen() {
-  return <div>mainscreen</div>;
+  return <div>mheleleoo</div>;
 }
 
 export default MainScreen;
