@@ -1,0 +1,41 @@
+.home_left {
+  width: 66vw;
+  text-align: center;
+  float: left;
+  background-color: #fde792;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+}
+#center_div {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.home_left_img {
+  margin: 0 auto;
+  width: 50vw;
+  height: 40vh;
+  background-image: url("../../images/logo.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.home_right {
+  width: 34vw;
+  float: right;
+  background-color: #fde792;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.store_code_input {
+  margin: 0 30px;
+}
+.password_input {
+  margin: 0 30px;
+}
+.input_area_div {
+  background-color: azure;
+  padding: 30px;
+}
