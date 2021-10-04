@@ -39,13 +39,15 @@ function HomeScreen() {
             </div>
           </div>
         </div>
+        {/* Slide down Icon */}
         <div id="down-icon">
             <img src={IconImage}/>
           </div>
       </div>
+      {/* 2번 페이지  */}
       <div className="home_main__bottom">
 
-      {/* 2번 페이지  */}
+      
       </div>
 
     </div>
