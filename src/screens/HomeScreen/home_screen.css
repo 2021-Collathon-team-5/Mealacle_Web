@@ -1,41 +1,104 @@
+.home_main {
+  width:100%;
+  height: 200vh;
+  box-sizing:border-box;
+
+}
+.home_main__top {
+  display: flex;
+  width: 100%;
+  height: 50%;
+  position: relative;
+}
+.home_main__bottom {
+  height: 50%;
+}
 .home_left {
-  width: 66vw;
-  text-align: center;
-  float: left;
+  width: 60vw;
+  height: 100%;
   background-color: #fde792;
-  display: flex;
-  justify-self: center;
-  align-items: center;
+  position: relative;
 }
-#center_div {
-  margin: 0 auto;
+#home_left__center {
   display: flex;
-  flex-direction: column;
-}
-.home_left_img {
-  margin: 0 auto;
-  width: 50vw;
-  height: 40vh;
-  background-image: url("../../images/logo.png");
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-.home_right {
-  width: 34vw;
-  float: right;
-  background-color: #fde792;
-  display: flex;
+  width: 80%;
+  height: 80%;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  position: absolute;
+  top:10%;
+  left: 10%;
 }
-.store_code_input {
-  margin: 0 30px;
+#logo_img {
+  margin: 30px 0;
+  width: 80%;
+  height: 50%;
 }
-.password_input {
-  margin: 0 30px;
+.home_right {
+  width: 40vw;
+  height: 100%;
+  background-color: #fde792;
+  position: relative;
 }
-.input_area_div {
-  background-color: azure;
-  padding: 30px;
+#sign_in_div {
+  position:absolute;
+  top:30%;
+  right: 25%;
+  width: 60%;
+}
+input {
+  border:none;
+  padding: 15px 10px;
+  font-size: 14px;
+  width: 80%;
+  border-radius: 12px;
+}
+input:focus {
+  outline: none;
+}
+#home_left__center > div:first-child {
+  font-size: 50px;
+  color: #3F4346;
+  font-weight:700;
+}
+#home_left__center > div:last-child {
+  font-size: 30px;
+  color: #3F4346;
+  font-weight:600;
+  text-align: center;
+}
+#sign_in_div label{
+  display: block;
+    margin: 10px 3px;
+    font-size: 15px;
+    font-weight: bold;
+}
+#down-icon {
+  background-color: white;
+  position: absolute;
+  width: 30px;
+  bottom: 3%;
+  right: 48%;
+  opacity: 0.6;
+  border-radius: 50%;
+}
+#down-icon img {
+  height: 100%;
+  width: 100%;
+}
+
+@media screen and (max-width:768px) {
+    #home_left__center > div:first-child {
+      font-size: 40px;
+    }
+    #home_left__center > div:last-child {
+      font-size: 15px;
+    }
+}
+@media screen and (min-width:768px) {
+  #down-icon {
+    width: 5%;
+  }
+
 }
