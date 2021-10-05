@@ -10,13 +10,13 @@ function ProfileScreen() {
       </div>
       <div className="profile_card_area">
         <div className="profile_card">
-          <div>haha</div>
+          <div className="profile_name"></div>
         </div>
         <div className="profile_card">
-          <div>haha</div>
+          <div className="profile_name"></div>
         </div>
         <div className="profile_card">
-          <div>haha</div>
+          <div className="profile_name"></div>
         </div>
       </div>
     </div>

@@ -1,11 +1,16 @@
 import React from "react";
 import "./home_screen.css";
+<<<<<<< HEAD
 import Image from "../../images/logo.png";
 import IconImage from "../../images/outline_expand_more_black_48dp.png";
 import emailImage from "../../images/outline_email_black_48dp.png";
 import phoneImage from "../../images/outline_call_black_48dp.png";
 import socialImage from "../../images/outline_public_black_48dp.png";
 
+=======
+import Image from "../../images/logo.png"
+import IconImage from "../../images/outline_expand_more_black_48dp.png"
+>>>>>>> 91887b6af1cd40c2e24bdf18d64d0494a5465ef1
 function HomeScreen() {
   function ScrollDown() {
     const current_scroll = window.scrollY;
@@ -21,6 +26,7 @@ function HomeScreen() {
         <div className="home_left">
           <div id="home_left__center">
             <div>Mealacle</div>
+<<<<<<< HEAD
             <img src={Image} id="logo_img" alt="Logo" />
             <div>코로나 극복을 위해 Mealacle과 함께 기적을 일으킵시다!</div>
           </div>
@@ -93,11 +99,47 @@ function HomeScreen() {
           <div className="connect_container">
             <div className="circle_image_container">
               <img src={socialImage} id="social_img" alt="social" width="80%" />
+=======
+            <img src={Image} id="logo_img"/>
+            <div>
+              코로나 극복을 위해 Mealacle과 함께 기적을 일으킵시다!
+            </div>
+          </div>
+        </div>
+        {/* 로그인 창  */}
+        <div className="home_right">
+          <div id="sign_in_div">
+            <div className="sign_in_store_code">
+              <div className="store_code_input">
+                <label>매장코드</label>
+              </div>
+              <div className="input_area_div">
+                <input type="text" placeholder="매장 코드를 입력하세요."/>
+              </div>
+            </div>
+            <div className="sign_in_password">
+              <div className="password_input">
+                <label>비밀번호</label>
+              </div>
+              <div className="input_area_div">
+                <input type="text" placeholder="비밀번호를 입력하세요." />
+              </div>
+>>>>>>> 91887b6af1cd40c2e24bdf18d64d0494a5465ef1
             </div>
             <div className="connect_text_container">소셜 방문</div>
           </div>
         </div>
+        {/* Slide down Icon */}
+        <div id="down-icon">
+            <img src={IconImage}/>
+          </div>
       </div>
+      {/* 2번 페이지  */}
+      <div className="home_main__bottom">
+
+      
+      </div>
+
     </div>
   );
 }
