@@ -129,6 +129,7 @@ input:focus {
   padding: 5vh 10vw;
 }
 .home_bottom_text_container > h1 {
+  padding-top: 10vh;
   font-size: 48px;
   font-weight: bold;
 }
