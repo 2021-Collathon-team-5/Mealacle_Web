@@ -1,14 +1,7 @@
 .home_main {
-<<<<<<< HEAD
   width: 100%;
   height: 200vh;
   box-sizing: border-box;
-=======
-  width:100%;
-  height: 200vh;
-  box-sizing:border-box;
-
->>>>>>> 91887b6af1cd40c2e24bdf18d64d0494a5465ef1
 }
 .home_main__top {
   display: flex;
@@ -17,14 +10,10 @@
   position: relative;
 }
 .home_main__bottom {
-<<<<<<< HEAD
   display: flex;
   width: 100%;
   height: 50%;
   position: relative;
-=======
-  height: 50%;
->>>>>>> 91887b6af1cd40c2e24bdf18d64d0494a5465ef1
 }
 .home_left {
   width: 60vw;
@@ -40,11 +29,7 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-<<<<<<< HEAD
   top: 10%;
-=======
-  top:10%;
->>>>>>> 91887b6af1cd40c2e24bdf18d64d0494a5465ef1
   left: 10%;
 }
 #logo_img {
@@ -59,22 +44,13 @@
   position: relative;
 }
 #sign_in_div {
-<<<<<<< HEAD
   position: absolute;
   top: 30%;
-=======
-  position:absolute;
-  top:30%;
->>>>>>> 91887b6af1cd40c2e24bdf18d64d0494a5465ef1
   right: 25%;
   width: 60%;
 }
 input {
-<<<<<<< HEAD
   border: none;
-=======
-  border:none;
->>>>>>> 91887b6af1cd40c2e24bdf18d64d0494a5465ef1
   padding: 15px 10px;
   font-size: 14px;
   width: 80%;
@@ -85,7 +61,6 @@ input:focus {
 }
 #home_left__center > div:first-child {
   font-size: 50px;
-<<<<<<< HEAD
   color: #3f4346;
   font-weight: 700;
 }
@@ -100,22 +75,6 @@ input:focus {
   margin: 10px 3px;
   font-size: 15px;
   font-weight: bold;
-=======
-  color: #3F4346;
-  font-weight:700;
-}
-#home_left__center > div:last-child {
-  font-size: 30px;
-  color: #3F4346;
-  font-weight:600;
-  text-align: center;
-}
-#sign_in_div label{
-  display: block;
-    margin: 10px 3px;
-    font-size: 15px;
-    font-weight: bold;
->>>>>>> 91887b6af1cd40c2e24bdf18d64d0494a5465ef1
 }
 #down-icon {
   background-color: white;
@@ -125,7 +84,6 @@ input:focus {
   right: 48%;
   opacity: 0.6;
   border-radius: 50%;
-<<<<<<< HEAD
 }
 #down-icon img {
   height: 100%;
@@ -197,25 +155,4 @@ input:focus {
 .connect_text_container {
   margin-left: 30px;
   font-size: 24px;
-=======
-}
-#down-icon img {
-  height: 100%;
-  width: 100%;
-}
-
-@media screen and (max-width:768px) {
-    #home_left__center > div:first-child {
-      font-size: 40px;
-    }
-    #home_left__center > div:last-child {
-      font-size: 15px;
-    }
-}
-@media screen and (min-width:768px) {
-  #down-icon {
-    width: 5%;
-  }
-
->>>>>>> 91887b6af1cd40c2e24bdf18d64d0494a5465ef1
 }
