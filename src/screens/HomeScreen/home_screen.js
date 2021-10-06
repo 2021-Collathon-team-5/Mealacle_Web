@@ -8,10 +8,9 @@ import socialImage from "../../images/outline_public_black_48dp.png";
 
 function HomeScreen() {
   function ScrollDown() {
-    const current_scroll = window.scrollY;
+    const scroll_X = window.scrollX;
     const my_height = window.innerHeight;
-
-    window.scrollTo(current_scroll, my_height);
+    window.scrollTo(scroll_X, my_height);
   }
   return (
     <div className="home_main">
@@ -53,6 +52,8 @@ function HomeScreen() {
       </div>
       {/* 2번 페이지  */}
       <div className="home_main__bottom">
+      <div className="home_bottom_left__backimg">
+        </div>
         <div className="home_bottom_left">
           <div className="home_bottom_text_container">
             <h1>Mealacle은?</h1>
@@ -96,10 +97,6 @@ function HomeScreen() {
             </div>
             <div className="connect_text_container">소셜 방문</div>
           </div>
-        </div>
-        {/* Slide down Icon */}
-        <div id="down-icon">
-          <img src={IconImage} alt="icon" />
         </div>
       </div>
     </div>
