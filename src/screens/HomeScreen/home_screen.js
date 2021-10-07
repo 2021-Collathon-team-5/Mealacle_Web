@@ -1,5 +1,4 @@
 import React from "react";
-import "./home_screen.css";
 import Image from "../../images/logo.png";
 import IconImage from "../../images/outline_expand_more_black_48dp.png";
 import emailImage from "../../images/outline_email_black_48dp.png";
