@@ -17,7 +17,6 @@ function AppRouter() {
             <ProfileScreen />
           </Route>
           <Route exact path="/main">
-            <HomeScreen />
             <MainScreen />
           </Route>
         </Switch>
