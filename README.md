@@ -1,7 +1,7 @@
 ## Mealacle
 
 ### 업로드
-1. brahch -> git checkout junghun2/master/seungkyu 처럼
+1. branch -> git checkout junghun2/master/seungkyu 처럼
 2. git push origin junghun2 를 했을경우
 3. git checkout master -> git merge junghun2
 4. git push origin master 한 이후에
