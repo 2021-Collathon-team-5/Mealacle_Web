@@ -35,7 +35,9 @@ function MainScreen() {
     });
   };
 
-  const checkDatas = () => {};
+  const checkDatas = () => {
+    console.log("hahahaha");
+  };
   return (
     <>
       <nav className="main-nav">
