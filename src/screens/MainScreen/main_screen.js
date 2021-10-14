@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Hambar from "../../images/outline_reorder_black_48dp_02.png";
 import Backarrow from "../../images/outline_arrow_back_black_48dp_02.png";
 import { addDoc, getDocs, collection } from "firebase/firestore/lite";
 import { firestoreService } from "../../Firebase";
 
 function MainScreen() {
+  const [foodList, setFoodList] = useState([]);
   const db = firestoreService;
 
   const showMenu = (e) => {
@@ -16,20 +17,25 @@ function MainScreen() {
     mainNav.classList.toggle("nav-open");
   };
 
-  const getDatas = async () => {
-    const querySnapshot = await getDocs(collection(db, "food"));
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-    });
-  };
-
   const addData = async () => {
-    const docRef = await addDoc(collection(db, "food"), {
+    await addDoc(collection(db, "food"), {
       name: "Alan",
       price: 19120,
     });
-    console.log(docRef);
   };
+
+  const getDatas = async () => {
+    const querySnapshot = await getDocs(collection(db, "food"));
+    querySnapshot.docs.forEach((e) => {
+      const data = {
+        ...e.data(),
+        id: e.id,
+      };
+      setFoodList((prev) => [...prev, data]);
+    });
+  };
+
+  const checkDatas = () => {};
   return (
     <>
       <nav className="main-nav">
@@ -69,17 +75,24 @@ function MainScreen() {
         <div>1</div>
         <div>2</div>
         <div>3</div>
-        <div>4</div>
+        <div>
+          {foodList &&
+            foodList.map((e, index) => {
+              return <h1 key={index}>{e.id}</h1>;
+            })}
+        </div>
         <div>
           <iframe src="./detail/123" title="test" width="300" height="300" />
         </div>
-        <div>6</div>
+        <div>
+          <button onClick={addData}>hahahaha</button>
+          <button onClick={getDatas}>hohohoho</button>
+          <button onClick={checkDatas}>check</button>
+        </div>
         <div>7</div>
         <div>8</div>
         <div>9</div>
       </div>
-      <button onClick={addData}>hahahaha</button>
-      <button onClick={getDatas}>hohohoho</button>
     </>
   );
 }
