@@ -1,7 +1,12 @@
 import React from "react";
 import Hambar from "../../images/outline_reorder_black_48dp_02.png";
 import Backarrow from "../../images/outline_arrow_back_black_48dp_02.png";
+import { addDoc, getDocs, collection } from "firebase/firestore/lite";
+import { firestoreService } from "../../Firebase";
+
 function MainScreen() {
+  const db = firestoreService;
+
   const showMenu = (e) => {
     const mainNav = e.target.parentNode.parentNode;
     const header = document.querySelector(".main-nav__header:last-child");
@@ -9,6 +14,21 @@ function MainScreen() {
     bodys.forEach((body) => body.classList.toggle("body-hide"));
     header.classList.toggle("header-hide");
     mainNav.classList.toggle("nav-open");
+  };
+
+  const getDatas = async () => {
+    const querySnapshot = await getDocs(collection(db, "food"));
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+    });
+  };
+
+  const addData = async () => {
+    const docRef = await addDoc(collection(db, "food"), {
+      name: "Alan",
+      price: 19120,
+    });
+    console.log(docRef);
   };
   return (
     <>
@@ -50,12 +70,16 @@ function MainScreen() {
         <div>2</div>
         <div>3</div>
         <div>4</div>
-        <div>5</div>
+        <div>
+          <iframe src="./detail/123" title="test" width="300" height="300" />
+        </div>
         <div>6</div>
         <div>7</div>
         <div>8</div>
         <div>9</div>
       </div>
+      <button onClick={addData}>hahahaha</button>
+      <button onClick={getDatas}>hohohoho</button>
     </>
   );
 }
