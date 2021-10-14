@@ -1,0 +1,83 @@
+
+/* 모달창 뒷 바탕 */
+.modal-backdrop {
+    background-color: rgba(0,0,0,0.8);
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    top:0;
+    left:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+/* 모달창 */
+.modal-window {
+    background-color: white;
+    width: 20%;
+    height: 40%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+/* 모달창 top ( 프로필명, 저장버튼, 닫기버튼 )*/
+.modal-window__top {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.modal-window__top img {
+    width: 24px;
+    height: 24px;
+}
+.modal-window__top img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+.modal-window__top img:active {
+    transform: scale(1.0);
+}
+.modal-window__top button {
+    all:unset;
+    color:var(--main-color);
+    
+}
+.modal-window__top button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+.modal-window__top button:active {
+    transform: scale(1.0);
+}
+/* 모달창 inputs */
+.modal-window__contents {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    margin-top : 30px;
+}
+.modal-window__contents textarea {
+    height: 60%;
+    border:none;
+    background-color:var(--input-color);
+    border-radius: 5px;
+    width: 90%;
+    padding:10px;
+    resize:none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.modal-window__contents input {
+    border:none;
+    border-radius: 5px;
+    width: 90%;
+    padding: 10px;
+    background-color: var(--input-color);
+}

@@ -1,3 +1,4 @@
+
 .home_main {
   width: 100%;
   height: 200vh;
@@ -18,8 +19,9 @@
 .home_left {
   width: 60vw;
   height: 100%;
-  background-color: #fde792;
+  background-color: var(--main-color);
   position: relative;
+  overflow: hidden;
 }
 #home_left__center {
   display: flex;
@@ -40,8 +42,9 @@
 .home_right {
   width: 40vw;
   height: 100%;
-  background-color: #fde792;
+  background-color: var(--main-color);
   position: relative;
+  overflow: hidden;
 }
 #sign_in_div {
   position: absolute;
@@ -49,14 +52,14 @@
   right: 25%;
   width: 60%;
 }
-input {
+.home_right input {
   border: none;
   padding: 15px 10px;
   font-size: 14px;
   width: 80%;
   border-radius: 12px;
 }
-input:focus {
+.home_right input:focus {
   outline: none;
 }
 #home_left__center > div:first-child {
@@ -110,12 +113,20 @@ input:focus {
 .home_bottom_left {
   width: 80vw;
   height: 100%;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.home_bottom_left__backimg{
+  width: 80vw;
+  height: 100%;
   background-image: url("../../images/background_img.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
-  position: relative;
+  opacity: 0.5;
+  position: absolute;
+  z-index: 0;
 }
-
 .home_bottom_right {
   width: 20vw;
   height: 100%;
@@ -123,6 +134,7 @@ input:focus {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  overflow: hidden;
 }
 /* 배경 사진때문에 안보이는글씨때문에 글씨수정필요시 container에서 color만주면됨*/
 .home_bottom_text_container {
@@ -135,6 +147,7 @@ input:focus {
 }
 .home_bottom_text_container > p {
   font-size: 24px;
+  font-weight: 600;
 }
 .connect_container {
   margin: 10px 10%;

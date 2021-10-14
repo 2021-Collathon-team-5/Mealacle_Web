@@ -1,0 +1,6 @@
+@import "./reset.css";
+@import "./variables.css";
+@import "../screens/HomeScreen/home_screen.css";
+@import "../screens/ProfileScreen/profile_screen.css";
+@import "../screens/ProfileScreen/modal.css";
+@import "../screens/MainScreen/main_screen.css";
