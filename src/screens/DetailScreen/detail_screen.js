@@ -14,7 +14,7 @@ function DetailScreen() {
           console.log(foodId);
         }}
       >
-        hahaha{foodId}
+        hahadsadsadsadsadha{foodId}
       </button>
     </div>
   );
