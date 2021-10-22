@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Hambar from "../../images/outline_reorder_black_48dp_02.png";
 import Backarrow from "../../images/outline_arrow_back_black_48dp_02.png";
-import { addDoc, getDocs, collection } from "firebase/firestore/lite";
+import { addDoc, getDocs, collection, doc, getDoc } from "firebase/firestore/lite";
 import { firestoreService } from "../../Firebase";
-
-function MainScreen() {
+import OrderList from "./Components/OrderList";
+function MainScreen() {                          
   const [foodList, setFoodList] = useState([]);
-  const db = firestoreService;
+  const [loading, setLoading] = useState(true);
 
+  
   const showMenu = (e) => {
     const mainNav = e.target.parentNode.parentNode;
     const header = document.querySelector(".main-nav__header:last-child");
@@ -16,7 +17,7 @@ function MainScreen() {
     header.classList.toggle("header-hide");
     mainNav.classList.toggle("nav-open");
   };
-
+  const db = firestoreService;
   const addData = async () => {
     await addDoc(collection(db, "food"), {
       name: "Alan",
@@ -24,20 +25,29 @@ function MainScreen() {
     });
   };
 
-  const getDatas = async () => {
+  const getDatasss = async () => {
     const querySnapshot = await getDocs(collection(db, "food"));
+
     querySnapshot.docs.forEach((e) => {
+      setLoading(false);
+      console.log(e.data().price);
       const data = {
         ...e.data(),
         id: e.id,
+        name: e.data().name,
+        price: e.data().price,
+        active: false,
       };
-      setFoodList((prev) => [...prev, data]);
+      setFoodList((prev) => [...prev, data], setLoading(true));
     });
   };
 
-  const checkDatas = () => {
-    console.log("hahahaha");
+  const checkDatas = async () => {
+    const docSnap = await getDoc(doc(db, "food", "3M6aqikmZGMiTWsU9hL8"));
+
   };
+
+
   return (
     <>
       <nav className="main-nav">
@@ -78,18 +88,15 @@ function MainScreen() {
         <div>2</div>
         <div>3</div>
         <div>
-          {foodList &&
-            foodList.map((e, index) => {
-              return <h1 key={index}>{e.id}</h1>;
-            })}
+          <OrderList/>
         </div>
         <div>
-          <iframe src="./detail/123" title="test" width="300" height="300" />
+          <iframe id="detail-iframe" title="test" width="300" height="300" />
         </div>
         <div>
-          <button onClick={addData}>hahahaha</button>
-          <button onClick={getDatas}>hohohoho</button>
-          <button onClick={checkDatas}>check</button>
+          <button onClick={addData}>addData</button>
+          <button onClick={getDatasss}>getData</button>
+          <button onClick={checkDatas}>checkDatas</button>
         </div>
         <div>7</div>
         <div>8</div>
@@ -98,5 +105,6 @@ function MainScreen() {
     </>
   );
 }
+
 
 export default MainScreen;

@@ -4,4 +4,6 @@
  --nav-color__body :rgb(29,53,77);
  --nav-color__header : rgb(5,30,52);
  --main-screen-color : rgb(231,230,230);
+ --order-table__border : rgb(165,165,165);
+ --order-table__click : rgb(68,114,196);
 }

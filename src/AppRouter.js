@@ -5,10 +5,13 @@ import HomeScreen from "./screens/HomeScreen/home_screen";
 import MainScreen from "./screens/MainScreen/main_screen";
 import ProfileScreen from "./screens/ProfileScreen/profile_screen";
 import DetailScreen from "./screens/DetailScreen/detail_screen";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 function AppRouter() {
   return (
     <>
+    <Provider store={store}>
       <Router>
         <Switch>
           <Route exact path="/">
@@ -25,6 +28,7 @@ function AppRouter() {
           </Route>
         </Switch>
       </Router>
+      </Provider>
     </>
   );
 }

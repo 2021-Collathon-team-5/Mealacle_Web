@@ -11,6 +11,7 @@
 5. git checkout junghun2 를 하면 업로드 성공
 
 ### pull
+
 - fetch and merge . 
 - 즉 패치 후 병합한다는 얘기 => 충돌(Confilct) 발생 가능
 
