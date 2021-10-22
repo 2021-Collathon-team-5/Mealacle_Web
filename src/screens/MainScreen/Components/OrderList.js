@@ -2,21 +2,18 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchDatas,setFoodActive } from "../../../redux/action";
 import { useEffect } from "react";
-const OrderList = ({ foodL, fetchDatas ,setFoodActive}) => {
+const OrderList = ({ foodList,loading, fetchDatas ,setFoodActive}) => {
 
     // 주문목록 메뉴 하나 클릭시 발생 => active = true
     const handleTableClick = (e) => {
         const { parentNode: { id } } = e.target;
-        console.log(id);
-        const iframe = document.querySelector("#detail-iframe");
-        iframe.setAttribute("src", `./detail/${id}`);
         setFoodActive(id);
       }
 
     useEffect(() => {
         fetchDatas();
         console.log("h");
-      },[]);
+      },[fetchDatas]);
 
       return (
           <>
@@ -33,11 +30,11 @@ const OrderList = ({ foodL, fetchDatas ,setFoodActive}) => {
     </table>
     <table className="order-table">
       <tbody>
-        {false ? <><tr><td>loading</td></tr></> :
-          foodL.map((e, index) => {
+        {loading ? <><tr><td>loading...</td></tr></> :
+          foodList.map((e, index) => {
             return (
-              <tr key={e.id} id={e.id} onClick={handleTableClick} className={e.active ? "active" : "z" }>
-                <td>{index}</td>
+              <tr key={e.id} id={e.id} onClick={handleTableClick} className={e.active ? "active" : ""}>
+                <td>{index+1}</td>
                 <td>{e.name}</td>
                 <td>2</td>
                 <td>{e.price}</td>
@@ -52,8 +49,10 @@ const OrderList = ({ foodL, fetchDatas ,setFoodActive}) => {
 
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
+    const {foodList} = state;
     return {
-      foodL: state.foodList,
+      foodList: foodList.list,
+      loading : foodList.loading
     }
   };
 // store로 부터 dispatch 받아와서 함수를 prop으로 전달

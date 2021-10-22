@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Hambar from "../../images/outline_reorder_black_48dp_02.png";
 import Backarrow from "../../images/outline_arrow_back_black_48dp_02.png";
-import { addDoc, getDocs, collection, doc, getDoc } from "firebase/firestore/lite";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore/lite";
 import { firestoreService } from "../../Firebase";
 import OrderList from "./Components/OrderList";
+import DetailScreen from "../DetailScreen/detail_screen";
 function MainScreen() {                          
-  const [foodList, setFoodList] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  
   const showMenu = (e) => {
     const mainNav = e.target.parentNode.parentNode;
     const header = document.querySelector(".main-nav__header:last-child");
@@ -26,25 +24,12 @@ function MainScreen() {
   };
 
   const getDatasss = async () => {
-    const querySnapshot = await getDocs(collection(db, "food"));
-
-    querySnapshot.docs.forEach((e) => {
-      setLoading(false);
-      console.log(e.data().price);
-      const data = {
-        ...e.data(),
-        id: e.id,
-        name: e.data().name,
-        price: e.data().price,
-        active: false,
-      };
-      setFoodList((prev) => [...prev, data], setLoading(true));
-    });
+    
   };
 
   const checkDatas = async () => {
     const docSnap = await getDoc(doc(db, "food", "3M6aqikmZGMiTWsU9hL8"));
-
+    console.log(docSnap.data());
   };
 
 
@@ -91,7 +76,7 @@ function MainScreen() {
           <OrderList/>
         </div>
         <div>
-          <iframe id="detail-iframe" title="test" width="300" height="300" />
+          <DetailScreen/>
         </div>
         <div>
           <button onClick={addData}>addData</button>

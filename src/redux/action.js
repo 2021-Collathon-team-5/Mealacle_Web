@@ -1,11 +1,12 @@
 
 import { collection, getDocs } from "firebase/firestore/lite";
 import { firestoreService } from "../Firebase";
-import { SET_FOOD_ACTIVE, INIT_FOOD_LIST } from "./types";
+import { SET_FOOD_ACTIVE, INIT_FOOD_LIST,REQUEST_FOOD_LIST } from "./types";
 const db = firestoreService;
 // 주문 목록 불러오는 함수 -> INIT_FOOD_LIST 호출
 export const fetchDatas=()=> {
     return async (dispatch)=> {
+        dispatch(requireFoodList());
         const querySnapshot = await getDocs(collection(db,"food"));
         const foodList = [];
         querySnapshot.docs.forEach((e)=> {
@@ -22,11 +23,19 @@ export const fetchDatas=()=> {
        dispatch(initializeFoodList(foodList));
     }
 }
+
+// fetchdatas에서의 불러온 data를 state에 저장 
 const initializeFoodList = (foodList) => {
     console.log(foodList);
     return {
         type:INIT_FOOD_LIST,
         foodList
+    }
+}
+// firebase에 데이터 요청
+const requireFoodList = () => {
+    return {
+        type : REQUEST_FOOD_LIST
     }
 }
 

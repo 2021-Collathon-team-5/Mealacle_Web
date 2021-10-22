@@ -94,6 +94,7 @@
   grid-row: 3/7;
 }
 .main-screen div:nth-child(5) {
+  padding:10px;
   grid-column: 3/5;
 }
 .main-screen div:nth-child(6) {
@@ -109,6 +110,7 @@
   grid-column: 3/5;
 }
 
+/* 주문 목록 list */
 .order-table {
   border:1px solid var(--order-table__border);
   width: 100%;
