@@ -1,6 +1,7 @@
-import {} from "@firebase/storage";
+import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { firestoreService } from "../../../Firebase";
 
 function UpdateScreen({ foodList }) {
   const [File, setFile] = useState(""); //File은 새로운 이미지의 주소
@@ -13,7 +14,10 @@ function UpdateScreen({ foodList }) {
   }
 
   const ImageChange = async () => {
-    console.log(File);
+    const db = firestoreService;
+    await updateDoc((await getDoc(doc(db, "food", food.id))).ref, {
+      image: File,
+    }).then(() => window.location.reload());
   };
   const onFileChange = (event) => {
     //files에는 파일이 여러개 담길수있지만 하나만 담을것이기때문에 files[0] 으로 진행
@@ -24,6 +28,19 @@ function UpdateScreen({ foodList }) {
     };
     reader.readAsDataURL(theFile);
   };
+  const addOptions = async () => {
+    const db = firestoreService;
+    await updateDoc((await getDoc(doc(db, "food", food.id))).ref, {
+      options: [
+        ...food.options,
+        {
+          고기추가: false,
+          무추가: false,
+          곱빼기: true,
+        },
+      ],
+    }).then(() => window.location.reload());
+  };
 
   return (
     <>
@@ -33,9 +50,16 @@ function UpdateScreen({ foodList }) {
         <div>
           <div>
             <label>옵션*</label>
-            <div className="menu-option">옵션A</div>
-            <div className="menu-option">옵션B</div>
-            <button>추가</button>
+            {food.options &&
+              food.options.map((e) => {
+                return (
+                  <div key={e.id} className="menu-option">
+                    옵션A
+                  </div>
+                );
+              })}
+
+            <button onClick={addOptions}>추가</button>
           </div>
           <div>
             <label>상품 설명(이미지)*</label>

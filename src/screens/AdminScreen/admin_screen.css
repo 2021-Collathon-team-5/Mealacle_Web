@@ -60,3 +60,13 @@
 .admin-table tr td:nth-child(4) {
   width: 15%;
 }
+/*add button*/
+#add-button {
+  margin: 0 auto;
+  padding: 5px 0;
+  background-color: blue;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+}

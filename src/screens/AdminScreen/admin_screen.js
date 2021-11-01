@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { firestoreService } from "../../Firebase";
+import { addDoc, collection } from "firebase/firestore/lite";
 import { fetchDatas, setFoodActive } from "../../redux/action";
 import NavigationBar from "../Navigationbar/navigation_bar";
 import UpdateScreen from "./MenuUpdateScreen/update_screen";
@@ -16,6 +18,17 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
   const onClickEvent = (element) => {
     handleTableClick(element);
     console.log(element.id);
+  };
+
+  const addFood = async () => {
+    const db = firestoreService;
+
+    await addDoc(collection(db, "food"), {
+      name: "마인하우스닭갈비",
+      price: 12000,
+      options: [],
+      image: "",
+    }).then(() => window.location.reload());
   };
   return (
     <>
@@ -57,6 +70,9 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
               )}
             </tbody>
           </table>
+          <div id="add-button" onClick={addFood}>
+            상품추가+
+          </div>
         </div>
         <div>
           <UpdateScreen />
