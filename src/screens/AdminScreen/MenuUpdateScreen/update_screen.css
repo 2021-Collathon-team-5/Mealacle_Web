@@ -1,6 +1,9 @@
 .menu-option {
   display: block;
-  width: 80%;
-  background-color: aquamarine;
+  width: 60%;
+  height: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
   padding: 5px 10px;
+  margin: 20px 0px;
 }
