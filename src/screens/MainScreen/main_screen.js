@@ -12,33 +12,12 @@ function MainScreen() {
       price: 19120,
     });
   };
-
-<<<<<<< HEAD
+  const checkDatas = async () => {
+    const docSnap = await getDoc(doc(db, "food", "3M6aqikmZGMiTWsU9hL8"));
+    console.log(docSnap.data());
+  };
   const getDatasss = async () => {};
 
-  const checkDatas = async () => {
-    const docSnap = await getDoc(doc(db, "food", "3M6aqikmZGMiTWsU9hL8"));
-    console.log(docSnap.data());
-  };
-
-<<<<<<< HEAD
-  const checkDatas = () => {
-    console.log("hahahaha");
-  };
-=======
->>>>>>> junghun2
-=======
-  const getDatasss = async () => {
-    
-  };
-
-  const checkDatas = async () => {
-    const docSnap = await getDoc(doc(db, "food", "3M6aqikmZGMiTWsU9hL8"));
-    console.log(docSnap.data());
-  };
-
-
->>>>>>> f2b02544ed3015af59f2536e366b5134511a2a70
   return (
     <>
       <NavigationBar />
@@ -47,17 +26,10 @@ function MainScreen() {
         <div>주문목록</div>
         <div>상세정보</div>
         <div>
-<<<<<<< HEAD
           <OrderList />
         </div>
         <div style={{ overflow: "scroll" }}>
           <DetailScreen />
-=======
-          <OrderList/>
-        </div>
-        <div>
-          <DetailScreen/>
->>>>>>> f2b02544ed3015af59f2536e366b5134511a2a70
         </div>
         <div>
           <button onClick={addData}>addData</button>
@@ -71,6 +43,5 @@ function MainScreen() {
     </>
   );
 }
-
 
 export default MainScreen;
