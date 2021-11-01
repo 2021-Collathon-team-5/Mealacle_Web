@@ -59,3 +59,9 @@
 .detail-table__main tr:nth-child(2n + 1) {
   background-color: var(--detail-table__background2);
 }
+
+/* cancel table */
+.detail__cancel-table {
+  height: 10%;
+  width: 100%;
+}

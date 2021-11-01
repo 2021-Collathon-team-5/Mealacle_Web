@@ -28,11 +28,7 @@
   grid-row: 3/7;
 }
 .main-screen div:nth-child(5) {
-<<<<<<< HEAD
   padding: 10px;
-=======
-  padding:10px;
->>>>>>> f2b02544ed3015af59f2536e366b5134511a2a70
   grid-column: 3/5;
 }
 .main-screen div:nth-child(6) {
