@@ -5,17 +5,9 @@ function UpdateScreen() {
     <div>
       <form>
         <label>옵션*</label>
-        <ul>
-          <li>
-            <div className="menu-option">옵션A</div>
-          </li>
-          <li>
-            <div className="menu-option">옵션B</div>
-          </li>
-          <li>
-            <div className="menu-option">옵션C</div>
-          </li>
-        </ul>
+        <div className="menu-option">옵션A</div>
+        <div className="menu-option">옵션B</div>
+        <div className="menu-option">옵션C</div>
       </form>
     </div>
   );
