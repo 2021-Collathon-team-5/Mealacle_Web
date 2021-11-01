@@ -1,7 +1,7 @@
 import { collection, getDocs } from "firebase/firestore/lite";
 import { firestoreService } from "../Firebase";
-import { SET_FOOD_ACTIVE, INIT_FOOD_LIST, REQUEST_FOOD_LIST } from "./types";
-const db = firestoreService;
+import { SET_FOOD_ACTIVE, INIT_FOOD_LIST, REQUEST_FOOD_LIST, DELETE_FOOD } from "./types";
+export const db = firestoreService;
 // 주문 목록 불러오는 함수 -> INIT_FOOD_LIST 호출
 export const fetchDatas = () => {
   return async (dispatch) => {
@@ -41,6 +41,12 @@ const requireFoodList = () => {
 export const setFoodActive = (foodID) => {
   return {
     type: SET_FOOD_ACTIVE,
+    foodID,
+  };
+};
+export const deleteFood = (foodID) => {
+  return {
+    type: DELETE_FOOD,
     foodID,
   };
 };

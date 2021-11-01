@@ -1,8 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import TestImages from "../../images/1.png";
-
-const DetailScreen = ({ foodList }) => {
+import { db } from "../../redux/action";
+import { doc,deleteDoc} from "firebase/firestore/lite";
+import { deleteFood } from "../../redux/action";
+const DetailScreen = ({ foodList, deleteFood }) => {
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
   const idx = foodList.indexOf(food) + 1; // 주문 번호
@@ -11,7 +13,11 @@ const DetailScreen = ({ foodList }) => {
   } else {
     nothingSelected = true;
   }
-
+  
+  const delDoc = async(id) => {
+    await deleteDoc(doc(db,"food",id));
+    deleteFood(id);
+  }
   return (
     <>
       {nothingSelected ? (
@@ -83,6 +89,18 @@ const DetailScreen = ({ foodList }) => {
               </tbody>
             </table>
           </div>
+          <div>
+            <table className="detail__cancel-table">
+              <tr>
+                <td>주문 취소</td>
+              </tr>
+              <tr>
+                <td>취소사유</td>
+                <td>재고 품절</td>
+              </tr>
+            </table>
+          </div>
+          <button onClick={()=>delDoc(food.id)}>삭제하기</button>
         </div>
       )}
     </>
@@ -96,5 +114,9 @@ const mapStateToProps = (state) => {
     foodList: foodList.list,
   };
 };
-
-export default connect(mapStateToProps, null)(DetailScreen);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteFood: (foodID) => dispatch(deleteFood(foodID)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);

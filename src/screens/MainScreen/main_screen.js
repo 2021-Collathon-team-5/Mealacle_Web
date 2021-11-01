@@ -8,15 +8,18 @@ function MainScreen() {
   const db = firestoreService;
   const addData = async () => {
     await addDoc(collection(db, "food"), {
-      name: "Alan",
-      price: 19120,
+      name: "Dalgona",
+      price: 100,
     });
+    
   };
+
+  const getDatasss = async () => {};
+
   const checkDatas = async () => {
     const docSnap = await getDoc(doc(db, "food", "3M6aqikmZGMiTWsU9hL8"));
     console.log(docSnap.data());
   };
-  const getDatasss = async () => {};
 
   return (
     <>

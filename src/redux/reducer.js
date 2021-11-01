@@ -1,4 +1,4 @@
-import { INIT_FOOD_LIST, REQUEST_FOOD_LIST, SET_FOOD_ACTIVE } from "./types";
+import { DELETE_FOOD, INIT_FOOD_LIST, REQUEST_FOOD_LIST, SET_FOOD_ACTIVE } from "./types";
 
 // 초기상태
 const initialState = {
@@ -42,7 +42,16 @@ const foodListReducer = (state = initialState, action) => {
           list: foodList,
         },
       };
-
+    
+    case DELETE_FOOD:
+      const list = [...state.foodList.list].filter((ele) => ele.id !== action.foodID);
+      return {
+        ...state,
+        foodList : {
+          ...state.foodList,
+          list
+        }
+      }
     default:
       return state;
   }
