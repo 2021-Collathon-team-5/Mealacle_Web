@@ -1,69 +1,3 @@
-/* navigation bar */
-.main-nav {
-  box-sizing: border-box;
-  background-color: var(--nav-color__body);
-  color: white;
-  width: 54px;
-  height: 100vh;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  transition: width 0.5s ease-in-out;
-}
-.nav-open {
-  width: 200px;
-}
-.main-nav__body {
-  height: 15%;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: display 0.5s ease-in-out;
-  overflow: hidden;
-}
-.body-hide {
-  opacity: 0;
-  display: none;
-}
-.main-nav__body span {
-  display: block;
-  font-size: 20px;
-}
-.main-nav__body ul {
-  height: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.main-nav .main-nav__body:not(:nth-last-child(2)) {
-  border-bottom: solid 1px white;
-}
-.main-nav__header {
-  box-sizing: border-box;
-  background-color: var(--nav-color__header);
-  height: 7%;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 5px;
-}
-
-.main-nav__header img {
-  height: 40px;
-}
-.header-hide img,
-.header-hide span {
-  display: none;
-}
-.main-nav .main-nav__header:last-child {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
 /* main screen */
 .main-screen {
   box-sizing: border-box;
@@ -74,7 +8,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 10% 8% 52% 8% 8% 8%;
-  gap: 10px;
+  gap: 1% 0.5%;
 }
 .main-screen div {
   background-color: white;
@@ -89,10 +23,12 @@
   grid-column: 3/5;
 }
 .main-screen div:nth-child(4) {
+  padding: 10px;
   grid-column: 1/3;
   grid-row: 3/7;
 }
 .main-screen div:nth-child(5) {
+  padding: 10px;
   grid-column: 3/5;
 }
 .main-screen div:nth-child(6) {
@@ -106,4 +42,48 @@
 }
 .main-screen div:nth-child(9) {
   grid-column: 3/5;
+}
+
+/* 주문 목록 list */
+.order-table {
+  border: 1px solid var(--order-table__border);
+  width: 100%;
+}
+.order-table:first-child {
+  margin-bottom: 10px;
+}
+.order-table:first-child td {
+  font-weight: bold;
+}
+.order-table th,
+.order-table td {
+  border: 1px solid var(--order-table__border);
+  padding: 5px;
+  text-align: left;
+}
+.order-table tr {
+  border-bottom: 3px solid var(--order-table__border);
+}
+.order-table:not(:first-child) tr:active {
+  background-color: var(--order-table__click);
+  font-weight: bold;
+}
+.order-table tr td:first-child {
+  width: 10%;
+}
+.order-table tr td:nth-child(2) {
+  width: 40%;
+}
+.order-table tr td:nth-child(3) {
+  width: 10%;
+}
+.order-table tr td:nth-child(4) {
+  width: 20%;
+}
+.order-table tr td:nth-child(5) {
+  width: 20%;
+}
+.order-table tr.active {
+  background-color: var(--order-table__click);
+  font-weight: bold;
 }
