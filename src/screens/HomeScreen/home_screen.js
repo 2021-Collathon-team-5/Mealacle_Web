@@ -51,8 +51,7 @@ function HomeScreen() {
       </div>
       {/* 2번 페이지  */}
       <div className="home_main__bottom">
-      <div className="home_bottom_left__backimg">
-        </div>
+        <div className="home_bottom_left__backimg"></div>
         <div className="home_bottom_left">
           <div className="home_bottom_text_container">
             <h1>Mealacle은?</h1>
