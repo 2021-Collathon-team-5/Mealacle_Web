@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { fetchDatas, setFoodActive } from "../../redux/action";
 import NavigationBar from "../Navigationbar/navigation_bar";
 import UpdateScreen from "./MenuUpdateScreen/update_screen";
 
-function AdminScreen() {
+function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
+  useEffect(() => {
+    fetchDatas();
+  }, [fetchDatas]);
+
+  const handleTableClick = (e) => {
+    setFoodActive(e.id);
+  };
+
+  const onClickEvent = (element) => {
+    handleTableClick(element);
+    console.log(element.id);
+  };
   return (
     <>
       <NavigationBar />
@@ -23,36 +37,24 @@ function AdminScreen() {
           </table>
           <table className="admin-table">
             <tbody>
-              <tr>
-                <td>123456789</td>
-                <td>한우대창불고기</td>
-                <td>8</td>
-                <td>12,900</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td>123456789</td>
-                <td>한우대창불고기</td>
-                <td>11</td>
-                <td>12,900</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td>123456789</td>
-                <td>한우대창불고기</td>
-                <td>22</td>
-                <td>12,900</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td>123456789</td>
-                <td>한우대창불고기</td>
-                <td>12</td>
-                <td>12,900</td>
-              </tr>
+              {loading ? (
+                <>
+                  <tr>
+                    <td>loading...</td>
+                  </tr>
+                </>
+              ) : (
+                foodList.map((e, index) => {
+                  return (
+                    <tr key={e.id} id={e.id} onClick={() => onClickEvent(e)}>
+                      <td>{index + 1}</td>
+                      <td>{e.name}</td>
+                      <td>2</td>
+                      <td>{e.price}</td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
@@ -64,4 +66,19 @@ function AdminScreen() {
   );
 }
 
-export default AdminScreen;
+const mapStateToProps = (state) => {
+  const { foodList } = state;
+  return {
+    foodList: foodList.list,
+    loading: foodList.loading,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchDatas: () => dispatch(fetchDatas()),
+    setFoodActive: (foodID) => dispatch(setFoodActive(foodID)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminScreen);
