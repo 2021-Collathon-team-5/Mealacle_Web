@@ -74,7 +74,11 @@
 .detail__cancel-table tr:first-child {
   background-color: var(--order-table__click);
   font-weight: bold;
+<<<<<<< HEAD
   color: white;
+=======
+  color:white;
+>>>>>>> 2f09e551f4bc8c6d51dc4ca07cba1f18c42ee4a8
 }
 .detail__cancel-table tr:last-child {
   border-bottom: 3px solid var(--order-table__border);
@@ -88,10 +92,17 @@
 select {
   width: 100%;
   background-color: white;
+<<<<<<< HEAD
   border: none;
 }
 select:focus {
   outline: none;
+=======
+  border : none;
+}
+select:focus {
+  outline:none;
+>>>>>>> 2f09e551f4bc8c6d51dc4ca07cba1f18c42ee4a8
 }
 
 /* orderer table */
@@ -102,6 +113,7 @@ select:focus {
   margin-bottom: 10px;
   font-size: 16px;
 }
+<<<<<<< HEAD
 .detail__orderer table td {
   border: 1px solid var(--order-table__border);
   padding: 7px;
@@ -112,3 +124,15 @@ select:focus {
 .detail__orderer table tr td:first-child {
   width: 10%;
 }
+=======
+.detail__orderer table td{
+  border: 1px solid var(--order-table__border);
+  padding: 7px;
+}
+.detail__orderer table tr{
+  border-bottom: 3px solid var(--order-table__border);
+}
+.detail__orderer table tr td:first-child{
+  width: 10%;
+}
+>>>>>>> 2f09e551f4bc8c6d51dc4ca07cba1f18c42ee4a8
