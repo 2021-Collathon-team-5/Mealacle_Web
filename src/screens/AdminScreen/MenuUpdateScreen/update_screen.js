@@ -1,4 +1,4 @@
-import { ref, uploadString } from "@firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import React, { useState } from "react";
 import { connect } from "react-redux";
@@ -6,7 +6,9 @@ import { firestorageService, firestoreService } from "../../../Firebase";
 
 function UpdateScreen({ foodList }) {
   const [File, setFile] = useState([]); //File은 새로운 이미지의 주소
+  const [FileURL, setFileURL] = useState([]);
   let nothingSelected = true;
+
   const food = foodList.find((food) => food.active); // active된 food data
   if (food) {
     nothingSelected = false;
@@ -16,26 +18,26 @@ function UpdateScreen({ foodList }) {
 
   const ImageChange = async () => {
     const storagedb = firestorageService;
-    console.log(ref(storagedb).bucket);
     for (let i = 0; i < File.length; i++) {
-      uploadString(ref(storagedb, `images/${i}`), File[i]);
+      await uploadBytes(ref(storagedb, `images/${food.name}/${i}`), File[i]);
+      setFileURL([
+        ...FileURL,
+        await getDownloadURL(ref(storagedb, `images/${food.name}/${i}`)),
+      ]);
     }
+  };
+  const updateImages = async () => {
     const storedb = firestoreService;
-
-    await updateDoc((await getDoc(doc(storedb, "food", food.id))).ref, {
-      image: [...File],
-    }).then(async () => {
-      window.location.reload();
+    await ImageChange().then(async () => {
+      await updateDoc((await getDoc(doc(storedb, "food", food.id))).ref, {
+        image: [...food.image, ...FileURL],
+      }).then(() => console.log("Finished"));
     });
   };
   const onFileChange = (event) => {
     //files에는 파일이 여러개 담길수있지만 하나만 담을것이기때문에 files[0] 으로 진행
     const theFile = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = (finishedEvent) => {
-      setFile([...File, finishedEvent.target.result]);
-    };
-    reader.readAsDataURL(theFile);
+    setFile([...File, theFile]);
   };
   const addOptions = async () => {
     const db = firestoreService;
@@ -73,8 +75,14 @@ function UpdateScreen({ foodList }) {
           <div>
             <label>상품 설명(이미지)*</label>
             <div>
-              <input type="file" onChange={onFileChange} />
-              <button onClick={ImageChange}>사진 변경하기</button>
+              <input
+                type="file"
+                onChange={onFileChange}
+                width="100%"
+                height="200"
+              />
+
+              <button onClick={updateImages}>사진 변경하기</button>
             </div>
           </div>
         </div>

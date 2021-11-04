@@ -17,14 +17,13 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
 
   const onClickEvent = (element) => {
     handleTableClick(element);
-    console.log(element.id);
   };
 
   const addFood = async () => {
     const db = firestoreService;
 
     await addDoc(collection(db, "food"), {
-      name: "왕큰손파닭",
+      name: "닭발",
       price: 18000,
       options: [
         {
