@@ -1,8 +1,11 @@
+import { ref, uploadBytes } from "@firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { firestoreService } from "../../../Firebase";
+import { firestorageService } from "../../../Firebase";
 
+const storage = firestorageService;
 function UpdateScreen({ foodList }) {
   const [File, setFile] = useState(""); //File은 새로운 이미지의 주소
   let nothingSelected = true;
@@ -14,19 +17,13 @@ function UpdateScreen({ foodList }) {
   }
 
   const ImageChange = async () => {
-    const db = firestoreService;
-    await updateDoc((await getDoc(doc(db, "food", food.id))).ref, {
-      image: File,
-    }).then(() => window.location.reload());
+  await uploadBytes(ref(storage,`images/${File.name}`),File);
   };
   const onFileChange = (event) => {
     //files에는 파일이 여러개 담길수있지만 하나만 담을것이기때문에 files[0] 으로 진행
     const theFile = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = (finishedEvent) => {
-      setFile(finishedEvent.target.result);
-    };
-    reader.readAsDataURL(theFile);
+    setFile(theFile);
+    
   };
   const addOptions = async () => {
     const db = firestoreService;
