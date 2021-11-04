@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { firestorageService, firestoreService } from "../../../Firebase";
 
+const storage = firestorageService;
 function UpdateScreen({ foodList }) {
   const [File, setFile] = useState([]); //File은 새로운 이미지의 주소
   const [FileURL, setFileURL] = useState([]);

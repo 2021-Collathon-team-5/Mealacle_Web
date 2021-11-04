@@ -7,6 +7,7 @@ import ProfileScreen from "./screens/ProfileScreen/profile_screen";
 import AdminScreen from "./screens/AdminScreen/admin_screen";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import StoreScreen from "./screens/StoreScreen/store_screen";
 
 function AppRouter() {
   return (
@@ -25,6 +26,9 @@ function AppRouter() {
             </Route>
             <Route exact path="/admin">
               <AdminScreen />
+            </Route>
+            <Route exact path="/store">
+              <StoreScreen/>
             </Route>
           </Switch>
         </Router>

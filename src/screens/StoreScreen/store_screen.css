@@ -1,0 +1,129 @@
+.store-screen {
+    box-sizing: border-box;
+    margin-left: 54px;
+    padding: 5px;
+    height: 100vh;
+    background-color: var(--main-screen-color);
+  }
+  .store__header {
+      width: 100%;
+      height: 10%;
+      background-color: white;
+      margin-bottom: 0.5%;
+  }
+  .store__main {
+      width: 100%;
+      height: 89%;
+      background-color: white;
+      padding:15px;
+      overflow-y: scroll;
+      box-sizing: border-box;
+  }
+  .store__main-title>span ,
+  .store__content>div span:first-child
+  {
+      font-size: 24px;
+      font-weight: bold;
+  }
+  .store__main>div:first-child {
+      padding: 20px 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--order-table__border);
+  }
+  .store__content {
+      height: 80%;
+  }
+  .store__content>div {
+      display:flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: flex-start;
+      height: 100px;
+      margin-bottom: 10px;
+  }
+  .store__content input {
+    border: none;
+    padding: 15px 10px;
+    font-size: 14px;
+    width: 30%;
+    border-radius: 12px;
+    background-color: var(--main-color);
+  }
+  .store__content .input-center {
+      text-align: center;
+  }
+  .store__content input:disabled {
+      background-color: var(--detail-table__background2);
+  }
+  .store__content-divider {
+      margin : 0 10px;
+      font-weight: bold;
+      font-size: 18px;
+  }
+
+
+  /*
+  Toggle Button
+  The switch - the box around the slider 
+  */
+.store__content .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+.store__content .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+.store__content .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+.store__content .slider::before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+.store__content input:checked + .slider {
+    background-color: var(--main-color);
+  }
+  
+.store__content input:focus + .slider {
+    box-shadow: 0 0 1px var(--main-color);
+  }
+  
+.store__content input:checked + .slider::before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+ .store__content .slider.round {
+    border-radius: 34px;
+  }
+  
+ .store__content .slider.round::before {
+    border-radius: 50%;
+  }

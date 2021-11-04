@@ -22,7 +22,7 @@ function NavigationBar() {
         <span>매장</span>
         <ul>
           <li>
-            <Link className="navigation-bar__link" to="/main">
+            <Link className="navigation-bar__link" to="/store">
               매장 관리
             </Link>
           </li>
@@ -39,7 +39,9 @@ function NavigationBar() {
         <ul>
           <li>프로필 관리</li>
           <li>이용 내역</li>
-          <li>매출 정리</li>
+          <li><Link className="navigation-bar__link" to="/main">
+              매출 관리
+            </Link></li>
         </ul>
       </div>
       <div className="navigation-bar__body body-hide">

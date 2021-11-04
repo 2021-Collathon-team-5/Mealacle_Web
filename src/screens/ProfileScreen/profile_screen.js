@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import TestImages from "../../images/background_img.jpeg";
+import ProfileCard from "./Components/ProfileCard";
 import closeImage from "../../images/outline_clear_black_48dp.png";
 function ProfileScreen() {
   const [profileWindow, setProfileWindow] = useState({
     visible: false,
     profileName: "",
   });
-  function yes_profile() {
-    return;
-  }
-  function no_profile() {
-    return;
-  }
   const showModal = (index) => {
     setProfileWindow({
       visible: true,
@@ -19,7 +13,10 @@ function ProfileScreen() {
     });
   };
   const closeModal = () => {
-    setProfileWindow(false);
+    setProfileWindow({
+      ...profileWindow,
+      visible:false
+    });
   };
   const Modal = ({ profileName }) => {
     return (
@@ -52,30 +49,9 @@ function ProfileScreen() {
           </span>
         </div>
         <div className="profile_card_area">
-          <div className="profile_card" onClick={() => showModal(1)}>
-            <span className="profile_name">프로필 1</span>
-            <div className="profile-card__content">
-              <img alt="no-img" src={TestImages} />
-              <span className="profile_card__division">test</span>
-              <span className="profile-card__latest">
-                마지막 접속일 <br></br> 2021-10-07
-              </span>
-            </div>
-          </div>
-          <div className="profile_card" onClick={() => showModal(2)}>
-            <span className="profile_name">프로필 2</span>
-            <div className="profile-card__content">
-              <img alt="no-img" />
-              <span className="profile_card__division"></span>
-              <span className="profile-card__latest"></span>
-            </div>
-          </div>
-          <div className="profile_card" onClick={() => showModal(3)}>
-            <span className="profile_name">프로필 3</span>
-            <div className="profile-card__content">
-              <div id="cross"></div>
-            </div>
-          </div>
+          <ProfileCard showModal={showModal} index={1}/>
+          <ProfileCard showModal={showModal} index={2}/>
+          <ProfileCard showModal={showModal} index={3}/>
         </div>
       </div>
     </>
