@@ -64,4 +64,51 @@
 .detail__cancel-table {
   height: 10%;
   width: 100%;
+  border: 1px solid var(--order-table__border);
+  margin-bottom: 10px;
+}
+.detail__cancel-table td {
+  padding: 7px;
+  border: 1px solid var(--order-table__border);
+}
+.detail__cancel-table tr:first-child {
+  background-color: var(--order-table__click);
+  font-weight: bold;
+  color: white;
+}
+.detail__cancel-table tr:last-child {
+  border-bottom: 3px solid var(--order-table__border);
+}
+.detail__cancel-table tr:last-child td:first-child {
+  width: 10%;
+  font-weight: bold;
+}
+
+/* select */
+select {
+  width: 100%;
+  background-color: white;
+  border: none;
+}
+select:focus {
+  outline: none;
+}
+
+/* orderer table */
+.detail__orderer table {
+  height: 10%;
+  width: 100%;
+  border: 1px solid var(--order-table__border);
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+.detail__orderer table td {
+  border: 1px solid var(--order-table__border);
+  padding: 7px;
+}
+.detail__orderer table tr {
+  border-bottom: 3px solid var(--order-table__border);
+}
+.detail__orderer table tr td:first-child {
+  width: 10%;
 }

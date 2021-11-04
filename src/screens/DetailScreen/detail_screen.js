@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import TestImages from "../../images/1.png";
 import { db } from "../../redux/action";
-import { doc,deleteDoc} from "firebase/firestore/lite";
+import { doc, deleteDoc } from "firebase/firestore/lite";
 import { deleteFood } from "../../redux/action";
 const DetailScreen = ({ foodList, deleteFood }) => {
   let nothingSelected = true;
@@ -13,11 +13,11 @@ const DetailScreen = ({ foodList, deleteFood }) => {
   } else {
     nothingSelected = true;
   }
-  
-  const delDoc = async(id) => {
-    await deleteDoc(doc(db,"food",id));
+
+  const delDoc = async (id) => {
+    await deleteDoc(doc(db, "food", id));
     deleteFood(id);
-  }
+  };
   return (
     <>
       {nothingSelected ? (
@@ -71,36 +71,59 @@ const DetailScreen = ({ foodList, deleteFood }) => {
               </tbody>
             </table>
           </div>
-          <div>
+          <div className="detail__orderer">
             <table>
               <tbody>
-                <tr style={{ width: "100%" }}>
-                  <td style={{ width: "30%" }}>주문자</td>
-                  <td style={{ width: "60%" }}>{food.name}</td>
+                <tr>
+                  <td>주문자</td>
+                  <td>홍길동</td>
                 </tr>
                 <tr>
-                  <td style={{ width: "30%" }}>주문자</td>
-                  <td style={{ width: "60%" }}> {food.name}</td>
+                  <td>연락처</td>
+                  <td>010-1234-5678</td>
                 </tr>
                 <tr>
-                  <td style={{ width: "30%" }}>주문자</td>
-                  <td style={{ width: "60%" }}>{food.name}</td>
+                  <td>배송지</td>
+                  <td>대전광역시 유성구 대학로 99 (기숙사 8동)</td>
+                </tr>
+              </tbody>
+            </table>
+            <table>
+              <tbody>
+                <tr>
+                  <td>배달원</td>
+                  <td>김철수 (tightrope01@gmail.com)</td>
+                </tr>
+                <tr>
+                  <td>연락처</td>
+                  <td>010-5678-1234</td>
+                </tr>
+                <tr>
+                  <td>배달일시</td>
+                  <td>2021-10-01 (오후타임)</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div>
             <table className="detail__cancel-table">
-              <tr>
-                <td>주문 취소</td>
-              </tr>
-              <tr>
-                <td>취소사유</td>
-                <td>재고 품절</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td colSpan="2">주문 취소</td>
+                </tr>
+                <tr>
+                  <td>취소사유</td>
+                  <td>
+                    <select>
+                      <option>재고 품절</option>
+                      <option>가게 휴무</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
-          <button onClick={()=>delDoc(food.id)}>삭제하기</button>
+          <button onClick={() => delDoc(food.id)}>취소하기</button>
         </div>
       )}
     </>

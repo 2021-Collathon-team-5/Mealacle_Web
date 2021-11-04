@@ -51,9 +51,9 @@ function UpdateScreen({ foodList }) {
           <div>
             <label>옵션*</label>
             {food.options &&
-              food.options.map((e) => {
+              food.options.map((e, index) => {
                 return (
-                  <div key={e.id} className="menu-option">
+                  <div key={`${e.id}/${index}`} className="menu-option">
                     옵션A
                   </div>
                 );
