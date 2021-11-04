@@ -17,7 +17,7 @@ const DetailScreen = ({ foodList, deleteFood }) => {
   const delDoc = async (id) => {
     await deleteDoc(doc(db, "food", id));
     deleteFood(id);
-  }
+  };
   return (
     <>
       {nothingSelected ? (
