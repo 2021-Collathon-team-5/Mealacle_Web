@@ -24,10 +24,15 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
     const db = firestoreService;
 
     await addDoc(collection(db, "food"), {
-      name: "마인하우스닭갈비",
-      price: 12000,
-      options: [],
-      image: "",
+      name: "왕큰손파닭",
+      price: 18000,
+      options: [
+        {
+          기본맛: true,
+          매운맛: false,
+        },
+      ],
+      image: [],
     }).then(() => window.location.reload());
   };
   return (

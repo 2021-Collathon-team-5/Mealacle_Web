@@ -1,10 +1,11 @@
+import { ref, uploadString } from "@firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { firestoreService } from "../../../Firebase";
+import { firestorageService, firestoreService } from "../../../Firebase";
 
 function UpdateScreen({ foodList }) {
-  const [File, setFile] = useState(""); //File은 새로운 이미지의 주소
+  const [File, setFile] = useState([]); //File은 새로운 이미지의 주소
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
   if (food) {
@@ -14,17 +15,25 @@ function UpdateScreen({ foodList }) {
   }
 
   const ImageChange = async () => {
-    const db = firestoreService;
-    await updateDoc((await getDoc(doc(db, "food", food.id))).ref, {
-      image: File,
-    }).then(() => window.location.reload());
+    const storagedb = firestorageService;
+    console.log(ref(storagedb).bucket);
+    for (let i = 0; i < File.length; i++) {
+      uploadString(ref(storagedb, `images/${i}`), File[i]);
+    }
+    const storedb = firestoreService;
+
+    await updateDoc((await getDoc(doc(storedb, "food", food.id))).ref, {
+      image: [...File],
+    }).then(async () => {
+      window.location.reload();
+    });
   };
   const onFileChange = (event) => {
     //files에는 파일이 여러개 담길수있지만 하나만 담을것이기때문에 files[0] 으로 진행
     const theFile = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
-      setFile(finishedEvent.target.result);
+      setFile([...File, finishedEvent.target.result]);
     };
     reader.readAsDataURL(theFile);
   };
