@@ -81,7 +81,6 @@ function UpdateScreen({ foodList }) {
                 width="100%"
                 height="200"
               />
-
               <button onClick={updateImages}>사진 변경하기</button>
             </div>
           </div>
