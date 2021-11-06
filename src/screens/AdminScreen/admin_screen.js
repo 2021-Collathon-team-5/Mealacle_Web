@@ -23,8 +23,8 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
     const db = firestoreService;
 
     await addDoc(collection(db, "food"), {
-      name: "닭발",
-      price: 18000,
+      name: "파스타",
+      price: 12000,
       options: [
         {
           기본맛: true,

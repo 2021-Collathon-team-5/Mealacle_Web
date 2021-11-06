@@ -1,16 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "../../images/logo.png";
 import IconImage from "../../images/outline_expand_more_black_48dp.png";
 import emailImage from "../../images/outline_email_black_48dp.png";
 import phoneImage from "../../images/outline_call_black_48dp.png";
 import socialImage from "../../images/outline_public_black_48dp.png";
+import { firestoreService } from "../../Firebase";
+import { getDocs, collection, query, where } from "firebase/firestore/lite";
 
 function HomeScreen() {
-  function ScrollDown() {
+  const [LoginCode, setLoginCode] = useState();
+  const [Password, setPassword] = useState();
+  const ScrollDown = () => {
     const scroll_X = window.scrollX;
     const my_height = window.innerHeight;
     window.scrollTo(scroll_X, my_height);
-  }
+  };
+  const LoginWithCodeAndPassword = async () => {
+    if (LoginCode && Password) {
+      const db = firestoreService;
+      const q = query(collection(db, "user"), where("id", "==", LoginCode));
+      const userdocs = await getDocs(q);
+      const user = userdocs.docs[0];
+      if (user.data().id === LoginCode) {
+        alert("해당 매장코드를 가진 회원이 존재하지않습니다");
+      } else if (user.data().password === Password) {
+        window.history.pushState({}, "", "/main");
+        window.location.reload();
+      } else {
+        alert("비밀번호오류");
+      }
+    } else {
+      alert("매장코드와 비밀번호를 모두 입력하세요");
+    }
+  };
+  const LoginCodeChange = (e) => {
+    setLoginCode(e.target.value);
+  };
+  const PasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
   return (
     <div className="home_main">
       {/* 1번 페이지  */}
@@ -31,7 +59,11 @@ function HomeScreen() {
                 <label>매장코드</label>
               </div>
               <div className="input_area_div">
-                <input type="text" placeholder="매장 코드를 입력하세요." />
+                <input
+                  type="text"
+                  placeholder="매장 코드를 입력하세요."
+                  onChange={LoginCodeChange}
+                />
               </div>
             </div>
             <div className="sign_in_password">
@@ -39,8 +71,15 @@ function HomeScreen() {
                 <label>비밀번호</label>
               </div>
               <div className="input_area_div">
-                <input type="text" placeholder="비밀번호를 입력하세요." />
+                <input
+                  type="text"
+                  placeholder="비밀번호를 입력하세요."
+                  onChange={PasswordChange}
+                />
               </div>
+            </div>
+            <div className="sign_in_button">
+              <button onClick={LoginWithCodeAndPassword}>로그인하기</button>
             </div>
           </div>
         </div>

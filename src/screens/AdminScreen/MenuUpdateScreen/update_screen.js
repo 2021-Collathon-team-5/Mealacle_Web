@@ -1,13 +1,12 @@
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { firestorageService, firestoreService } from "../../../Firebase";
 
-const storage = firestorageService;
 function UpdateScreen({ foodList }) {
-  const [File, setFile] = useState([]); //File은 새로운 이미지의 주소
-  const [FileURL, setFileURL] = useState([]);
+  const [File, setFile] = useState(); //File은 새로운 이미지의 주소
+  const [FileURL, setFileURL] = useState();
   let nothingSelected = true;
 
   const food = foodList.find((food) => food.active); // active된 food data
@@ -19,27 +18,40 @@ function UpdateScreen({ foodList }) {
 
   const ImageChange = async () => {
     const storagedb = firestorageService;
-    for (let i = 0; i < File.length; i++) {
-      await uploadBytes(ref(storagedb, `images/${food.name}/${i}`), File[i]);
-      setFileURL([
-        ...FileURL,
-        await getDownloadURL(ref(storagedb, `images/${food.name}/${i}`)),
-      ]);
-    }
+    await uploadBytes(
+      ref(storagedb, `images/${food.name}/${food.image.length + 1}`),
+      File
+    );
+    setFileURL(
+      await getDownloadURL(
+        ref(storagedb, `images/${food.name}/${food.image.length + 1}`)
+      )
+    );
   };
-  const updateImages = async () => {
-    const storedb = firestoreService;
-    await ImageChange().then(async () => {
-      await updateDoc((await getDoc(doc(storedb, "food", food.id))).ref, {
-        image: [...food.image, ...FileURL],
-      }).then(() => console.log("Finished"));
-    });
-  };
+
   const onFileChange = (event) => {
     //files에는 파일이 여러개 담길수있지만 하나만 담을것이기때문에 files[0] 으로 진행
     const theFile = event.target.files[0];
-    setFile([...File, theFile]);
+    setFile(theFile);
   };
+
+  useEffect(() => {
+    if (food && FileURL) {
+      const updateImages = async () => {
+        const storedb = firestoreService;
+        await updateDoc((await getDoc(doc(storedb, "food", food.id))).ref, {
+          image: [...food.image, FileURL],
+        });
+      };
+      updateImages();
+      setFileURL();
+      /* 아래부분 넣어준이유가 사진변경후 input의 value를 초기화시켜줘야하는데 File객체이다보니
+      초기화할때 에러가 많이 발생해서 알림띄워준후 window.reload실행*/
+      alert("사진이 변경되었습니다.");
+      window.location.reload();
+    }
+  }, [FileURL, food]);
+
   const addOptions = async () => {
     const db = firestoreService;
     await updateDoc((await getDoc(doc(db, "food", food.id))).ref, {
@@ -82,7 +94,7 @@ function UpdateScreen({ foodList }) {
                 width="100%"
                 height="200"
               />
-              <button onClick={updateImages}>사진 변경하기</button>
+              <button onClick={ImageChange}>사진 변경하기</button>
             </div>
           </div>
         </div>
