@@ -45,7 +45,9 @@ function UpdateScreen({ foodList, addFoodImage,removeFoodImage }) {
           addFoodImage(food.id,FileURL);
       });
     };
-      updateImages();}
+      updateImages();
+      setFileURL();
+    }
   },[FileURL,food,addFoodImage]);
 
   const addOptions = async () => {
@@ -132,7 +134,6 @@ function UpdateScreen({ foodList, addFoodImage,removeFoodImage }) {
                 width="100%"
                 height="200"
               />
-
               <button onClick={ImageChange}>사진 변경하기</button>
             </div>
           </div>
@@ -143,6 +144,7 @@ function UpdateScreen({ foodList, addFoodImage,removeFoodImage }) {
   );
 }
 
+// store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
   const { foodList } = state;
   return {

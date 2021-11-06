@@ -11,7 +11,6 @@ function MainScreen() {
       name: "Dalgona",
       price: 100,
     });
-    
   };
 
   const getDatasss = async () => {};

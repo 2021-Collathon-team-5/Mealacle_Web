@@ -1,4 +1,11 @@
-import { DELETE_FOOD, INIT_FOOD_LIST, REQUEST_FOOD_LIST, SET_FOOD_ACTIVE,ADD_FOOD_IMAGE,REMOVE_FOOD_IMAGE } from "./types";
+import {
+  DELETE_FOOD,
+  INIT_FOOD_LIST,
+  REQUEST_FOOD_LIST,
+  SET_FOOD_ACTIVE,
+  ADD_FOOD_IMAGE,
+  REMOVE_FOOD_IMAGE,
+} from "./types";
 
 // 초기상태
 const initialState = {
@@ -44,25 +51,25 @@ const foodListReducer = (state = initialState, action) => {
           list,
         },
       };
-    
+
     case DELETE_FOOD:
       list = [...state.foodList.list].filter((ele) => ele.id !== action.foodID);
       return {
         ...state,
-        foodList : {
+        foodList: {
           ...state.foodList,
-          list
-        }
-      }
+          list,
+        },
+      };
     case ADD_FOOD_IMAGE:
       list = [...state.foodList.list];
-      const target = list.find((ele)=>ele.id===action.foodID);
-      target.image = [...target.image,action.image];
+      const target = list.find((ele) => ele.id === action.foodID);
+      target.image = [...target.image, action.image];
       return {
         ...state,
         foodList: {
           ...state.foodList,
-         list
+          list
         }
       }
     case REMOVE_FOOD_IMAGE:
