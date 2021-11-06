@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
 import HomeScreen from "./screens/HomeScreen/home_screen";
 import MainScreen from "./screens/MainScreen/main_screen";
 import ProfileScreen from "./screens/ProfileScreen/profile_screen";
@@ -21,14 +20,14 @@ function AppRouter() {
             <Route exact path="/profile">
               <ProfileScreen />
             </Route>
-            <Route exact path="/main">
+            <Route path="/main">
               <MainScreen />
             </Route>
             <Route exact path="/admin">
               <AdminScreen />
             </Route>
             <Route exact path="/store">
-              <StoreScreen/>
+              <StoreScreen />
             </Route>
           </Switch>
         </Router>

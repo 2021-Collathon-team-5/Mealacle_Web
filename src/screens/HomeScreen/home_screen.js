@@ -8,24 +8,27 @@ import { firestoreService } from "../../Firebase";
 import { getDocs, collection, query, where } from "firebase/firestore/lite";
 
 function HomeScreen() {
-  const [LoginCode, setLoginCode] = useState();
+  const [StoreCode, setStoreCode] = useState();
   const [Password, setPassword] = useState();
   const ScrollDown = () => {
     const scroll_X = window.scrollX;
     const my_height = window.innerHeight;
     window.scrollTo(scroll_X, my_height);
   };
-  const LoginWithCodeAndPassword = async () => {
-    if (LoginCode && Password) {
+  const StoreWithCodeAndPassword = async () => {
+    if (StoreCode && Password) {
       const db = firestoreService;
-      const q = query(collection(db, "user"), where("id", "==", LoginCode));
-      const userdocs = await getDocs(q);
-      if (userdocs.docs.length < 1) {
+      const q = query(
+        collection(db, "seller"),
+        where("storeCode", "==", StoreCode)
+      );
+      const storedocs = await getDocs(q);
+      if (storedocs.docs.length < 1) {
         alert("해당 매장코드를 가진 회원이 존재하지않습니다");
       } else {
-        const user = userdocs.docs[0];
-        if (user.data().password === Password) {
-          window.location.href = `/profile?id=${user.id}`;
+        const store = storedocs.docs[0];
+        if (store.data().password === Password) {
+          window.location.href = `/profile?id=${store.id}`;
         } else {
           alert("비밀번호오류");
         }
@@ -34,8 +37,8 @@ function HomeScreen() {
       alert("매장코드와 비밀번호를 모두 입력하세요");
     }
   };
-  const LoginCodeChange = (e) => {
-    setLoginCode(e.target.value);
+  const StoreCodeChange = (e) => {
+    setStoreCode(e.target.value);
   };
   const PasswordChange = (e) => {
     setPassword(e.target.value);
@@ -63,7 +66,7 @@ function HomeScreen() {
                 <input
                   type="text"
                   placeholder="매장 코드를 입력하세요."
-                  onChange={LoginCodeChange}
+                  onChange={StoreCodeChange}
                 />
               </div>
             </div>
@@ -80,7 +83,7 @@ function HomeScreen() {
               </div>
             </div>
             <div className="sign_in_button">
-              <button onClick={LoginWithCodeAndPassword}>로그인하기</button>
+              <button onClick={StoreWithCodeAndPassword}>로그인하기</button>
             </div>
           </div>
         </div>
