@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ProfileCard from "./Components/ProfileCard";
 import closeImage from "../../images/outline_clear_black_48dp.png";
+
 function ProfileScreen() {
   const [profileWindow, setProfileWindow] = useState({
     visible: false,

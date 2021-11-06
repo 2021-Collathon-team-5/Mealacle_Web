@@ -5,8 +5,11 @@ import {
   INIT_FOOD_LIST,
   REQUEST_FOOD_LIST,
   DELETE_FOOD,
+  ADD_FOOD_IMAGE,
+  REMOVE_FOOD_IMAGE,
 } from "./types";
 export const db = firestoreService;
+
 // 주문 목록 불러오는 함수 -> INIT_FOOD_LIST 호출
 export const fetchDatas = () => {
   return async (dispatch) => {
@@ -53,5 +56,19 @@ export const deleteFood = (foodID) => {
   return {
     type: DELETE_FOOD,
     foodID,
+  };
+};
+export const addFoodImage = (foodID, image) => {
+  return {
+    type: ADD_FOOD_IMAGE,
+    foodID,
+    image,
+  };
+};
+export const removeFoodImage = (foodID, image) => {
+  return {
+    type: REMOVE_FOOD_IMAGE,
+    foodID,
+    image,
   };
 };
