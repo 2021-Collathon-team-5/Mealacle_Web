@@ -24,7 +24,7 @@ function HomeScreen() {
       if (user.data().id !== LoginCode) {
         alert("해당 매장코드를 가진 회원이 존재하지않습니다");
       } else if (user.data().password === Password) {
-        window.location.href = "/profile";
+        window.location.href = `/profile?id=${user.id}`;
       } else {
         alert("비밀번호오류");
       }
