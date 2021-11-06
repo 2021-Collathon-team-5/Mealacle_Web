@@ -20,13 +20,15 @@ function HomeScreen() {
       const db = firestoreService;
       const q = query(collection(db, "user"), where("id", "==", LoginCode));
       const userdocs = await getDocs(q);
-      const user = userdocs.docs[0];
-      if (user.data().id !== LoginCode) {
+      if (userdocs.docs.length < 1) {
         alert("해당 매장코드를 가진 회원이 존재하지않습니다");
-      } else if (user.data().password === Password) {
-        window.location.href = `/profile?id=${user.id}`;
       } else {
-        alert("비밀번호오류");
+        const user = userdocs.docs[0];
+        if (user.data().password === Password) {
+          window.location.href = `/profile?id=${user.id}`;
+        } else {
+          alert("비밀번호오류");
+        }
       }
     } else {
       alert("매장코드와 비밀번호를 모두 입력하세요");
