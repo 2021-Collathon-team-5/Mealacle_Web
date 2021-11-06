@@ -3,12 +3,15 @@ import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { firestorageService, firestoreService } from "../../../Firebase";
-import { addFoodImage } from "../../../redux/action";
+import { addFoodImage, removeFoodImage } from "../../../redux/action";
 import { db } from "../../../redux/action";
-function UpdateScreen({ foodList, addFoodImage }) {
+function UpdateScreen({ foodList, addFoodImage,removeFoodImage }) {
   const [File, setFile] = useState(); //File은 새로운 이미지의 주소
   const [FileURL, setFileURL] = useState();
-  const [visible,setVisible] = useState(false);
+  const [visible,setVisible] = useState({
+    visible : false,
+    idx : 0
+  });
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
   if (food) {
@@ -57,14 +60,27 @@ function UpdateScreen({ foodList, addFoodImage }) {
       ],
     }).then(() => window.location.reload());
   };
-  const confirmDeleteImage = () => {
-    setVisible(true);
+  const confirmDeleteImage = (idx) => {
+    setVisible({
+      visible:true,
+      idx:idx
+    });
   }
   const confirmDeleteImageNo = () => {
-    setVisible(false);
+    setVisible({
+      ...visible,
+      visible:false
+    });
   }
-  const confirmDeleteImageYes = async() => {
-    
+  const confirmDeleteImageYes = async(idx) => {
+    const list = [...food.image];
+    list.splice(idx,1);
+   console.log(list);
+   await updateDoc(doc(db, "food", food.id), {
+    image:list
+  });
+  removeFoodImage(food.id,list);
+  setVisible({...visible,visible:false});
   }
   const Modal = ()=> {
     return (
@@ -72,8 +88,8 @@ function UpdateScreen({ foodList, addFoodImage }) {
         <div className="modal-confirm-window">
           <div className="confirm-main">
             <span>해당 이미지를 삭제합니다.</span>
-            <div class="confirm-main__buttons">
-              <span onClick={()=>confirmDeleteImageYes()}>예</span>
+            <div className="confirm-main__buttons">
+              <span onClick={()=>confirmDeleteImageYes(visible.idx)}>예</span>
               <span onClick={()=>confirmDeleteImageNo()}>아니요</span>
             </div>
           </div>
@@ -83,7 +99,7 @@ function UpdateScreen({ foodList, addFoodImage }) {
   }
   return (
     <>
-     {visible && <Modal/>}
+     {visible.visible && <Modal/>}
       {nothingSelected ? (
         <span>Nothing was selected.</span>
       ) : (
@@ -103,10 +119,12 @@ function UpdateScreen({ foodList, addFoodImage }) {
           </div>
           <div>
             <label>상품 설명(이미지)*</label>
+            <div className="product-imgs">
               {food.image.map((e,idx) => {
-                return (<img src={e} width="100" alt="product_img" className="product-img"
-                onClick={()=>confirmDeleteImage()}/>);
+                return (<img src={e} alt="product_img" className="product-img"
+                onClick={()=>confirmDeleteImage(idx)}/>);
               })}
+              </div>
             <div>
               <input
                 type="file"
@@ -134,6 +152,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addFoodImage:(foodID,image)=>dispatch(addFoodImage(foodID,image))
+    ,removeFoodImage:(foodID,image)=>dispatch(removeFoodImage(foodID,image))
   };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(UpdateScreen);

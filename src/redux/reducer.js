@@ -1,4 +1,4 @@
-import { DELETE_FOOD, INIT_FOOD_LIST, REQUEST_FOOD_LIST, SET_FOOD_ACTIVE,ADD_FOOD_IMAGE } from "./types";
+import { DELETE_FOOD, INIT_FOOD_LIST, REQUEST_FOOD_LIST, SET_FOOD_ACTIVE,ADD_FOOD_IMAGE,REMOVE_FOOD_IMAGE } from "./types";
 
 // 초기상태
 const initialState = {
@@ -64,6 +64,17 @@ const foodListReducer = (state = initialState, action) => {
           ...state.foodList,
          list
         }
+      }
+    case REMOVE_FOOD_IMAGE:
+      list = [...state.foodList.list];
+      const removeTarget = list.find((ele) => ele.id === action.foodID);
+      removeTarget.image = [...action.image];
+      return {
+        ...state,
+        foodList: {
+          ...state.foodList,
+          list,
+        },
       }
     default:
       return state;

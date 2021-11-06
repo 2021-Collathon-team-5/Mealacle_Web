@@ -15,3 +15,8 @@
   filter:brightness(1);
   transform: scale(1);
 }
+.product-img {
+  width: 200px;
+  height: 200px;
+  margin-right: 10px;
+}
