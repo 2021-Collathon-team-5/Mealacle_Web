@@ -41,7 +41,7 @@ const DetailScreen = ({ foodList, deleteFood }) => {
             </table>
           </div>
           <div className="detail__main">
-            <img src={TestImages} alt="detail__image" />
+            {food.image[0] ? <img src={food.image[0]} alt="detail__image" /> : <span id="detail__noimage">No image</span>}
             <table className="detail-table__main">
               <tbody>
                 <tr>

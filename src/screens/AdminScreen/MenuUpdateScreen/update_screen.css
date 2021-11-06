@@ -7,3 +7,11 @@
   padding: 5px 10px;
   margin: 20px 0px;
 }
+.product-img:hover {
+  filter:brightness(0.8);
+  transform: scale(1.05);
+}
+.product-img:active {
+  filter:brightness(1);
+  transform: scale(1);
+}

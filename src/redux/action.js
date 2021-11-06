@@ -1,6 +1,6 @@
 import { collection, getDocs } from "firebase/firestore/lite";
 import { firestoreService } from "../Firebase";
-import { SET_FOOD_ACTIVE, INIT_FOOD_LIST, REQUEST_FOOD_LIST, DELETE_FOOD } from "./types";
+import { SET_FOOD_ACTIVE, INIT_FOOD_LIST, REQUEST_FOOD_LIST, DELETE_FOOD,ADD_FOOD_IMAGE } from "./types";
 export const db = firestoreService;
 // 주문 목록 불러오는 함수 -> INIT_FOOD_LIST 호출
 export const fetchDatas = () => {
@@ -50,3 +50,10 @@ export const deleteFood = (foodID) => {
     foodID,
   };
 };
+export const addFoodImage = (foodID,image) => {
+  return {
+    type:ADD_FOOD_IMAGE,
+    foodID,
+    image,
+  }
+}

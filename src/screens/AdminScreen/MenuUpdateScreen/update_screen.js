@@ -1,15 +1,15 @@
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { firestorageService, firestoreService } from "../../../Firebase";
-
-const storage = firestorageService;
-function UpdateScreen({ foodList }) {
-  const [File, setFile] = useState([]); //File은 새로운 이미지의 주소
-  const [FileURL, setFileURL] = useState([]);
+import { addFoodImage } from "../../../redux/action";
+import { db } from "../../../redux/action";
+function UpdateScreen({ foodList, addFoodImage }) {
+  const [File, setFile] = useState(); //File은 새로운 이미지의 주소
+  const [FileURL, setFileURL] = useState();
+  const [visible,setVisible] = useState(false);
   let nothingSelected = true;
-
   const food = foodList.find((food) => food.active); // active된 food data
   if (food) {
     nothingSelected = false;
@@ -19,29 +19,33 @@ function UpdateScreen({ foodList }) {
 
   const ImageChange = async () => {
     const storagedb = firestorageService;
-    for (let i = 0; i < File.length; i++) {
-      await uploadBytes(ref(storagedb, `images/${food.name}/${i}`), File[i]);
-      setFileURL([
-        ...FileURL,
-        await getDownloadURL(ref(storagedb, `images/${food.name}/${i}`)),
-      ]);
-    }
+      await uploadBytes(ref(storagedb, `images/${food.name}/${food.image.length+1}`), File);
+      setFileURL(
+        await getDownloadURL(ref(storagedb, `images/${food.name}/${food.image.length+1}`)),
+      );
   };
-  const updateImages = async () => {
-    const storedb = firestoreService;
-    await ImageChange().then(async () => {
-      await updateDoc((await getDoc(doc(storedb, "food", food.id))).ref, {
-        image: [...food.image, ...FileURL],
-      }).then(() => console.log("Finished"));
-    });
-  };
+
   const onFileChange = (event) => {
     //files에는 파일이 여러개 담길수있지만 하나만 담을것이기때문에 files[0] 으로 진행
     const theFile = event.target.files[0];
-    setFile([...File, theFile]);
+    setFile(theFile);
   };
+  useEffect(()=>{
+    if(food && FileURL) {
+    const updateImages = async () => {
+      const storedb = firestoreService;
+      console.log(FileURL);
+        await updateDoc((await getDoc(doc(storedb, "food", food.id))).ref, {
+          image: [...food.image, FileURL],
+        }).then(() => {
+          console.log("Finished");
+          addFoodImage(food.id,FileURL);
+      });
+    };
+      updateImages();}
+  },[FileURL,food,addFoodImage]);
+
   const addOptions = async () => {
-    const db = firestoreService;
     await updateDoc((await getDoc(doc(db, "food", food.id))).ref, {
       options: [
         ...food.options,
@@ -53,9 +57,33 @@ function UpdateScreen({ foodList }) {
       ],
     }).then(() => window.location.reload());
   };
-
+  const confirmDeleteImage = () => {
+    setVisible(true);
+  }
+  const confirmDeleteImageNo = () => {
+    setVisible(false);
+  }
+  const confirmDeleteImageYes = async() => {
+    
+  }
+  const Modal = ()=> {
+    return (
+      <div className="modal-confirm-backdrop">
+        <div className="modal-confirm-window">
+          <div className="confirm-main">
+            <span>해당 이미지를 삭제합니다.</span>
+            <div class="confirm-main__buttons">
+              <span onClick={()=>confirmDeleteImageYes()}>예</span>
+              <span onClick={()=>confirmDeleteImageNo()}>아니요</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
+     {visible && <Modal/>}
       {nothingSelected ? (
         <span>Nothing was selected.</span>
       ) : (
@@ -75,6 +103,10 @@ function UpdateScreen({ foodList }) {
           </div>
           <div>
             <label>상품 설명(이미지)*</label>
+              {food.image.map((e,idx) => {
+                return (<img src={e} width="100" alt="product_img" className="product-img"
+                onClick={()=>confirmDeleteImage()}/>);
+              })}
             <div>
               <input
                 type="file"
@@ -83,9 +115,10 @@ function UpdateScreen({ foodList }) {
                 height="200"
               />
 
-              <button onClick={updateImages}>사진 변경하기</button>
+              <button onClick={ImageChange}>사진 변경하기</button>
             </div>
           </div>
+         
         </div>
       )}
     </>
@@ -98,5 +131,9 @@ const mapStateToProps = (state) => {
     foodList: foodList.list,
   };
 };
-
-export default connect(mapStateToProps, null)(UpdateScreen);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addFoodImage:(foodID,image)=>dispatch(addFoodImage(foodID,image))
+  };
+};
+export default connect(mapStateToProps,mapDispatchToProps)(UpdateScreen);

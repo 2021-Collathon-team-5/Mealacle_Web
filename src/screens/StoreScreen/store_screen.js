@@ -3,7 +3,7 @@ import NavigationBar from '../Navigationbar/navigation_bar';
 const StoreScreen = () => {
     const inputRef = useRef([]);
     const modified = () => {
-        if (inputRef.current[0].disabled == false) {
+        if (inputRef.current[0].disabled === false) {
             for (let i = 0; i < inputRef.current.length; i++) {
                 inputRef.current[i].disabled = true;
             }

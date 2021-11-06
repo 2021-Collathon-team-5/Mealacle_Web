@@ -112,3 +112,8 @@ select:focus {
 .detail__orderer table tr td:first-child{
   width: 10%;
 }
+
+#detail__noimage {
+  font-size: 26px;
+  color:var(--main-screen-color);
+}
