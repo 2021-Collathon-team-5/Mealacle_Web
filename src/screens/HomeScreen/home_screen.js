@@ -21,11 +21,10 @@ function HomeScreen() {
       const q = query(collection(db, "user"), where("id", "==", LoginCode));
       const userdocs = await getDocs(q);
       const user = userdocs.docs[0];
-      if (user.data().id === LoginCode) {
+      if (user.data().id !== LoginCode) {
         alert("해당 매장코드를 가진 회원이 존재하지않습니다");
       } else if (user.data().password === Password) {
-        window.history.pushState({}, "", "/main");
-        window.location.reload();
+        window.location.href = "/profile";
       } else {
         alert("비밀번호오류");
       }

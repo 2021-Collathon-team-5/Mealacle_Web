@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProfileCard from "./Components/ProfileCard";
 import closeImage from "../../images/outline_clear_black_48dp.png";
-function ProfileScreen() {
+function ProfileScreen(props) {
   const [profileWindow, setProfileWindow] = useState({
     visible: false,
     profileName: "",
@@ -15,10 +15,11 @@ function ProfileScreen() {
   const closeModal = () => {
     setProfileWindow({
       ...profileWindow,
-      visible:false
+      visible: false,
     });
   };
   const Modal = ({ profileName }) => {
+    console.log(this.state);
     return (
       <div className="modal-backdrop">
         <div className="modal-window">
@@ -49,9 +50,9 @@ function ProfileScreen() {
           </span>
         </div>
         <div className="profile_card_area">
-          <ProfileCard showModal={showModal} index={1}/>
-          <ProfileCard showModal={showModal} index={2}/>
-          <ProfileCard showModal={showModal} index={3}/>
+          <ProfileCard showModal={showModal} index={1} />
+          <ProfileCard showModal={showModal} index={2} />
+          <ProfileCard showModal={showModal} index={3} />
         </div>
       </div>
     </>
