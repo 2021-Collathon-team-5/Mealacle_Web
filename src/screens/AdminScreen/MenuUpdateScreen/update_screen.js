@@ -245,7 +245,7 @@ function UpdateScreen({ foodList, addFoodImage, removeFoodImage , updateFood}) {
                 <input type="checkbox" ref={checkboxRef} onChange={() => changeChecked()} />
                 <span className="slider round"></span>
               </label>
-              <span className="product-onSale" ref={spanRef} >판매 중</span>
+              <span className="product-notonsale" ref={spanRef} >판매 정지</span>
             </div>
           </div>
           <button className="edit-button" onClick={onEdit} ref={editButtonRef}>수정</button>
