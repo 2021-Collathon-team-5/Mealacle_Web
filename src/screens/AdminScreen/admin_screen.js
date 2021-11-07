@@ -35,6 +35,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
 
   const addFood = async () => {
     const db = firestoreService;
+    const today = new Date();
 
     await addDoc(collection(db, "food"), {
       name: FoodName,
@@ -46,6 +47,8 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
           매운맛: false,
         },
       ],
+      //요일 월 일 년 순으로 저장
+      registrationDate: today.toDateString(),
       image: [],
       stock: 0,
     }).then(() => window.location.reload());
