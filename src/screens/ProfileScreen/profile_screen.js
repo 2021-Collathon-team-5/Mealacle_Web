@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import ProfileCard from "./Components/ProfileCard";
 import closeImage from "../../images/outline_clear_black_48dp.png";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { setNowProfile, setProfile } from "../../redux/store/action";
 import { db } from "../../redux/foods/action";
 import { doc, updateDoc } from "firebase/firestore/lite";
@@ -12,15 +12,13 @@ function ProfileScreen({ profile, setProfile, storeCode, setNowProfile }) {
     profileIdx: 0,
   });
   const history = useHistory();
-
+  const location = useLocation();
   const showModal = (index) => {
     console.log(profile[`${index - 1}`]);
     if (profile[`${index - 1}`]) {
       /* storeId 가져오는부분 */
-      const pathName = history.location.pathname;
-      const idIndex = pathName.indexOf("=");
-      const storeId = pathName.substring(idIndex + 1);
-      console.log(storeId); //storeId확인
+      const userData = location.state;
+      const storeId = userData.id; //storeId확인
       setNowProfile(index - 1);
       history.push("/main", {
         profile: profile[`${index - 1}`],
