@@ -60,7 +60,12 @@ function UpdateScreen({
   const onFileChange = (event) => {
     //files에는 파일이 여러개 담길수있지만 하나만 담을것이기때문에 files[0] 으로 진행
     const theFile = event.target.files[0];
-    setFile(theFile);
+    if (food.image.length < 5) {
+      setFile(theFile);
+    } else {
+      alert("이미지는 최대 5장까지만 저장할수있습니다");
+    }
+
     event.target.value = "";
   };
   useEffect(() => {
@@ -108,6 +113,19 @@ function UpdateScreen({
     }
   }, [File, food]);
   useEffect(() => {
+    if (food && FileURL) {
+      const updateImages = async () => {
+        await updateDoc(doc(db, "food", food.id), {
+          image: [...food.image, FileURL],
+        }).then(() => {
+          addFoodImage(food.id, FileURL);
+        });
+      };
+      updateImages();
+      setFileURL();
+    }
+  }, [FileURL, food, addFoodImage]);
+  useEffect(() => {
     if (food && DescriptionImage) {
       const DescriptionImageChange = async () => {
         const storagedb = firestorageService;
@@ -124,7 +142,6 @@ function UpdateScreen({
       DescriptionImageChange().then(() => setDescriptionImage());
     }
   }, [DescriptionImage, food]);
-
   useEffect(() => {
     if (food && DescriptionImageURL) {
       const updateImages = async () => {
@@ -139,20 +156,6 @@ function UpdateScreen({
       setDescriptionImageURL();
     }
   }, [DescriptionImageURL, food, updateDescription]);
-
-  useEffect(() => {
-    if (food && FileURL) {
-      const updateImages = async () => {
-        await updateDoc(doc(db, "food", food.id), {
-          image: [...food.image, FileURL],
-        }).then(() => {
-          addFoodImage(food.id, FileURL);
-        });
-      };
-      updateImages();
-      setFileURL();
-    }
-  }, [FileURL, food, addFoodImage]);
 
   const addOptions = async () => {
     await updateDoc((await getDoc(doc(db, "food", food.id))).ref, {
@@ -268,6 +271,7 @@ function UpdateScreen({
                   <span>{food.image.length}/5</span>
                 </div>
               </label>
+
               <input
                 type="file"
                 onChange={onFileChange}
@@ -298,7 +302,6 @@ function UpdateScreen({
               alt="descriptionImage"
               onChange={(e) => setDescriptionImage(e.target.files[0])}
             />
-            <button onClick={() => console.log(DescriptionImage)}>check</button>
           </div>
           <div className="update_contents-editdiv">
             <span className="update__contents-title">가격*</span>
