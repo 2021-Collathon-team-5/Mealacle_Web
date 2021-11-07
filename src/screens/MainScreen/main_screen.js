@@ -5,7 +5,12 @@ import OrderList from "./Components/OrderList";
 import DetailScreen from "../DetailScreen/detail_screen";
 import NavigationBar from "../Navigationbar/navigation_bar";
 import Header from "./Components/Header";
-function MainScreen({nowProfile}) {
+import { useLocation } from "react-router";
+function MainScreen({ nowProfile }) {
+  const location = useLocation();
+  const userData = location.state;
+  console.log(userData);
+
   const db = firestoreService;
   const addData = async () => {
     await addDoc(collection(db, "food"), {
@@ -25,7 +30,7 @@ function MainScreen({nowProfile}) {
     <>
       <NavigationBar />
       <div className="main-screen">
-        <Header/>
+        <Header />
         <div>주문목록</div>
         <div>상세정보</div>
         <div>
