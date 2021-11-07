@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import Header from "../MainScreen/Components/Header";
 import NavigationBar from "../Navigationbar/navigation_bar";
 const StoreScreen = () => {
   const inputRef = useRef([]);
@@ -17,7 +18,7 @@ const StoreScreen = () => {
     <>
       <NavigationBar />
       <div className="store-screen">
-        <div className="store__header"></div>
+          <Header/>
         <div className="store__main">
           <div className="store__main-title">
             <span>매장관리</span>
