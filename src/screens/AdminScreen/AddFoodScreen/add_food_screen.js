@@ -20,7 +20,6 @@ function AddFoodScreen(props) {
           onChange={props.priceChange}
         />
       </div>
-
       <button className="add-food-button" onClick={props.addFood}>
         상품추가하기
       </button>
