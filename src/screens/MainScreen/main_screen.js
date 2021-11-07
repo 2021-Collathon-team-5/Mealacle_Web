@@ -5,7 +5,7 @@ import OrderList from "./Components/OrderList";
 import DetailScreen from "../DetailScreen/detail_screen";
 import NavigationBar from "../Navigationbar/navigation_bar";
 import Header from "./Components/Header";
-function MainScreen({nowProfile}) {
+function MainScreen() {
   const db = firestoreService;
   const addData = async () => {
     await addDoc(collection(db, "food"), {

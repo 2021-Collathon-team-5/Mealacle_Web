@@ -1,7 +1,7 @@
 import { GET_PROFILE, SET_NOW_PROFILE, SET_PROFILE } from "./types";
 
 const initialState = {
-    storeCode : "",
+    storeID : "",
     nowProfile : {},
     profile:{}
   };
@@ -11,7 +11,7 @@ const storeReducer = (state=initialState,action) => {
       case GET_PROFILE:
         return {
           ...state,
-          storeCode:action.id,
+          storeID:action.id,
           profile:{...action.profile}
         }
         case SET_PROFILE:

@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import { setNowProfile, setProfile } from "../../redux/store/action";
 import { db } from "../../redux/foods/action";
 import { doc, updateDoc } from "firebase/firestore/lite";
-function ProfileScreen({profile,setProfile,storeCode,setNowProfile}) {
+function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
   const [profileWindow, setProfileWindow] = useState({
     visible: false,
     profileIdx: 0,
@@ -38,7 +38,7 @@ function ProfileScreen({profile,setProfile,storeCode,setNowProfile}) {
         profileName : value,
         lastAccessDate : `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`
       }
-      await updateDoc(doc(db,"seller",storeCode), {
+      await updateDoc(doc(db,"seller",storeID), {
          [`profile.${profileIdx}`] : {...target}
       });
       setProfile(target,profileIdx);
@@ -84,10 +84,10 @@ function ProfileScreen({profile,setProfile,storeCode,setNowProfile}) {
 }
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
-  const { profile,storeCode } = state.store;
+  const { profile,storeID } = state.store;
   return {
     profile,
-    storeCode
+    storeID
   };
 };
 const mapDispatchToProps = (dispatch) => {
