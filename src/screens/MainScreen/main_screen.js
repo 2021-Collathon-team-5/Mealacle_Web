@@ -4,7 +4,8 @@ import { firestoreService } from "../../Firebase";
 import OrderList from "./Components/OrderList";
 import DetailScreen from "../DetailScreen/detail_screen";
 import NavigationBar from "../Navigationbar/navigation_bar";
-function MainScreen() {
+import Header from "./Components/Header";
+function MainScreen({nowProfile}) {
   const db = firestoreService;
   const addData = async () => {
     await addDoc(collection(db, "food"), {
@@ -24,7 +25,7 @@ function MainScreen() {
     <>
       <NavigationBar />
       <div className="main-screen">
-        <div>1</div>
+        <Header/>
         <div>주문목록</div>
         <div>상세정보</div>
         <div>

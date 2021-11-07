@@ -6,6 +6,7 @@ import { fetchDatas, setFoodActive } from "../../redux/foods/action";
 import NavigationBar from "../Navigationbar/navigation_bar";
 import UpdateScreen from "./MenuUpdateScreen/update_screen";
 import AddFoodScreen from "./AddFoodScreen/add_food_screen";
+import Header from "../MainScreen/Components/Header";
 
 function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
   const [IsAddFood, setIsAddFood] = useState(false);
@@ -54,7 +55,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
     <div className="admin-screen-container">
       <NavigationBar />
       <div className="admin-screen">
-        <div>한식 코너</div>
+        <Header/>
         <div>상품목록</div>
         <div>상세정보</div>
         <div>

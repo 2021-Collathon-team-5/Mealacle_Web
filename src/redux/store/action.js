@@ -1,5 +1,5 @@
 import { firestoreService } from "../../Firebase";
-import { GET_PROFILE } from "./types";
+import { GET_PROFILE, SET_NOW_PROFILE, SET_PROFILE } from "./types";
 import { query,collection,where,getDocs } from "firebase/firestore/lite";
 export const StoreWithCodeAndPassword = (StoreCode, Password) => {
     return async (dispatch) => {
@@ -16,7 +16,7 @@ export const StoreWithCodeAndPassword = (StoreCode, Password) => {
                 const store = storedocs.docs[0];
                 if (store.data().password === Password) {
                     const profile = store.data().profile;
-                    dispatch(getProfile(profile));
+                    dispatch(getProfile(store.id,profile));
                 } else {
                     alert("비밀번호오류");
                 }
@@ -27,9 +27,23 @@ export const StoreWithCodeAndPassword = (StoreCode, Password) => {
     }
 };
 
-const getProfile = (profile) => {
+const getProfile = (id,profile) => {
     return {
         type:GET_PROFILE,
-        profile
+        profile,
+        id
+    }
+}
+export const setProfile = (profile,idx) => {
+    return {
+        type:SET_PROFILE,
+        profile,
+        idx
+    }
+}
+export const setNowProfile = (idx) => {
+    return {
+        type:SET_NOW_PROFILE,
+        idx
     }
 }
