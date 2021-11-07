@@ -32,6 +32,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
         },
       ],
       image: [],
+      stock:0
     }).then(() => window.location.reload());
   };
   return (
@@ -66,7 +67,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
                     <tr key={e.id} id={e.id} onClick={() => onClickEvent(e)}>
                       <td>{index + 1}</td>
                       <td>{e.name}</td>
-                      <td>2</td>
+                      <td>{e.stock}</td>
                       <td>{e.price}</td>
                     </tr>
                   );

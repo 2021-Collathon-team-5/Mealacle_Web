@@ -16,7 +16,165 @@
   transform: scale(1);
 }
 .product-img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   margin-right: 10px;
+}
+.product-imgs {
+  display: flex;
+  align-items: center;
+}
+.product-img__button {
+  display: flex;
+  width: 150px;
+  height: 150px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border : 5px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.product-img__button img {
+  width: 80px;
+  height: 80px;
+}
+.product-img__button span {
+  font-size: 36px;
+  font-weight: bold;
+}
+#image-file-input {
+  display: none;
+}
+.update-main {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.update-main > div {
+  margin-bottom: 15px;
+}
+.update__contents-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 30px;
+  display: block;
+  
+}
+.update_contents-row .update__contents-title {
+  margin-bottom: 15px;
+}
+
+.update-main > div >input[type="text"] {
+  border: none;
+    padding: 8px 6px;
+    font-size: 14px;
+    width: 30%;
+    border-radius: 5px;
+    background-color: var(--main-color);
+    margin-right: 12px;
+}
+.update-main > div >input[type="text"]:disabled {
+  background-color: var(--main-screen-color);
+}
+.edit-button {
+    background-color: var(--button-input-color);  
+    border:none;
+    cursor: pointer;
+    padding: 6px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 100px;
+    height: 30px;
+}
+.edit-button:hover {
+  transform: scale(1.05);
+}
+.edit-button:active {
+  transform: scale(1);
+}
+.update_contents-editdiv {
+  display:flex;
+  align-items: center;
+}
+
+
+.product-onsale {
+  font-size: 18px;
+  font-weight: bold;
+  color:green;
+}
+.product-notonsale {
+  font-size: 18px;
+  font-weight: bold;
+  color:red;
+}
+
+/*
+  Toggle Button
+  The switch - the box around the slider 
+*/
+
+.update-main .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-right: 10px;
+}
+
+/* Hide default HTML checkbox */
+.update-main .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.update-main .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.update-main .slider::before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.update-main input:checked + .slider {
+  background-color: var(--button-input-color);
+}
+
+.update-main input:focus + .slider {
+  box-shadow: 0 0 1px var(--button-input-color);
+}
+
+.update-main input:checked + .slider::before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.update-main .slider.round {
+  border-radius: 34px;
+}
+
+.update-main .slider.round::before {
+  border-radius: 50%;
 }
