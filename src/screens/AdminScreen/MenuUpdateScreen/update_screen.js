@@ -7,13 +7,22 @@ import {
   addFoodImage,
   removeFoodImage,
   updateFood,
+  updateDescription
 } from "../../../redux/foods/action";
 import { db } from "../../../redux/foods/action";
 import CameraImage from "../../../images/iconmonstr-photo-camera-4-240.png";
 
-function UpdateScreen({ foodList, addFoodImage, removeFoodImage, updateFood }) {
+function UpdateScreen({
+  foodList,
+  addFoodImage,
+  removeFoodImage,
+  updateFood,
+  updateDescription,
+}) {
   const [File, setFile] = useState(); //File은 새로운 이미지의 주소
   const [FileURL, setFileURL] = useState();
+  const [DescriptionImage, setDescriptionImage] = useState();
+  const [DescriptionImageURL, setDescriptionImageURL] = useState();
   const [visible, setVisible] = useState({
     visible: false,
     idx: 0,
@@ -51,7 +60,12 @@ function UpdateScreen({ foodList, addFoodImage, removeFoodImage, updateFood }) {
   const onFileChange = (event) => {
     //files에는 파일이 여러개 담길수있지만 하나만 담을것이기때문에 files[0] 으로 진행
     const theFile = event.target.files[0];
-    setFile(theFile);
+    if (food.image.length < 5) {
+      setFile(theFile);
+    } else {
+      alert("이미지는 최대 5장까지만 저장할수있습니다");
+    }
+
     event.target.value = "";
   };
   useEffect(() => {
@@ -101,11 +115,9 @@ function UpdateScreen({ foodList, addFoodImage, removeFoodImage, updateFood }) {
   useEffect(() => {
     if (food && FileURL) {
       const updateImages = async () => {
-        console.log(FileURL);
         await updateDoc(doc(db, "food", food.id), {
           image: [...food.image, FileURL],
         }).then(() => {
-          console.log("Finished");
           addFoodImage(food.id, FileURL);
         });
       };
@@ -113,15 +125,45 @@ function UpdateScreen({ foodList, addFoodImage, removeFoodImage, updateFood }) {
       setFileURL();
     }
   }, [FileURL, food, addFoodImage]);
+  useEffect(() => {
+    if (food && DescriptionImage) {
+      const DescriptionImageChange = async () => {
+        const storagedb = firestorageService;
+        await uploadBytes(
+          ref(storagedb, `descriptions/${food.name}/${food.image.length + 1}`),
+          DescriptionImage
+        );
+        setDescriptionImageURL(
+          await getDownloadURL(
+            ref(storagedb, `descriptions/${food.name}/${food.image.length + 1}`)
+          )
+        );
+      };
+      DescriptionImageChange().then(() => setDescriptionImage());
+    }
+  }, [DescriptionImage, food]);
+  useEffect(() => {
+    if (food && DescriptionImageURL) {
+      const updateImages = async () => {
+        await updateDoc(doc(db, "food", food.id), {
+          description: DescriptionImageURL,
+        }).then(() => {
+          updateDescription(food.id, DescriptionImageURL);
+        });
+      };
+      updateImages();
+
+      setDescriptionImageURL();
+    }
+  }, [DescriptionImageURL, food, updateDescription]);
 
   const addOptions = async () => {
     await updateDoc(doc(db, "food", food.id), {
       options: [
         ...food.options,
         {
-          고기추가: false,
-          무추가: false,
-          곱빼기: true,
+          기본맛: true,
+          매운맛: false,
         },
       ],
     }).then(() => window.location.reload());
@@ -229,6 +271,7 @@ function UpdateScreen({ foodList, addFoodImage, removeFoodImage, updateFood }) {
                   <span>{food.image.length}/5</span>
                 </div>
               </label>
+
               <input
                 type="file"
                 onChange={onFileChange}
@@ -254,6 +297,11 @@ function UpdateScreen({ foodList, addFoodImage, removeFoodImage, updateFood }) {
           </div>
           <div>
             <span className="update__contents-title">상품 설명(이미지)*</span>
+            <input
+              type="file"
+              alt="descriptionImage"
+              onChange={(e) => setDescriptionImage(e.target.files[0])}
+            />
           </div>
           <div className="update_contents-editdiv">
             <span className="update__contents-title">가격*</span>
@@ -308,6 +356,8 @@ const mapDispatchToProps = (dispatch) => {
     removeFoodImage: (foodID, image) =>
       dispatch(removeFoodImage(foodID, image)),
     updateFood: (foodID, list) => dispatch(updateFood(foodID, list)),
+    updateDescription: (foodID, image) =>
+      dispatch(updateDescription(foodID, image)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateScreen);

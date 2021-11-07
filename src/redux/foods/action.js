@@ -8,6 +8,7 @@ import {
   ADD_FOOD_IMAGE,
   REMOVE_FOOD_IMAGE,
   UPDATE_FOOD,
+  UPDATE_DESCRIPTION,
 } from "./types";
 export const db = firestoreService;
 
@@ -18,7 +19,6 @@ export const fetchDatas = () => {
     const querySnapshot = await getDocs(collection(db, "food"));
     const foodList = [];
     querySnapshot.docs.forEach((e) => {
-      console.log(e.data().price);
       const data = {
         ...e.data(),
         id: e.id,
@@ -59,13 +59,13 @@ export const deleteFood = (foodID) => {
     foodID,
   };
 };
-export const addFoodImage = (foodID,image) => {
+export const addFoodImage = (foodID, image) => {
   return {
-    type:ADD_FOOD_IMAGE,
+    type: ADD_FOOD_IMAGE,
     foodID,
     image,
-  }
-}
+  };
+};
 export const removeFoodImage = (foodID, image) => {
   return {
     type: REMOVE_FOOD_IMAGE,
@@ -73,10 +73,17 @@ export const removeFoodImage = (foodID, image) => {
     image,
   };
 };
-export const updateFood = (foodID,list) => {
+export const updateFood = (foodID, list) => {
   return {
-    type:UPDATE_FOOD,
+    type: UPDATE_FOOD,
     foodID,
-    list
-  }
-}
+    list,
+  };
+};
+export const updateDescription = (foodID, image) => {
+  return {
+    type: UPDATE_DESCRIPTION,
+    foodID,
+    image,
+  };
+};

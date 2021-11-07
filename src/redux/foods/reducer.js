@@ -5,7 +5,8 @@ import {
   SET_FOOD_ACTIVE,
   ADD_FOOD_IMAGE,
   REMOVE_FOOD_IMAGE,
-  UPDATE_FOOD
+  UPDATE_FOOD,
+  UPDATE_DESCRIPTION,
 } from "./types";
 
 // 초기상태
@@ -70,9 +71,9 @@ const foodListReducer = (state = initialState, action) => {
         ...state,
         foodList: {
           ...state.foodList,
-          list
-        }
-      }
+          list,
+        },
+      };
     case REMOVE_FOOD_IMAGE:
       list = [...state.foodList.list];
       const removeTarget = list.find((ele) => ele.id === action.foodID);
@@ -83,21 +84,35 @@ const foodListReducer = (state = initialState, action) => {
           ...state.foodList,
           list,
         },
-      }
+      };
     case UPDATE_FOOD:
       list = [...state.foodList.list];
       const updateTarget = list.find((ele) => ele.id === action.foodID);
-      const {name,price,stock} = action.list;
-      updateTarget.name=name;
-      updateTarget.price=price;
-      updateTarget.stock=stock;
+      const { name, price, stock } = action.list;
+      updateTarget.name = name;
+      updateTarget.price = price;
+      updateTarget.stock = stock;
       return {
         ...state,
-        foodList:{
+        foodList: {
           ...state.foodList,
-          list
-        }
-      }
+          list,
+        },
+      };
+    case UPDATE_DESCRIPTION:
+      list = [...state.foodList.list];
+      const updateDescriptionTarget = list.find(
+        (ele) => ele.id === action.foodID
+      );
+      const image = action.image;
+      updateDescriptionTarget.description = image;
+      return {
+        ...state,
+        foodList: {
+          ...state.foodList,
+          list,
+        },
+      };
     default:
       return state;
   }

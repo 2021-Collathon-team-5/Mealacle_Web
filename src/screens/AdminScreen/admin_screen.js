@@ -11,6 +11,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
   const [IsAddFood, setIsAddFood] = useState(false);
   const [FoodName, setFoodName] = useState("");
   const [FoodPrice, setFoodPrice] = useState(0);
+  const [FoodOrigin, setFoodOrigin] = useState("");
   useEffect(() => {
     fetchDatas();
   }, [fetchDatas]);
@@ -28,6 +29,9 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
   const priceChange = (e) => {
     setFoodPrice(e.target.value);
   };
+  const originChange = (e) => {
+    setFoodOrigin(e.target.value);
+  };
 
   const addFood = async () => {
     const db = firestoreService;
@@ -35,6 +39,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
     await addDoc(collection(db, "food"), {
       name: FoodName,
       price: FoodPrice,
+      origin: FoodOrigin,
       options: [
         {
           기본맛: true,
@@ -97,6 +102,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
         <AddFoodScreen
           nameChange={nameChange}
           priceChange={priceChange}
+          originChange={originChange}
           addFood={addFood}
           containerExit={() => setIsAddFood(false)}
         />

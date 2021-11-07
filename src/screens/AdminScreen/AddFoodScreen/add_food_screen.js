@@ -20,7 +20,10 @@ function AddFoodScreen(props) {
           onChange={props.priceChange}
         />
       </div>
-
+      <div>
+        <label>원산지</label>
+        <input type="text" placeholder="원산지" onChange={props.originChange} />
+      </div>
       <button className="add-food-button" onClick={props.addFood}>
         상품추가하기
       </button>
