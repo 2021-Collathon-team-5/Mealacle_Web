@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ProfileCard from "./Components/ProfileCard";
 import closeImage from "../../images/outline_clear_black_48dp.png";
 import { connect } from "react-redux";
-function ProfileScreen({profile}) {
+function ProfileScreen({ profile }) {
   const [profileWindow, setProfileWindow] = useState({
     visible: false,
     profileName: "",
@@ -30,9 +30,8 @@ function ProfileScreen({profile}) {
             <img src={closeImage} alt="closebtn" onClick={closeModal} />
           </div>
           <div className="modal-window__contents">
-            <input type="text" placeholder="프로필 이름"></input>
-            <input type="text" placeholder="프로필 관리자"></input>
-            <textarea placeholder="설명 ..."></textarea>
+            <input type="text" placeholder="프로필 이름" />
+            <textarea placeholder="설명 ..." />
           </div>
         </div>
       </div>
@@ -52,8 +51,8 @@ function ProfileScreen({profile}) {
         </div>
         <div className="profile_card_area">
           <ProfileCard showModal={showModal} index={1} isProfile={profile[0]} />
-          <ProfileCard showModal={showModal} index={2} isProfile={profile[1]}/>
-          <ProfileCard showModal={showModal} index={3} isProfile={profile[2]}/>
+          <ProfileCard showModal={showModal} index={2} isProfile={profile[1]} />
+          <ProfileCard showModal={showModal} index={3} isProfile={profile[2]} />
         </div>
       </div>
     </>
@@ -63,8 +62,8 @@ function ProfileScreen({profile}) {
 const mapStateToProps = (state) => {
   const { profile } = state.store;
   return {
-    profile
+    profile,
   };
 };
 
-export default connect(mapStateToProps,null)(ProfileScreen);
+export default connect(mapStateToProps, null)(ProfileScreen);
