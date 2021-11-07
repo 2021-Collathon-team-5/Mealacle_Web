@@ -4,38 +4,22 @@ import IconImage from "../../images/outline_expand_more_black_48dp.png";
 import emailImage from "../../images/outline_email_black_48dp.png";
 import phoneImage from "../../images/outline_call_black_48dp.png";
 import socialImage from "../../images/outline_public_black_48dp.png";
-import { firestoreService } from "../../Firebase";
-import { getDocs, collection, query, where } from "firebase/firestore/lite";
+import { StoreWithCodeAndPassword } from "../../redux/store/action";
+import { connect} from "react-redux";
+import { useHistory } from "react-router-dom";
 
-function HomeScreen() {
+function HomeScreen({StoreWithCodeAndPassword}) {
   const [StoreCode, setStoreCode] = useState();
   const [Password, setPassword] = useState();
+  const history = useHistory();
   const ScrollDown = () => {
     const scroll_X = window.scrollX;
     const my_height = window.innerHeight;
     window.scrollTo(scroll_X, my_height);
   };
-  const StoreWithCodeAndPassword = async () => {
-    if (StoreCode && Password) {
-      const db = firestoreService;
-      const q = query(
-        collection(db, "seller"),
-        where("storeCode", "==", StoreCode)
-      );
-      const storedocs = await getDocs(q);
-      if (storedocs.docs.length < 1) {
-        alert("해당 매장코드를 가진 회원이 존재하지않습니다");
-      } else {
-        const store = storedocs.docs[0];
-        if (store.data().password === Password) {
-          window.location.href = `/profile?id=${store.id}`;
-        } else {
-          alert("비밀번호오류");
-        }
-      }
-    } else {
-      alert("매장코드와 비밀번호를 모두 입력하세요");
-    }
+  const Login =  (StoreCode,Password) => {
+    StoreWithCodeAndPassword(StoreCode,Password);
+    history.push("/profile");
   };
   const StoreCodeChange = (e) => {
     setStoreCode(e.target.value);
@@ -83,7 +67,7 @@ function HomeScreen() {
               </div>
             </div>
             <div className="sign_in_button">
-              <button onClick={StoreWithCodeAndPassword}>로그인하기</button>
+              <button onClick={()=>Login(StoreCode,Password)}>로그인하기</button>
             </div>
           </div>
         </div>
@@ -144,4 +128,10 @@ function HomeScreen() {
   );
 }
 
-export default HomeScreen;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    StoreWithCodeAndPassword : (StoreCode,Password) => dispatch(StoreWithCodeAndPassword(StoreCode,Password))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(HomeScreen);

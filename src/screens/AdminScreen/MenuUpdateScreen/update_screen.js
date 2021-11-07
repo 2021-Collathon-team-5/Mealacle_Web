@@ -1,5 +1,5 @@
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
-import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
+import { doc,  updateDoc } from "firebase/firestore/lite";
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { firestorageService } from "../../../Firebase";
@@ -7,9 +7,9 @@ import {
   addFoodImage,
   removeFoodImage,
   updateFood,
-  updateDescription,
-} from "../../../redux/action";
-import { db } from "../../../redux/action";
+  updateDescription
+} from "../../../redux/foods/action";
+import { db } from "../../../redux/foods/action";
 import CameraImage from "../../../images/iconmonstr-photo-camera-4-240.png";
 
 function UpdateScreen({
@@ -158,7 +158,7 @@ function UpdateScreen({
   }, [DescriptionImageURL, food, updateDescription]);
 
   const addOptions = async () => {
-    await updateDoc((await getDoc(doc(db, "food", food.id))).ref, {
+    await updateDoc(doc(db, "food", food.id), {
       options: [
         ...food.options,
         {
@@ -332,9 +332,7 @@ function UpdateScreen({
                 />
                 <span className="slider round"></span>
               </label>
-              <span className="product-onSale" ref={spanRef}>
-                판매 중
-              </span>
+              <span className="product-notonsale" ref={spanRef} >판매 정지</span>
             </div>
           </div>
           <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
@@ -348,7 +346,7 @@ function UpdateScreen({
 
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
-  const { foodList } = state;
+  const { foodList } = state.foods;
   return {
     foodList: foodList.list,
   };

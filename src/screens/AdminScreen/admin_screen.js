@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { firestoreService } from "../../Firebase";
 import { addDoc, collection } from "firebase/firestore/lite";
-import { fetchDatas, setFoodActive } from "../../redux/action";
+import { fetchDatas, setFoodActive } from "../../redux/foods/action";
 import NavigationBar from "../Navigationbar/navigation_bar";
 import UpdateScreen from "./MenuUpdateScreen/update_screen";
 import AddFoodScreen from "./AddFoodScreen/add_food_screen";
@@ -115,7 +115,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
 }
 
 const mapStateToProps = (state) => {
-  const { foodList } = state;
+  const { foodList } = state.foods;
   return {
     foodList: foodList.list,
     loading: foodList.loading,

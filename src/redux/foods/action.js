@@ -1,5 +1,5 @@
 import { collection, getDocs } from "firebase/firestore/lite";
-import { firestoreService } from "../Firebase";
+import { firestoreService } from "../../Firebase";
 import {
   SET_FOOD_ACTIVE,
   INIT_FOOD_LIST,
