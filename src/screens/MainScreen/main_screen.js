@@ -25,7 +25,7 @@ function MainScreen() {
     <>
       <NavigationBar />
       <div className="main-screen">
-        <Header/>
+        <Header />
         <div>주문목록</div>
         <div>상세정보</div>
         <div>

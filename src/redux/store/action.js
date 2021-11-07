@@ -16,8 +16,8 @@ export const setProfile = (profile,idx) => {
     }
 }
 export const setNowProfile = (idx) => {
-    return {
-        type:SET_NOW_PROFILE,
-        idx
-    }
-}
+  return {
+    type: SET_NOW_PROFILE,
+    idx,
+  };
+};

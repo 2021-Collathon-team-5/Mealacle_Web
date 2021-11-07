@@ -17,16 +17,16 @@ function AppRouter() {
             <Route exact path="/">
               <HomeScreen />
             </Route>
-            <Route exact path="/profile">
+            <Route path="/profile">
               <ProfileScreen />
             </Route>
             <Route path="/main">
               <MainScreen />
             </Route>
-            <Route exact path="/admin">
+            <Route path="/admin">
               <AdminScreen />
             </Route>
-            <Route exact path="/store">
+            <Route path="/store">
               <StoreScreen />
             </Route>
           </Switch>

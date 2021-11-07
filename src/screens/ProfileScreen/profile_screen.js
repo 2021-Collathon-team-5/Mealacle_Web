@@ -1,4 +1,4 @@
-import React, { useState ,useRef} from "react";
+import React, { useState, useRef } from "react";
 import ProfileCard from "./Components/ProfileCard";
 import closeImage from "../../images/outline_clear_black_48dp.png";
 import { connect } from "react-redux";
@@ -32,8 +32,8 @@ function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
   };
   const Modal = ({ profileIdx }) => {
     const inputRef = useRef(null);
-    const saveProfile = async(value) => {
-      const date=new Date();
+    const saveProfile = async (value) => {
+      const date = new Date();
       const target = {
         profileName : value,
         lastAccessDate : `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`
@@ -41,21 +41,22 @@ function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
       await updateDoc(doc(db,"seller",storeID), {
          [`profile.${profileIdx}`] : {...target}
       });
-      setProfile(target,profileIdx);
+      setProfile(target, profileIdx);
       closeModal();
-    }
+    };
     return (
       <div className="modal-backdrop">
         <div className="modal-window">
           <div className="modal-window__top">
-            <button onClick={()=>saveProfile(inputRef.current.value)}>저장</button>
-            <span>{`프로필 ${profileIdx+1}`}</span>
+            <button onClick={() => saveProfile(inputRef.current.value)}>
+              저장
+            </button>
+            <span>{`프로필 ${profileIdx + 1}`}</span>
             <img src={closeImage} alt="closebtn" onClick={closeModal} />
           </div>
           <div className="modal-window__contents">
-            <input type="text" placeholder="프로필 이름" ref={inputRef}></input>
-            <input type="text" placeholder="프로필 관리자"></input>
-            <textarea placeholder="설명 ..."></textarea>
+            <input type="text" placeholder="프로필 이름" ref={inputRef} />
+            <textarea placeholder="설명 ..." />
           </div>
         </div>
       </div>
@@ -63,9 +64,7 @@ function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
   };
   return (
     <>
-      {profileWindow.visible && (
-        <Modal profileIdx={profileWindow.profileIdx} />
-      )}
+      {profileWindow.visible && <Modal profileIdx={profileWindow.profileIdx} />}
       <div className="profile_main">
         <div className="profile_title">
           <span className="profile_maintitle">프로필 선택</span>
@@ -74,9 +73,21 @@ function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
           </span>
         </div>
         <div className="profile_card_area">
-          <ProfileCard showModal={()=>showModal(1)} index={1} isProfile={profile['0']} />
-          <ProfileCard showModal={()=>showModal(2)} index={2} isProfile={profile['1']}/>
-          <ProfileCard showModal={()=>showModal(3)} index={3} isProfile={profile['2']}/>
+          <ProfileCard
+            showModal={() => showModal(1)}
+            index={1}
+            isProfile={profile["0"]}
+          />
+          <ProfileCard
+            showModal={() => showModal(2)}
+            index={2}
+            isProfile={profile["1"]}
+          />
+          <ProfileCard
+            showModal={() => showModal(3)}
+            index={3}
+            isProfile={profile["2"]}
+          />
         </div>
       </div>
     </>
@@ -92,9 +103,9 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    setProfile:(profile,idx)=>dispatch(setProfile(profile,idx))
-    ,setNowProfile:(idx)=>dispatch(setNowProfile(idx))
-  }
-}
+    setProfile: (profile, idx) => dispatch(setProfile(profile, idx)),
+    setNowProfile: (idx) => dispatch(setNowProfile(idx)),
+  };
+};
 
-export default connect(mapStateToProps,mapDispatchToProps)(ProfileScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

@@ -49,6 +49,7 @@ function HomeScreen({ getProfile }) {
   const PasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
   return (
     <div className="home_main">
       {/* 1번 페이지  */}

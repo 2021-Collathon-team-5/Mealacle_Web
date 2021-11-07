@@ -319,6 +319,7 @@ function UpdateScreen({
           </div>
           <div>
             <span className="update__contents-title">상품 등록일</span>
+            <span>{food.registrationDate && food.registrationDate}</span>
           </div>
           <div className="update_contents-row">
             <span className="update__contents-title">판매 여부</span>
