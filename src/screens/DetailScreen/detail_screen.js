@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import TestImages from "../../images/1.png";
 import { db } from "../../redux/action";
 import { doc, deleteDoc } from "firebase/firestore/lite";
 import { deleteFood } from "../../redux/action";
@@ -41,7 +40,11 @@ const DetailScreen = ({ foodList, deleteFood }) => {
             </table>
           </div>
           <div className="detail__main">
-            {food.image[0] ? <img src={food.image[0]} alt="detail__image" /> : <span id="detail__noimage">No image</span>}
+            {food.image[0] ? (
+              <img src={food.image[0]} alt="detail__image" />
+            ) : (
+              <span id="detail__noimage">No image</span>
+            )}
             <table className="detail-table__main">
               <tbody>
                 <tr>

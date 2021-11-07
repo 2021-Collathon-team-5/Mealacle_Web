@@ -57,7 +57,8 @@ function ProfileScreen() {
             onClick={() => {
               const routes = window.location.href;
               const checkindex = routes.indexOf("=");
-              console.log(window.location.href.slice(checkindex + 1));
+              const id = window.location.href.slice(checkindex + 1);
+              window.location.href = `/main/${id}`;
             }}
           >
             check
