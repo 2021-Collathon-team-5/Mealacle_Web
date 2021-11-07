@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import TestImages from "../../images/1.png";
-import { db } from "../../redux/action";
+import { db } from "../../redux/foods/action";
 import { doc, deleteDoc } from "firebase/firestore/lite";
-import { deleteFood } from "../../redux/action";
+import { deleteFood } from "../../redux/foods/action";
 const DetailScreen = ({ foodList, deleteFood }) => {
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
@@ -41,7 +40,11 @@ const DetailScreen = ({ foodList, deleteFood }) => {
             </table>
           </div>
           <div className="detail__main">
-            {food.image[0] ? <img src={food.image[0]} alt="detail__image" /> : <span id="detail__noimage">No image</span>}
+            {food.image[0] ? (
+              <img src={food.image[0]} alt="detail__image" />
+            ) : (
+              <span id="detail__noimage">No image</span>
+            )}
             <table className="detail-table__main">
               <tbody>
                 <tr>
@@ -132,7 +135,7 @@ const DetailScreen = ({ foodList, deleteFood }) => {
 
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
-  const { foodList } = state;
+  const { foodList } = state.foods;
   return {
     foodList: foodList.list,
   };

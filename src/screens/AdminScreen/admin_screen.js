@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { firestoreService } from "../../Firebase";
 import { addDoc, collection } from "firebase/firestore/lite";
-import { fetchDatas, setFoodActive } from "../../redux/action";
+import { fetchDatas, setFoodActive } from "../../redux/foods/action";
 import NavigationBar from "../Navigationbar/navigation_bar";
 import UpdateScreen from "./MenuUpdateScreen/update_screen";
+import AddFoodScreen from "./AddFoodScreen/add_food_screen";
 
 function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
+  const [IsAddFood, setIsAddFood] = useState(false);
+  const [FoodName, setFoodName] = useState("");
+  const [FoodPrice, setFoodPrice] = useState(0);
   useEffect(() => {
     fetchDatas();
   }, [fetchDatas]);
@@ -18,13 +22,19 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
   const onClickEvent = (element) => {
     handleTableClick(element);
   };
+  const nameChange = (e) => {
+    setFoodName(e.target.value);
+  };
+  const priceChange = (e) => {
+    setFoodPrice(e.target.value);
+  };
 
   const addFood = async () => {
     const db = firestoreService;
 
     await addDoc(collection(db, "food"), {
-      name: "파스타",
-      price: 12000,
+      name: FoodName,
+      price: FoodPrice,
       options: [
         {
           기본맛: true,
@@ -32,11 +42,11 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
         },
       ],
       image: [],
-      stock:0
+      stock: 0,
     }).then(() => window.location.reload());
   };
   return (
-    <>
+    <div className="admin-screen-container">
       <NavigationBar />
       <div className="admin-screen">
         <div>한식 코너</div>
@@ -75,7 +85,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
               )}
             </tbody>
           </table>
-          <div id="add-button" onClick={addFood}>
+          <div id="add-button" onClick={() => setIsAddFood(!IsAddFood)}>
             상품추가+
           </div>
         </div>
@@ -83,12 +93,20 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
           <UpdateScreen />
         </div>
       </div>
-    </>
+      {IsAddFood && (
+        <AddFoodScreen
+          nameChange={nameChange}
+          priceChange={priceChange}
+          addFood={addFood}
+          containerExit={() => setIsAddFood(false)}
+        />
+      )}
+    </div>
   );
 }
 
 const mapStateToProps = (state) => {
-  const { foodList } = state;
+  const { foodList } = state.foods;
   return {
     foodList: foodList.list,
     loading: foodList.loading,

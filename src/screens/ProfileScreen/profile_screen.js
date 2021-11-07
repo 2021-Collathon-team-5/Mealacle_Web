@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import ProfileCard from "./Components/ProfileCard";
 import closeImage from "../../images/outline_clear_black_48dp.png";
-
-function ProfileScreen() {
+import { connect } from "react-redux";
+function ProfileScreen({profile}) {
   const [profileWindow, setProfileWindow] = useState({
     visible: false,
     profileName: "",
   });
   const showModal = (index) => {
+    console.log(profile);
     setProfileWindow({
       visible: true,
       profileName: `프로필 ${index}`,
@@ -50,22 +51,20 @@ function ProfileScreen() {
           </span>
         </div>
         <div className="profile_card_area">
-          <ProfileCard showModal={showModal} index={1} />
-          <ProfileCard showModal={showModal} index={2} />
-          <ProfileCard showModal={showModal} index={3} />
-          <button
-            onClick={() => {
-              const routes = window.location.href;
-              const checkindex = routes.indexOf("=");
-              console.log(window.location.href.slice(checkindex + 1));
-            }}
-          >
-            check
-          </button>
+          <ProfileCard showModal={showModal} index={1} isProfile={profile[0]} />
+          <ProfileCard showModal={showModal} index={2} isProfile={profile[1]}/>
+          <ProfileCard showModal={showModal} index={3} isProfile={profile[2]}/>
         </div>
       </div>
     </>
   );
 }
+// store에서 부터 받아온 값을 prop으로 전달
+const mapStateToProps = (state) => {
+  const { profile } = state.store;
+  return {
+    profile
+  };
+};
 
-export default ProfileScreen;
+export default connect(mapStateToProps,null)(ProfileScreen);
