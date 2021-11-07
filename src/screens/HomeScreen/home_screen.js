@@ -33,7 +33,7 @@ function HomeScreen({ getProfile }) {
       if (store.data().password === Password) {
         const data = store.data();
         getProfile(data.storeCode, data.profile);
-        history.push(`/profile/${store.id}`);
+        history.push(`/profile/id=${store.id}`);
       } else {
         alert("비밀번호오류");
       }

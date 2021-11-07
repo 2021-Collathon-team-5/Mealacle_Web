@@ -12,13 +12,20 @@ function ProfileScreen({ profile, setProfile, storeCode, setNowProfile }) {
     profileIdx: 0,
   });
   const history = useHistory();
+
   const showModal = (index) => {
     console.log(profile[`${index - 1}`]);
     if (profile[`${index - 1}`]) {
       /* storeId 가져오는부분 */
-
+      const pathName = history.location.pathname;
+      const idIndex = pathName.indexOf("=");
+      const storeId = pathName.substring(idIndex + 1);
+      console.log(storeId); //storeId확인
       setNowProfile(index - 1);
-      history.push("/main", { profile: profile[`${index - 1}`] });
+      history.push("/main", {
+        profile: profile[`${index - 1}`],
+        storeId: storeId,
+      });
     } else {
       setProfileWindow({
         visible: true,
