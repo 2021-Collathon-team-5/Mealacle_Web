@@ -1,0 +1,49 @@
+.add-food-container {
+  padding-left: 30px;
+  width: 400px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: aliceblue;
+  border: 2px solid var(--order-table__border);
+  border-radius: 10px;
+}
+.add-food-container > div:first-child > button {
+  margin-right: 15%;
+}
+.add-food-container > div:first-child {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 10px;
+}
+.add-food-container > div:nth-child(2),
+.add-food-container > div:nth-child(3) {
+  margin: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.add-food-container > div > input {
+  width: 80%;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  background-color: var(--input-color);
+}
+.add-food-button {
+  position: absolute;
+  bottom: 20px;
+  right: 12%;
+  padding: 10px;
+  background-color: var(--button-input-color);
+  border: none;
+  border-radius: 5px;
+}
