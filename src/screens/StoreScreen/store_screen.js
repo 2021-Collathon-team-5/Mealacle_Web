@@ -30,6 +30,7 @@ const StoreScreen = () => {
                 type="text"
                 placeholder="특수문자 미포함 최대 2글자 이상 10글자 미만"
                 ref={(el) => (inputRef.current[4] = el)}
+                disabled
               />
             </div>
             <div>
@@ -47,12 +48,14 @@ const StoreScreen = () => {
                   type="text"
                   className="input-center"
                   ref={(el) => (inputRef.current[0] = el)}
+                  disabled
                 />
                 <span className="store__content-divider">~</span>
                 <input
                   type="text"
                   className="input-center"
                   ref={(el) => (inputRef.current[1] = el)}
+                  disabled
                 />
               </div>
             </div>
@@ -63,12 +66,14 @@ const StoreScreen = () => {
                   type="text"
                   className="input-center"
                   ref={(el) => (inputRef.current[2] = el)}
+                  disabled
                 />
                 <span className="store__content-divider">~</span>
                 <input
                   type="text"
                   className="input-center"
                   ref={(el) => (inputRef.current[3] = el)}
+                  disabled
                 />
               </div>
             </div>

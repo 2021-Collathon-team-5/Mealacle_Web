@@ -19,6 +19,14 @@
   width: 150px;
   height: 150px;
   margin-right: 10px;
+  transition: opacity 0.5s ease-in;
+}
+.img-hide {
+  opacity: 0;
+}
+#product-description-img {
+  width: 500px;
+  height: 400px;
 }
 .product-imgs {
   display: flex;
@@ -97,6 +105,14 @@
 .update_contents-editdiv {
   display:flex;
   align-items: center;
+}
+.update__description-image {
+  display:flex;
+  flex-direction: column;
+}
+.description__noimage {
+  font-size: 36px;
+  color:var(--main-screen-color);
 }
 
 

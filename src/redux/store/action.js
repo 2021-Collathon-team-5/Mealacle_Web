@@ -1,4 +1,3 @@
-
 import { GET_PROFILE, SET_NOW_PROFILE, SET_PROFILE } from "./types";
 
 export const getProfile = (id,profile) => {

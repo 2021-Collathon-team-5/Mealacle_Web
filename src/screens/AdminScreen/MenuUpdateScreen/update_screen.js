@@ -1,45 +1,28 @@
-import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
-import { doc,  updateDoc } from "firebase/firestore/lite";
+import { doc, updateDoc } from "firebase/firestore/lite";
 import React, { useEffect, useState, useRef } from "react";
-import { connect } from "react-redux";
-import { firestorageService } from "../../../Firebase";
-import {
-  addFoodImage,
-  removeFoodImage,
-  updateFood,
-  updateDescription
-} from "../../../redux/foods/action";
+import { updateFood } from "../../../redux/foods/action";
 import { db } from "../../../redux/foods/action";
-import CameraImage from "../../../images/iconmonstr-photo-camera-4-240.png";
+import { connect } from "react-redux";
+import DescriptionImage from "./Components/DescriptionImage";
+import ImageList from "./Components/ImageList";
 
 function UpdateScreen({
   foodList,
-  addFoodImage,
-  removeFoodImage,
   updateFood,
-  updateDescription,
 }) {
-  const [File, setFile] = useState(); //File은 새로운 이미지의 주소
-  const [FileURL, setFileURL] = useState();
-  const [DescriptionImage, setDescriptionImage] = useState();
-  const [DescriptionImageURL, setDescriptionImageURL] = useState();
-  const [visible, setVisible] = useState({
-    visible: false,
-    idx: 0,
-  });
   const [text, setText] = useState({
     name: "",
     price: 0,
     stock: 0,
   });
   const [edit, setEdit] = useState(false);
-
   const checkboxRef = useRef(null);
   const spanRef = useRef(null);
   const editButtonRef = useRef(null);
   const inputRefs = useRef([]);
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
+
   if (food) {
     nothingSelected = false;
   } else {
@@ -56,17 +39,6 @@ function UpdateScreen({
     } else {
       setEdit(true);
     }
-  };
-  const onFileChange = (event) => {
-    //files에는 파일이 여러개 담길수있지만 하나만 담을것이기때문에 files[0] 으로 진행
-    const theFile = event.target.files[0];
-    if (food.image.length < 5) {
-      setFile(theFile);
-    } else {
-      alert("이미지는 최대 5장까지만 저장할수있습니다");
-    }
-
-    event.target.value = "";
   };
   useEffect(() => {
     if (food) {
@@ -95,67 +67,7 @@ function UpdateScreen({
       }
     }
   }, [edit]);
-  useEffect(() => {
-    if (food && File) {
-      const ImageChange = async () => {
-        const storagedb = firestorageService;
-        await uploadBytes(
-          ref(storagedb, `images/${food.name}/${food.image.length + 1}`),
-          File
-        );
-        setFileURL(
-          await getDownloadURL(
-            ref(storagedb, `images/${food.name}/${food.image.length + 1}`)
-          )
-        );
-      };
-      ImageChange().then(() => setFile());
-    }
-  }, [File, food]);
-  useEffect(() => {
-    if (food && FileURL) {
-      const updateImages = async () => {
-        await updateDoc(doc(db, "food", food.id), {
-          image: [...food.image, FileURL],
-        }).then(() => {
-          addFoodImage(food.id, FileURL);
-        });
-      };
-      updateImages();
-      setFileURL();
-    }
-  }, [FileURL, food, addFoodImage]);
-  useEffect(() => {
-    if (food && DescriptionImage) {
-      const DescriptionImageChange = async () => {
-        const storagedb = firestorageService;
-        await uploadBytes(
-          ref(storagedb, `descriptions/${food.name}/${food.image.length + 1}`),
-          DescriptionImage
-        );
-        setDescriptionImageURL(
-          await getDownloadURL(
-            ref(storagedb, `descriptions/${food.name}/${food.image.length + 1}`)
-          )
-        );
-      };
-      DescriptionImageChange().then(() => setDescriptionImage());
-    }
-  }, [DescriptionImage, food]);
-  useEffect(() => {
-    if (food && DescriptionImageURL) {
-      const updateImages = async () => {
-        await updateDoc(doc(db, "food", food.id), {
-          description: DescriptionImageURL,
-        }).then(() => {
-          updateDescription(food.id, DescriptionImageURL);
-        });
-      };
-      updateImages();
 
-      setDescriptionImageURL();
-    }
-  }, [DescriptionImageURL, food, updateDescription]);
 
   const addOptions = async () => {
     await updateDoc(doc(db, "food", food.id), {
@@ -167,28 +79,6 @@ function UpdateScreen({
         },
       ],
     }).then(() => window.location.reload());
-  };
-  const confirmDeleteImage = (idx) => {
-    setVisible({
-      visible: true,
-      idx: idx,
-    });
-  };
-  const confirmDeleteImageNo = () => {
-    setVisible({
-      ...visible,
-      visible: false,
-    });
-  };
-  const confirmDeleteImageYes = async (idx) => {
-    const list = [...food.image];
-    list.splice(idx, 1);
-    console.log(list);
-    await updateDoc(doc(db, "food", food.id), {
-      image: list,
-    });
-    removeFoodImage(food.id, list);
-    setVisible({ ...visible, visible: false });
   };
   const changeChecked = () => {
     if (checkboxRef.current.checked) {
@@ -206,24 +96,9 @@ function UpdateScreen({
       [name]: value,
     });
   };
-  const Modal = () => {
-    return (
-      <div className="modal-confirm-backdrop">
-        <div className="modal-confirm-window">
-          <div className="confirm-main">
-            <span>해당 이미지를 삭제합니다.</span>
-            <div className="confirm-main__buttons">
-              <span onClick={() => confirmDeleteImageYes(visible.idx)}>예</span>
-              <span onClick={() => confirmDeleteImageNo()}>아니요</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+
   return (
     <>
-      {visible.visible && <Modal />}
       {nothingSelected ? (
         <span>Nothing was selected.</span>
       ) : (
@@ -234,7 +109,7 @@ function UpdateScreen({
               type="text"
               name="name"
               value={text.name}
-              ref={(el) => (inputRefs.current[0] = el)}
+              ref={el => inputRefs.current[0] = el}
               onChange={changeHandler}
               disabled
             />
@@ -245,44 +120,13 @@ function UpdateScreen({
               type="text"
               name="stock"
               value={text.stock}
-              ref={(el) => (inputRefs.current[1] = el)}
+              ref={el => inputRefs.current[1] = el}
               onChange={changeHandler}
               disabled
             />
             <span>재고 수정일</span>
           </div>
-          <div className="update_contents-row">
-            <span className="update__contents-title">상품 설명(이미지)*</span>
-            <div className="product-imgs">
-              {food.image.map((e, idx) => {
-                return (
-                  <img
-                    key={idx}
-                    src={e}
-                    alt="product_img"
-                    className="product-img"
-                    onClick={() => confirmDeleteImage(idx)}
-                  />
-                );
-              })}
-              <label htmlFor="image-file-input">
-                <div className="product-img__button">
-                  <img src={CameraImage} alt="camera_button" />
-                  <span>{food.image.length}/5</span>
-                </div>
-              </label>
-
-              <input
-                type="file"
-                onChange={onFileChange}
-                width="100%"
-                height="200"
-                id="image-file-input"
-                ref={(el) => (inputRefs.current[2] = el)}
-              />
-            </div>
-            <div></div>
-          </div>
+          <ImageList food={food} ref={el => inputRefs.current[2] = el} />
           <div className="update_contents-row">
             <span className="update__contents-title">옵션*</span>
             {food.options &&
@@ -295,21 +139,14 @@ function UpdateScreen({
               })}
             <button onClick={addOptions}>추가</button>
           </div>
-          <div>
-            <span className="update__contents-title">상품 설명(이미지)*</span>
-            <input
-              type="file"
-              alt="descriptionImage"
-              onChange={(e) => setDescriptionImage(e.target.files[0])}
-            />
-          </div>
+          <DescriptionImage food={food} />
           <div className="update_contents-editdiv">
             <span className="update__contents-title">가격*</span>
             <input
               type="text"
               name="price"
               value={text.price}
-              ref={(el) => (inputRefs.current[3] = el)}
+              ref={el => inputRefs.current[3] = el}
               onChange={changeHandler}
               disabled
             />
@@ -353,12 +190,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    addFoodImage: (foodID, image) => dispatch(addFoodImage(foodID, image)),
-    removeFoodImage: (foodID, image) =>
-      dispatch(removeFoodImage(foodID, image)),
     updateFood: (foodID, list) => dispatch(updateFood(foodID, list)),
-    updateDescription: (foodID, image) =>
-      dispatch(updateDescription(foodID, image)),
   };
-};
+}
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateScreen);
