@@ -5,11 +5,21 @@ import { db } from "../../../redux/foods/action";
 import { connect } from "react-redux";
 import DescriptionImage from "./Components/DescriptionImage";
 import ImageList from "./Components/ImageList";
+import AddOptionScreen from "./AddOptionScreen/add_option_screen";
 
-function UpdateScreen({
-  foodList,
-  updateFood,
-}) {
+function UpdateScreen({ foodList, updateFood }) {
+  //Option -> map : option : Option, price : Price 로 저장
+  const [Option, setOption] = useState();
+  const [AdditionalPrice, setAdditionalPrice] = useState();
+  const [IsAddOption, setIsAddOption] = useState(false);
+
+  const optionChange = (e) => {
+    setOption(e.target.value);
+  };
+  const priceChange = (e) => {
+    setAdditionalPrice(e.target.value);
+  };
+
   const [text, setText] = useState({
     name: "",
     price: 0,
@@ -68,14 +78,13 @@ function UpdateScreen({
     }
   }, [edit]);
 
-
-  const addOptions = async () => {
+  const addOption = async () => {
     await updateDoc(doc(db, "food", food.id), {
       options: [
         ...food.options,
         {
-          기본맛: true,
-          매운맛: false,
+          option: Option,
+          price: AdditionalPrice,
         },
       ],
     }).then(() => window.location.reload());
@@ -109,7 +118,7 @@ function UpdateScreen({
               type="text"
               name="name"
               value={text.name}
-              ref={el => inputRefs.current[0] = el}
+              ref={(el) => (inputRefs.current[0] = el)}
               onChange={changeHandler}
               disabled
             />
@@ -120,24 +129,25 @@ function UpdateScreen({
               type="text"
               name="stock"
               value={text.stock}
-              ref={el => inputRefs.current[1] = el}
+              ref={(el) => (inputRefs.current[1] = el)}
               onChange={changeHandler}
               disabled
             />
             <span>재고 수정일</span>
           </div>
-          <ImageList food={food} ref={el => inputRefs.current[2] = el} />
+          <ImageList food={food} ref={(el) => (inputRefs.current[2] = el)} />
           <div className="update_contents-row">
             <span className="update__contents-title">옵션*</span>
             {food.options &&
               food.options.map((e, index) => {
                 return (
                   <div key={`${e.id}/${index}`} className="menu-option">
-                    옵션A
+                    <div>{food.options[index].option}</div>
+                    <div>+{food.options[index].price}원</div>
                   </div>
                 );
               })}
-            <button onClick={addOptions}>추가</button>
+            <button onClick={() => setIsAddOption(!IsAddOption)}>추가</button>
           </div>
           <DescriptionImage food={food} />
           <div className="update_contents-editdiv">
@@ -146,7 +156,7 @@ function UpdateScreen({
               type="text"
               name="price"
               value={text.price}
-              ref={el => inputRefs.current[3] = el}
+              ref={(el) => (inputRefs.current[3] = el)}
               onChange={changeHandler}
               disabled
             />
@@ -169,12 +179,22 @@ function UpdateScreen({
                 />
                 <span className="slider round"></span>
               </label>
-              <span className="product-notonsale" ref={spanRef} >판매 정지</span>
+              <span className="product-notonsale" ref={spanRef}>
+                판매 정지
+              </span>
             </div>
           </div>
           <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
             수정
           </button>
+          {IsAddOption && (
+            <AddOptionScreen
+              optionChange={optionChange}
+              priceChange={priceChange}
+              containerExit={() => setIsAddOption(false)}
+              addOption={addOption}
+            />
+          )}
         </div>
       )}
     </>
@@ -192,5 +212,5 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateFood: (foodID, list) => dispatch(updateFood(foodID, list)),
   };
-}
+};
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateScreen);

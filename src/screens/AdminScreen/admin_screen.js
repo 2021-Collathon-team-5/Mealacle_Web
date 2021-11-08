@@ -42,12 +42,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
       name: FoodName,
       price: FoodPrice,
       origin: FoodOrigin,
-      options: [
-        {
-          기본맛: true,
-          매운맛: false,
-        },
-      ],
+      options: [],
       //요일 월 일 년 순으로 저장
       registrationDate: today.toDateString(),
       image: [],
@@ -58,7 +53,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
     <div className="admin-screen-container">
       <NavigationBar />
       <div className="admin-screen">
-        <Header/>
+        <Header />
         <div>상품목록</div>
         <div>상세정보</div>
         <div>
