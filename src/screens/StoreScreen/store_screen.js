@@ -1,10 +1,27 @@
-import React, { useRef } from "react";
+import { updateDoc ,doc} from "@firebase/firestore/lite";
+import { db } from "../../redux/foods/action";
+import React, { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
 import Header from "../MainScreen/Components/Header";
 import NavigationBar from "../Navigationbar/navigation_bar";
-const StoreScreen = () => {
+import { updateProfile } from "../../redux/store/action";
+const StoreScreen = ({nowProfile,nowProfileIndex,storeID,updateProfile}) => {
   const inputRef = useRef([]);
-  const modified = () => {
+  const [text,setText] = useState();
+  useEffect(()=> {
+    setText(nowProfile.storeName);
+  },[nowProfile]);
+  const modified = async() => {
     if (inputRef.current[0].disabled === false) {
+      const updatedProfile = {...nowProfile,storeName:text};
+      await updateDoc(doc(db,"seller",storeID),{
+        profile: {
+          [`${nowProfileIndex}`] : {
+            ...updatedProfile
+          }
+        }
+      });
+      updateProfile(updatedProfile);
       for (let i = 0; i < inputRef.current.length; i++) {
         inputRef.current[i].disabled = true;
       }
@@ -14,6 +31,9 @@ const StoreScreen = () => {
       }
     }
   };
+  const changeHandler = (e) => {
+    setText(e.target.value);
+  }
   return (
     <>
       <NavigationBar />
@@ -30,6 +50,8 @@ const StoreScreen = () => {
                 type="text"
                 placeholder="특수문자 미포함 최대 2글자 이상 10글자 미만"
                 ref={(el) => (inputRef.current[4] = el)}
+                value={text}
+                onChange={changeHandler}
                 disabled
               />
             </div>
@@ -85,7 +107,7 @@ const StoreScreen = () => {
               </label>
             </div>
             <div>
-              <button onClick={() => modified()}>수정</button>
+              <button onClick={() => modified()} className="edit-button">수정</button>
             </div>
           </div>
         </div>
@@ -93,5 +115,17 @@ const StoreScreen = () => {
     </>
   );
 };
-
-export default StoreScreen;
+const mapStateToProps = (state) =>{
+  const {nowProfile,nowProfileIndex,storeID} = state.store;
+  return {
+    nowProfile,
+    nowProfileIndex,
+    storeID,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateProfile:(profile)=>dispatch(updateProfile(profile)),
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps) (StoreScreen);

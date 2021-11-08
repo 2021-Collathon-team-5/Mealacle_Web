@@ -31,11 +31,17 @@ function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
     });
   };
   const Modal = ({ profileIdx }) => {
-    const inputRef = useRef(null);
-    const saveProfile = async (value) => {
+    const inputRef = useRef([]);
+    const saveProfile = async () => {
       const date = new Date();
+      const profileName = inputRef.current[0].value;
+      const profileRep = inputRef.current[1].value;
+      const profileDescription = inputRef.current[2].value;
       const target = {
-        profileName : value,
+        profileName,
+        profileRep,
+        profileDescription,
+        storeName:"",
         lastAccessDate : `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`
       }
       await updateDoc(doc(db,"seller",storeID), {
@@ -48,15 +54,16 @@ function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
       <div className="modal-backdrop">
         <div className="modal-window">
           <div className="modal-window__top">
-            <button onClick={() => saveProfile(inputRef.current.value)}>
+            <button onClick={() => saveProfile()}>
               저장
             </button>
             <span>{`프로필 ${profileIdx + 1}`}</span>
             <img src={closeImage} alt="closebtn" onClick={closeModal} />
           </div>
           <div className="modal-window__contents">
-            <input type="text" placeholder="프로필 이름" ref={inputRef} />
-            <textarea placeholder="설명 ..." />
+            <input type="text" placeholder="프로필 이름" ref={el=>inputRef.current[0]=el} />
+            <input type="text" placeholder="프로필 관리자" ref={el=>inputRef.current[1]=el} />
+            <textarea placeholder="설명 ..." ref={el=>inputRef.current[2]=el}/>
           </div>
         </div>
       </div>

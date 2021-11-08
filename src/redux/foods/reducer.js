@@ -88,10 +88,8 @@ const foodListReducer = (state = initialState, action) => {
     case UPDATE_FOOD:
       list = [...state.foodList.list];
       const updateTarget = list.find((ele) => ele.id === action.foodID);
-      const { name, price, stock } = action.list;
-      updateTarget.name = name;
-      updateTarget.price = price;
-      updateTarget.stock = stock;
+      const idx = list.indexOf(updateTarget);
+      list[idx] = {...action.food};
       return {
         ...state,
         foodList: {

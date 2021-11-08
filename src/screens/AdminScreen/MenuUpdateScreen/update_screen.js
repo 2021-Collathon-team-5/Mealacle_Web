@@ -1,25 +1,13 @@
 import { doc, updateDoc } from "firebase/firestore/lite";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useImperativeHandle } from "react";
 import { updateFood } from "../../../redux/foods/action";
 import { db } from "../../../redux/foods/action";
 import { connect } from "react-redux";
 import DescriptionImage from "./Components/DescriptionImage";
 import ImageList from "./Components/ImageList";
-import AddOptionScreen from "./AddOptionScreen/add_option_screen";
+import Option from "./Components/Option";
 
-function UpdateScreen({ foodList, updateFood }) {
-  //Option -> map : option : Option, price : Price 로 저장
-  const [Option, setOption] = useState();
-  const [AdditionalPrice, setAdditionalPrice] = useState();
-  const [IsAddOption, setIsAddOption] = useState(false);
-
-  const optionChange = (e) => {
-    setOption(e.target.value);
-  };
-  const priceChange = (e) => {
-    setAdditionalPrice(e.target.value);
-  };
-
+function UpdateScreen({ foodList, updateFood},ref) {
   const [text, setText] = useState({
     name: "",
     price: 0,
@@ -32,7 +20,9 @@ function UpdateScreen({ foodList, updateFood }) {
   const inputRefs = useRef([]);
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
-
+  useImperativeHandle(ref,()=>({
+    setEdit
+  }));
   if (food) {
     nothingSelected = false;
   } else {
@@ -44,15 +34,15 @@ function UpdateScreen({ foodList, updateFood }) {
       await updateDoc(doc(db, "food", food.id), {
         ...text,
       });
-      updateFood(food.id, text);
+      updateFood(food.id, {...food,...text});
       setEdit(false);
     } else {
       setEdit(true);
     }
   };
+ 
   useEffect(() => {
     if (food) {
-      setEdit(false);
       setText({
         name: food.name,
         price: food.price,
@@ -77,18 +67,6 @@ function UpdateScreen({ foodList, updateFood }) {
       }
     }
   }, [edit]);
-
-  const addOption = async () => {
-    await updateDoc(doc(db, "food", food.id), {
-      options: [
-        ...food.options,
-        {
-          option: Option,
-          price: AdditionalPrice,
-        },
-      ],
-    }).then(() => window.location.reload());
-  };
   const changeChecked = () => {
     if (checkboxRef.current.checked) {
       spanRef.current.innerText = "판매 중";
@@ -105,13 +83,13 @@ function UpdateScreen({ foodList, updateFood }) {
       [name]: value,
     });
   };
-
   return (
     <>
       {nothingSelected ? (
         <span>Nothing was selected.</span>
       ) : (
-        <div className="update-main">
+        <>
+        <div className="update-main" disabled={!edit}>
           <div className="update_contents-editdiv">
             <span className="update__contents-title">상품명*</span>
             <input
@@ -136,19 +114,7 @@ function UpdateScreen({ foodList, updateFood }) {
             <span>재고 수정일</span>
           </div>
           <ImageList food={food} ref={(el) => (inputRefs.current[2] = el)} />
-          <div className="update_contents-row">
-            <span className="update__contents-title">옵션*</span>
-            {food.options &&
-              food.options.map((e, index) => {
-                return (
-                  <div key={`${e.id}/${index}`} className="menu-option">
-                    <div>{food.options[index].option}</div>
-                    <div>+{food.options[index].price}원</div>
-                  </div>
-                );
-              })}
-            <button onClick={() => setIsAddOption(!IsAddOption)}>추가</button>
-          </div>
+          <Option food={food} updateFood={updateFood}/>
           <DescriptionImage food={food} />
           <div className="update_contents-editdiv">
             <span className="update__contents-title">가격*</span>
@@ -184,18 +150,12 @@ function UpdateScreen({ foodList, updateFood }) {
               </span>
             </div>
           </div>
-          <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
-            수정
-          </button>
-          {IsAddOption && (
-            <AddOptionScreen
-              optionChange={optionChange}
-              priceChange={priceChange}
-              containerExit={() => setIsAddOption(false)}
-              addOption={addOption}
-            />
-          )}
+          
         </div>
+        <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
+        수정
+      </button>
+      </>
       )}
     </>
   );
@@ -213,4 +173,4 @@ const mapDispatchToProps = (dispatch) => {
     updateFood: (foodID, list) => dispatch(updateFood(foodID, list)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateScreen);
+export default connect(mapStateToProps, mapDispatchToProps,null,{forwardRef:true})(React.forwardRef(UpdateScreen));

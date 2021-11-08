@@ -1,8 +1,9 @@
-import { GET_PROFILE, SET_NOW_PROFILE, SET_PROFILE } from "./types";
+import { GET_PROFILE, SET_NOW_PROFILE, SET_PROFILE, UPDATE_PROFILE } from "./types";
 
 const initialState = {
     storeID : "",
     nowProfile : {},
+    nowProfileIndex : 0,
     profile:{}
   };
 
@@ -23,13 +24,21 @@ const storeReducer = (state=initialState,action) => {
             profile
           }
         case SET_NOW_PROFILE:
-          const nowProfile = state.profile[action.idx];
+          const nowProfileIndex = action.idx;
+          const nowProfile = state.profile[nowProfileIndex];
           return {
             ...state,
-            nowProfile
+            nowProfile,
+            nowProfileIndex
           }
-      default:
-        return state;
+        case UPDATE_PROFILE:
+          const updateProfile = {...action.profile};
+          return {
+            ...state,
+            nowProfile:updateProfile
+          }
+        default:
+          return state;
     }
 }
 

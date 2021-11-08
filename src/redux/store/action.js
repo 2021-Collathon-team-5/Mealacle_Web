@@ -1,4 +1,4 @@
-import { GET_PROFILE, SET_NOW_PROFILE, SET_PROFILE } from "./types";
+import { GET_PROFILE, SET_NOW_PROFILE, SET_PROFILE,UPDATE_PROFILE } from "./types";
 
 export const getProfile = (id,profile) => {
     return {
@@ -20,3 +20,9 @@ export const setNowProfile = (idx) => {
     idx,
   };
 };
+export const updateProfile = (profile) => {
+  return {
+    type:UPDATE_PROFILE,
+    profile
+  };
+}

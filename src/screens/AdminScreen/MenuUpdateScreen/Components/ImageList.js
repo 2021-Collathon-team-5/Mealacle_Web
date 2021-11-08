@@ -63,17 +63,32 @@ const ImageList = React.forwardRef(
         idx: idx,
       });
     };
-
+    const confirmDeleteImageNo = () => {
+      setVisible({
+        ...visible,
+        visible: false,
+      });
+    };
+    const confirmDeleteImageYes = async () => {
+      const idx=visible.idx;
+      const list = [...food.image];
+      list.splice(idx, 1);
+      console.log(list);
+      await updateDoc(doc(db, "food", food.id), {
+        image: list,
+      });
+      removeFoodImage(food.id, list);
+      setVisible({ ...visible, visible: false });
+    };
     return (
       <div className="update_contents-row">
         <span className="update__contents-title">상품 사진*</span>
         <div className="product-imgs">
           {visible.visible && (
             <Modal
-              food={food}
-              setVisible={setVisible}
-              visible={visible}
-              removeFoodImage={removeFoodImage}
+              confirmDeleteImageNo={confirmDeleteImageNo}
+              confirmDeleteImageYes={confirmDeleteImageYes}
+              message={"해당 이미지를 삭제합니다."}
             />
           )}
           {food.image.map((e, idx) => {
@@ -102,6 +117,7 @@ const ImageList = React.forwardRef(
             height="200"
             id="image-file-input"
             ref={inputRef}
+            disabled
           />
         </div>
       </div>

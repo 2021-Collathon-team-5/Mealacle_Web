@@ -1,7 +1,14 @@
+.add-option-backdrop {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  background-color: rgba(0,0,0,0.0);
+  top:0;
+  left:0;
+}
 .add-option-container {
-  padding-left: 30px;
-  width: 400px;
-  height: 300px;
+  width: 370px;
+  height: 270px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -12,15 +19,27 @@
   background-color: aliceblue;
   border: 2px solid var(--order-table__border);
   border-radius: 10px;
-}
-.add-option-container > div:first-child > button {
-  margin-right: 15%;
+  font-weight: bold;
 }
 .add-option-container > div:first-child {
+  box-sizing: border-box;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin: 30px 10px;
+  padding:10px;
+  font-size: 20px;
+}
+.add-option-container > div:first-child >img{
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.add-option-container > div:first-child >img:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.add-option-container > div:first-child >img:active {
+  transform: scale(1.0);
 }
 .add-option-container > div:nth-child(2),
 .add-option-container > div:nth-child(3) {
@@ -30,8 +49,11 @@
   flex-direction: column;
   align-items: flex-start;
 }
+
 .add-option-container > div > input {
-  width: 80%;
+  display: block;
+  margin-top:10px;
+  width: 90%;
   border: none;
   padding: 10px;
   font-size: 14px;
@@ -40,10 +62,20 @@
 }
 .add-option-button {
   position: absolute;
-  bottom: 20px;
-  right: 12%;
-  padding: 10px;
+  bottom: 10px;
+  right: 10px;
   background-color: var(--button-input-color);
   border: none;
-  border-radius: 5px;
+  cursor: pointer;
+  padding: 6px 15px;
+  border-radius: 7px;
+  font-weight: bold;
+  width: 120px;
+  height: 30px;
+}
+.add-option-button:hover {
+  transform: scale(1.05);
+}
+.add-option-button:active {
+  transform: scale(1);
 }

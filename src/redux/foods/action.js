@@ -73,11 +73,11 @@ export const removeFoodImage = (foodID, image) => {
     image,
   };
 };
-export const updateFood = (foodID, list) => {
+export const updateFood = (foodID, food) => {
   return {
     type: UPDATE_FOOD,
     foodID,
-    list,
+    food,
   };
 };
 export const updateDescription = (foodID, image) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { firestoreService } from "../../Firebase";
 import { addDoc, collection } from "firebase/firestore/lite";
@@ -13,11 +13,13 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
   const [FoodName, setFoodName] = useState("");
   const [FoodPrice, setFoodPrice] = useState(0);
   const [FoodOrigin, setFoodOrigin] = useState("");
+  const childRef = useRef();
   useEffect(() => {
     fetchDatas();
   }, [fetchDatas]);
 
   const handleTableClick = (e) => {
+    childRef.current.setEdit(false);
     setFoodActive(e.id);
   };
 
@@ -94,7 +96,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
           </div>
         </div>
         <div>
-          <UpdateScreen />
+          <UpdateScreen ref={childRef}/>
         </div>
       </div>
       {IsAddFood && (
