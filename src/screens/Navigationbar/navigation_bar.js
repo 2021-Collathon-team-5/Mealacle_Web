@@ -39,9 +39,11 @@ function NavigationBar() {
         <ul>
           <li>프로필 관리</li>
           <li>이용 내역</li>
-          <li><Link className="navigation-bar__link" to="/main">
+          <li>
+            <Link className="navigation-bar__link" to="/main">
               매출 관리
-            </Link></li>
+            </Link>
+          </li>
         </ul>
       </div>
       <div className="navigation-bar__body body-hide">

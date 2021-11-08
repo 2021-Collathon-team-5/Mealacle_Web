@@ -70,7 +70,7 @@ const ImageList = React.forwardRef(
       });
     };
     const confirmDeleteImageYes = async () => {
-      const idx=visible.idx;
+      const idx = visible.idx;
       const list = [...food.image];
       list.splice(idx, 1);
       console.log(list);

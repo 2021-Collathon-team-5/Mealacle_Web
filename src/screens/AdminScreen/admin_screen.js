@@ -13,6 +13,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
   const [FoodName, setFoodName] = useState("");
   const [FoodPrice, setFoodPrice] = useState(0);
   const [FoodOrigin, setFoodOrigin] = useState("");
+
   const childRef = useRef();
   useEffect(() => {
     fetchDatas();
@@ -96,7 +97,7 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
           </div>
         </div>
         <div>
-          <UpdateScreen ref={childRef}/>
+          <UpdateScreen ref={childRef} />
         </div>
       </div>
       {IsAddFood && (
