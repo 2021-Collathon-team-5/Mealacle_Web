@@ -9,6 +9,7 @@ import {
   REMOVE_FOOD_IMAGE,
   UPDATE_FOOD,
   UPDATE_DESCRIPTION,
+  ADD_FOOD,
 } from "./types";
 export const db = firestoreService;
 
@@ -52,6 +53,12 @@ export const setFoodActive = (foodID) => {
   return {
     type: SET_FOOD_ACTIVE,
     foodID,
+  };
+};
+export const addFood = (food) => {
+  return {
+    type: ADD_FOOD,
+    food,
   };
 };
 export const deleteFood = (foodID) => {

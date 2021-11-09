@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { firestoreService } from "../../Firebase";
 import { addDoc, collection } from "firebase/firestore/lite";
-import { fetchDatas, setFoodActive } from "../../redux/foods/action";
+import { fetchDatas, setFoodActive, addFood } from "../../redux/foods/action";
 import NavigationBar from "../Navigationbar/navigation_bar";
 import UpdateScreen from "./MenuUpdateScreen/update_screen";
 import AddFoodScreen from "./AddFoodScreen/add_food_screen";
@@ -14,12 +14,13 @@ function AdminScreen({
   fetchDatas,
   setFoodActive,
   storeID,
+  nowProfile,
+  nowProfileIndex,
 }) {
   const [IsAddFood, setIsAddFood] = useState(false);
   const [FoodName, setFoodName] = useState("");
   const [FoodPrice, setFoodPrice] = useState(0);
   const [FoodOrigin, setFoodOrigin] = useState("");
-  console.log(storeID);
   const childRef = useRef();
   useEffect(() => {
     fetchDatas(storeID);
@@ -46,17 +47,23 @@ function AdminScreen({
   const addFood = async () => {
     const db = firestoreService;
     const today = new Date();
-
-    await addDoc(collection(db, "food"), {
-      name: FoodName,
-      price: FoodPrice,
-      origin: FoodOrigin,
-      options: [],
-      //요일 월 일 년 순으로 저장
-      registrationDate: today.toDateString(),
+    const body = {
+      category: "",
+      description: "",
       image: [],
+      name: FoodName,
+      options: [],
+      origin: FoodOrigin,
+      price: FoodPrice,
+      registrationDate: today.toDateString(),
+      seller: {
+        profile_idx: nowProfileIndex,
+        profile_name: nowProfile.profileName,
+        sellerid: storeID,
+      },
       stock: 0,
-    }).then(() => window.location.reload());
+    };
+    await addDoc(collection(db, "food"), body).then(() => fetchDatas(storeID));
   };
   return (
     <div className="admin-screen-container">
@@ -121,11 +128,13 @@ function AdminScreen({
 
 const mapStateToProps = (state) => {
   const { foodList } = state.foods;
-  const { storeID } = state.store;
+  const { storeID, nowProfile, nowProfileIndex } = state.store;
   return {
     foodList: foodList.list,
     loading: foodList.loading,
-    storeID: storeID,
+    storeID,
+    nowProfile,
+    nowProfileIndex,
   };
 };
 
@@ -133,6 +142,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchDatas: (id) => dispatch(fetchDatas(id)),
     setFoodActive: (foodID) => dispatch(setFoodActive(foodID)),
+    addFood: (food) => dispatch(addFood(food)),
   };
 };
 

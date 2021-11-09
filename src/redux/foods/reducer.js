@@ -7,6 +7,7 @@ import {
   REMOVE_FOOD_IMAGE,
   UPDATE_FOOD,
   UPDATE_DESCRIPTION,
+  ADD_FOOD,
 } from "./types";
 
 // 초기상태
@@ -53,7 +54,17 @@ const foodListReducer = (state = initialState, action) => {
           list,
         },
       };
-
+    case ADD_FOOD:
+      list = [...state.foodList.list];
+      const addData = action.food;
+      list.push(addData);
+      return {
+        ...state,
+        foodList: {
+          ...state.foodList,
+          list,
+        },
+      };
     case DELETE_FOOD:
       list = [...state.foodList.list].filter((ele) => ele.id !== action.foodID);
       return {
@@ -89,7 +100,7 @@ const foodListReducer = (state = initialState, action) => {
       list = [...state.foodList.list];
       const updateTarget = list.find((ele) => ele.id === action.foodID);
       const idx = list.indexOf(updateTarget);
-      list[idx] = {...action.food};
+      list[idx] = { ...action.food };
       return {
         ...state,
         foodList: {
