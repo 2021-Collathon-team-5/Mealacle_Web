@@ -1,5 +1,17 @@
 import React from "react";
 
+const selectCategory = [
+  "한식",
+  "중식",
+  "카페/브런치",
+  "일식",
+  "아시안",
+  "분식",
+  "양식",
+  "탕/찌개",
+  "야식",
+];
+
 function AddFoodScreen(props) {
   return (
     <div className="add-food-container">
@@ -19,6 +31,16 @@ function AddFoodScreen(props) {
           placeholder="상품가격"
           onChange={props.priceChange}
         />
+      </div>
+      <div>
+        <label>카테고리</label>
+        <select onChange={props.categoryChange}>
+          {selectCategory.map((item, index) => (
+            <option value={index} key={index}>
+              {item}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <label>원산지</label>
