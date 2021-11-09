@@ -8,7 +8,7 @@ import { getProfile } from "../../redux/store/action";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { firestoreService } from "../../Firebase";
-import { getDocs , collection,query,where} from "firebase/firestore/lite";
+import { getDocs, collection, query, where } from "firebase/firestore/lite";
 
 function HomeScreen({ getProfile }) {
   const [StoreCode, setStoreCode] = useState();
@@ -19,7 +19,7 @@ function HomeScreen({ getProfile }) {
     const my_height = window.innerHeight;
     window.scrollTo(scroll_X, my_height);
   };
-  const Login = async(StoreCode, Password) => {
+  const Login = async (StoreCode, Password) => {
     if (StoreCode && Password) {
       const db = firestoreService;
       const q = query(
@@ -90,7 +90,9 @@ function HomeScreen({ getProfile }) {
               </div>
             </div>
             <div className="sign_in_button">
-              <button onClick={() => Login(StoreCode, Password)}>로그인하기</button>
+              <button onClick={() => Login(StoreCode, Password)}>
+                로그인하기
+              </button>
             </div>
           </div>
         </div>
@@ -153,7 +155,7 @@ function HomeScreen({ getProfile }) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProfile:(id,profile) => dispatch(getProfile(id,profile))
+    getProfile: (id, profile) => dispatch(getProfile(id, profile)),
   };
 };
 
