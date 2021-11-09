@@ -21,14 +21,22 @@ function AdminScreen({
   const [FoodName, setFoodName] = useState("");
   const [FoodPrice, setFoodPrice] = useState(0);
   const [FoodOrigin, setFoodOrigin] = useState("");
+  const [FoodCategory, setFoodCategory] = useState("0");
   const childRef = useRef();
+  const foodLoaded = useRef(false);
   useEffect(() => {
-    fetchDatas(storeID);
-  }, [fetchDatas, storeID]);
+    if(!foodLoaded.current && foodList.length<1) {
+    fetchDatas(storeID, nowProfile.profileName);
+    }
+  }, [fetchDatas, storeID, nowProfile,foodLoaded,foodList]);
 
   const handleTableClick = (e) => {
     childRef.current.setEdit(false);
     setFoodActive(e.id);
+    console.log(e.id);
+  };
+  const categoryChange = (e) => {
+    setFoodCategory(e.target.value);
   };
 
   const onClickEvent = (element) => {
@@ -43,12 +51,20 @@ function AdminScreen({
   const originChange = (e) => {
     setFoodOrigin(e.target.value);
   };
-
+  const idToNum = (id) => {
+    let num  ="";
+    for(var i =0;i<5;i++) {
+      const v =id.charCodeAt(i);
+      num += v;
+    }
+    num = num.substr(0,10);
+    return num;
+  }
   const addFood = async () => {
     const db = firestoreService;
     const today = new Date();
     const body = {
-      category: "",
+      category: FoodCategory,
       description: "",
       image: [],
       name: FoodName,
@@ -63,7 +79,9 @@ function AdminScreen({
       },
       stock: 0,
     };
-    await addDoc(collection(db, "food"), body).then(() => fetchDatas(storeID));
+    await addDoc(collection(db, "food"), body)
+      .then(() => fetchDatas(storeID, nowProfile.profileName))
+      .then(() => setIsAddFood(false));
   };
   return (
     <div className="admin-screen-container">
@@ -92,10 +110,11 @@ function AdminScreen({
                   </tr>
                 </>
               ) : (
-                foodList.map((e, index) => {
+                foodList.map((e) => {
                   return (
-                    <tr key={e.id} id={e.id} onClick={() => onClickEvent(e)}>
-                      <td>{index + 1}</td>
+                    <tr key={e.id} id={e.id} onClick={() => onClickEvent(e)}
+                    className={e.active ? "active" :""}>
+                      <td>{idToNum(e.id)}</td>
                       <td>{e.name}</td>
                       <td>{e.stock}</td>
                       <td>{e.price}</td>
@@ -120,6 +139,7 @@ function AdminScreen({
           originChange={originChange}
           addFood={addFood}
           containerExit={() => setIsAddFood(false)}
+          categoryChange={categoryChange}
         />
       )}
     </div>
@@ -140,7 +160,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDatas: (id) => dispatch(fetchDatas(id)),
+    fetchDatas: (id, name) => dispatch(fetchDatas(id, name)),
     setFoodActive: (foodID) => dispatch(setFoodActive(foodID)),
     addFood: (food) => dispatch(addFood(food)),
   };

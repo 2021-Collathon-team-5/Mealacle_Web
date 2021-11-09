@@ -1,8 +1,14 @@
-import React, { useCallback } from "react";
+import React, { useRef } from "react";
 import { connect } from "react-redux";
 import { fetchDatas } from "../../../redux/order/action";
 import { useEffect } from "react";
-const OrderList = ({ orderList, loading, fetchDatas,storeID,nowProfileIndex}) => {
+const OrderList = ({
+  orderList,
+  loading,
+  fetchDatas,
+  storeID,
+  nowProfileIndex,
+}) => {
   // 주문목록 메뉴 하나 클릭시 발생 => active = true
   const handleTableClick = (e) => {
     const {
@@ -10,10 +16,14 @@ const OrderList = ({ orderList, loading, fetchDatas,storeID,nowProfileIndex}) =>
     } = e.target;
     //setFoodActive(id);
   };
-  console.log((orderList.length));
-  useEffect(()=>
+ const orderLoaded = useRef(false);
+  useEffect(()=>{
+    if(orderList.length<1&&!orderLoaded.current){
+      orderLoaded.current=true
     fetchDatas(storeID,nowProfileIndex)
-  ,[fetchDatas,storeID,nowProfileIndex]);
+    }
+  }
+  ,[fetchDatas,storeID,nowProfileIndex,orderLoaded,orderList]);
   return (
     <>
       <table className="order-table">
@@ -38,11 +48,7 @@ const OrderList = ({ orderList, loading, fetchDatas,storeID,nowProfileIndex}) =>
           ) : (
             orderList.map((e, index) => {
               return (
-                <tr
-                  key={e.id}
-                  id={e.id}
-                  onClick={handleTableClick}
-                >
+                <tr key={e.id} id={e.id} onClick={handleTableClick}>
                   <td>{index + 1}</td>
                   <td>{e.foodID.name}</td>
                   <td>2</td>
@@ -60,19 +66,20 @@ const OrderList = ({ orderList, loading, fetchDatas,storeID,nowProfileIndex}) =>
 
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
-  const { orderList,loading } = state.order;
-  const {storeID,nowProfileIndex} = state.store;
+  const { orderList, loading } = state.order;
+  const { storeID, nowProfileIndex } = state.store;
   return {
     orderList,
     loading,
     storeID,
-    nowProfileIndex
+    nowProfileIndex,
   };
 };
 // store로 부터 dispatch 받아와서 함수를 prop으로 전달
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDatas: (storeID,profileIdx) => dispatch(fetchDatas(storeID,profileIdx)),
+    fetchDatas: (storeID, profileIdx) =>
+      dispatch(fetchDatas(storeID, profileIdx)),
   };
 };
 //connect는 store과 component를 이어주는 다리 역할

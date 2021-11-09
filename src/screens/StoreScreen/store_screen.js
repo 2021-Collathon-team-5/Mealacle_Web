@@ -8,7 +8,7 @@ import { updateStore } from "../../redux/store/action";
 const StoreScreen = ({storeID,updateStore,storeName,
 storeAddress,storeCode}) => {
   const inputRef = useRef([]);
-  const [text,setText] = useState();
+  const [text,setText] = useState("");
   useEffect(()=> {
     setText(storeName);
   },[storeName]);

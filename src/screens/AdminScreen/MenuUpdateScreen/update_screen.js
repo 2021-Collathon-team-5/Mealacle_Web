@@ -20,7 +20,6 @@ function UpdateScreen({ foodList, updateFood }, ref) {
   const inputRefs = useRef([]);
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
-
   useImperativeHandle(ref, () => ({
     setEdit,
   }));
@@ -41,16 +40,19 @@ function UpdateScreen({ foodList, updateFood }, ref) {
       setEdit(true);
     }
   };
-
+  useEffect(()=> {
+    console.log("change")
+  },[foodList])
   useEffect(() => {
     if (food) {
+      console.log("foodchange");
       setText({
         name: food.name,
         price: food.price,
         stock: food.stock,
       });
     }
-  }, [food]);
+  }, [foodList,food]);
   useEffect(() => {
     if (checkboxRef && editButtonRef && inputRefs.current.length > 0) {
       if (!edit) {

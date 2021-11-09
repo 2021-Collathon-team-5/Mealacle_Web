@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 import foodListReducer from "./foods/reducer";
-import storeReducer from "./store/reducer";
 import orderReducer from "./order/reducer";
+import storeReducer from "./store/reducer";
 
 const rootReducer = combineReducers({
     foods:foodListReducer,
     store:storeReducer,
-    order : orderReducer
+    order:orderReducer
 });
 
 export default rootReducer;

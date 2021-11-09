@@ -16,8 +16,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: aliceblue;
-  border: 2px solid var(--order-table__border);
+  background-color: var(--main-color);
+  border: 1px solid var(--order-table__border);
   border-radius: 10px;
   font-weight: bold;
 }
@@ -58,23 +58,24 @@
   padding: 10px;
   font-size: 14px;
   border-radius: 5px;
-  background-color: var(--input-color);
+  background-color: white;
 }
 .add-option-button {
   position: absolute;
   bottom: 10px;
   right: 10px;
   background-color: var(--button-input-color);
-  border: none;
+  border: 1px solid rgba(0,0,0,0.2);
   cursor: pointer;
   padding: 6px 15px;
   border-radius: 7px;
   font-weight: bold;
   width: 120px;
-  height: 30px;
+  height: 50px;
+  
 }
 .add-option-button:hover {
-  transform: scale(1.05);
+  transform: scale(1.01);
 }
 .add-option-button:active {
   transform: scale(1);

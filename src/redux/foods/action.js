@@ -14,11 +14,15 @@ import {
 export const db = firestoreService;
 
 // 주문 목록 불러오는 함수 -> INIT_FOOD_LIST 호출
-export const fetchDatas = (id) => {
+export const fetchDatas = (id, name) => {
   return async (dispatch) => {
     dispatch(requireFoodList());
 
-    const q = query(collection(db, "food"), where("seller.sellerid", "==", id));
+    const q = query(
+      collection(db, "food"),
+      where("seller.sellerid", "==", id),
+      where("seller.profile_name", "==", name)
+    );
     const querySnapshot = await getDocs(q);
     const foodList = [];
     querySnapshot.docs.forEach((e) => {
