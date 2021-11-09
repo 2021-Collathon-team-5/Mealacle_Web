@@ -67,9 +67,9 @@ function AdminScreen({
       },
       stock: 0,
     };
-    await addDoc(collection(db, "food"), body).then(() =>
-      fetchDatas(storeID, nowProfile.profileName)
-    );
+    await addDoc(collection(db, "food"), body)
+      .then(() => fetchDatas(storeID, nowProfile.profileName))
+      .then(() => setIsAddFood(false));
   };
   return (
     <div className="admin-screen-container">
