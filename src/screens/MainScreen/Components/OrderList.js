@@ -8,6 +8,7 @@ const OrderList = ({
   fetchDatas,
   setFoodActive,
   storeID,
+  nowProfile,
 }) => {
   // 주문목록 메뉴 하나 클릭시 발생 => active = true
   const handleTableClick = (e) => {
@@ -18,8 +19,8 @@ const OrderList = ({
   };
 
   useEffect(() => {
-    fetchDatas(storeID);
-  }, [fetchDatas, storeID]);
+    fetchDatas(storeID, nowProfile.profileName);
+  }, [fetchDatas, storeID, nowProfile]);
 
   return (
     <>
@@ -69,17 +70,18 @@ const OrderList = ({
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
   const { foodList } = state.foods;
-  const { storeID } = state.store;
+  const { storeID, nowProfile } = state.store;
   return {
     foodList: foodList.list,
     loading: foodList.loading,
-    storeID: storeID,
+    storeID,
+    nowProfile,
   };
 };
 // store로 부터 dispatch 받아와서 함수를 prop으로 전달
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDatas: (id) => dispatch(fetchDatas(id)),
+    fetchDatas: (id, name) => dispatch(fetchDatas(id, name)),
     setFoodActive: (foodID) => dispatch(setFoodActive(foodID)),
   };
 };
