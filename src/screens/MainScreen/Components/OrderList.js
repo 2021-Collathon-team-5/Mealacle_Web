@@ -1,27 +1,25 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { connect } from "react-redux";
-import { fetchDatas, setFoodActive } from "../../../redux/foods/action";
+import { fetchDatas } from "../../../redux/order/action";
 import { useEffect } from "react";
 const OrderList = ({
-  foodList,
+  orderList,
   loading,
   fetchDatas,
-  setFoodActive,
   storeID,
-  nowProfile,
+  nowProfileIndex,
 }) => {
   // 주문목록 메뉴 하나 클릭시 발생 => active = true
   const handleTableClick = (e) => {
     const {
       parentNode: { id },
     } = e.target;
-    setFoodActive(id);
+    //setFoodActive(id);
   };
-
-  useEffect(() => {
-    fetchDatas(storeID, nowProfile.profileName);
-  }, [fetchDatas, storeID, nowProfile]);
-
+  useEffect(
+    () => fetchDatas(storeID, nowProfileIndex),
+    [fetchDatas, storeID, nowProfileIndex]
+  );
   return (
     <>
       <table className="order-table">
@@ -44,31 +42,17 @@ const OrderList = ({
               </tr>
             </>
           ) : (
-<<<<<<< HEAD
-            /*(
             orderList.map((e, index) => {
-=======
-            foodList.map((e, index) => {
->>>>>>> 3bf8e7183e7ae41dfc82a429a4504243bf443c3a
               return (
-                <tr
-                  key={e.id}
-                  id={e.id}
-                  onClick={handleTableClick}
-                  className={e.active ? "active" : ""}
-                >
+                <tr key={e.id} id={e.id} onClick={handleTableClick}>
                   <td>{index + 1}</td>
-                  <td>{e.name}</td>
+                  <td>{e.foodID.name}</td>
                   <td>2</td>
-                  <td>{e.price}</td>
-                  <td>{e.price * 2}</td>
+                  <td>{e.foodID.price}</td>
+                  <td>{e.foodID.price * 2}</td>
                 </tr>
               );
             })
-<<<<<<< HEAD
-          )*/ <span></span>
-=======
->>>>>>> 3bf8e7183e7ae41dfc82a429a4504243bf443c3a
           )}
         </tbody>
       </table>
@@ -78,20 +62,20 @@ const OrderList = ({
 
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
-  const { foodList } = state.foods;
-  const { storeID, nowProfile } = state.store;
+  const { orderList, loading } = state.order;
+  const { storeID, nowProfileIndex } = state.store;
   return {
-    foodList: foodList.list,
-    loading: foodList.loading,
+    orderList,
+    loading,
     storeID,
-    nowProfile,
+    nowProfileIndex,
   };
 };
 // store로 부터 dispatch 받아와서 함수를 prop으로 전달
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDatas: (id, name) => dispatch(fetchDatas(id, name)),
-    setFoodActive: (foodID) => dispatch(setFoodActive(foodID)),
+    fetchDatas: (storeID, profileIdx) =>
+      dispatch(fetchDatas(storeID, profileIdx)),
   };
 };
 //connect는 store과 component를 이어주는 다리 역할
