@@ -32,8 +32,13 @@ function HomeScreen({ getProfile }) {
       } else {
         const store = storedocs.docs[0];
         if (store.data().password === Password) {
+<<<<<<< HEAD
           const data = store.data();
           getProfile(store.id, data);
+=======
+          const profile = store.data().profile;
+          getProfile(store.id, profile);
+>>>>>>> 3bf8e7183e7ae41dfc82a429a4504243bf443c3a
           history.push("/profile");
         } else {
           alert("비밀번호오류");

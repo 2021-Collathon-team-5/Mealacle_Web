@@ -21,14 +21,18 @@ function AdminScreen({
   const [FoodName, setFoodName] = useState("");
   const [FoodPrice, setFoodPrice] = useState(0);
   const [FoodOrigin, setFoodOrigin] = useState("");
+  const [FoodCategory, setFoodCategory] = useState("0");
   const childRef = useRef();
   useEffect(() => {
-    fetchDatas(storeID);
-  }, [fetchDatas, storeID]);
+    fetchDatas(storeID, nowProfile.profileName);
+  }, [fetchDatas, storeID, nowProfile]);
 
   const handleTableClick = (e) => {
     childRef.current.setEdit(false);
     setFoodActive(e.id);
+  };
+  const categoryChange = (e) => {
+    setFoodCategory(e.target.value);
   };
 
   const onClickEvent = (element) => {
@@ -48,7 +52,7 @@ function AdminScreen({
     const db = firestoreService;
     const today = new Date();
     const body = {
-      category: "",
+      category: FoodCategory,
       description: "",
       image: [],
       name: FoodName,
@@ -64,7 +68,7 @@ function AdminScreen({
       stock: 0,
     };
     await addDoc(collection(db, "food"), body)
-      .then(() => fetchDatas(storeID))
+      .then(() => fetchDatas(storeID, nowProfile.profileName))
       .then(() => setIsAddFood(false));
   };
   return (
@@ -122,6 +126,7 @@ function AdminScreen({
           originChange={originChange}
           addFood={addFood}
           containerExit={() => setIsAddFood(false)}
+          categoryChange={categoryChange}
         />
       )}
     </div>
@@ -142,7 +147,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDatas: (id) => dispatch(fetchDatas(id)),
+    fetchDatas: (id, name) => dispatch(fetchDatas(id, name)),
     setFoodActive: (foodID) => dispatch(setFoodActive(foodID)),
     addFood: (food) => dispatch(addFood(food)),
   };
