@@ -10,6 +10,7 @@ const OrderList = ({ orderList, loading, fetchDatas,storeID,nowProfileIndex}) =>
     } = e.target;
     //setFoodActive(id);
   };
+  console.log((orderList.length));
   useEffect(()=>
     fetchDatas(storeID,nowProfileIndex)
   ,[fetchDatas,storeID,nowProfileIndex]);
