@@ -4,24 +4,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import Header from "../MainScreen/Components/Header";
 import NavigationBar from "../Navigationbar/navigation_bar";
-import { updateProfile } from "../../redux/store/action";
-const StoreScreen = ({nowProfile,nowProfileIndex,storeID,updateProfile}) => {
+import { updateStore } from "../../redux/store/action";
+const StoreScreen = ({storeID,updateStore,storeName,
+storeAddress,storeCode}) => {
   const inputRef = useRef([]);
   const [text,setText] = useState();
   useEffect(()=> {
-    setText(nowProfile.storeName);
-  },[nowProfile]);
+    setText(storeName);
+  },[storeName]);
   const modified = async() => {
     if (inputRef.current[0].disabled === false) {
-      const updatedProfile = {...nowProfile,storeName:text};
+      const updatedStoreName= text;
       await updateDoc(doc(db,"seller",storeID),{
-        profile: {
-          [`${nowProfileIndex}`] : {
-            ...updatedProfile
-          }
-        }
+        name:updatedStoreName
       });
-      updateProfile(updatedProfile);
+      updateStore(updatedStoreName);
       for (let i = 0; i < inputRef.current.length; i++) {
         inputRef.current[i].disabled = true;
       }
@@ -57,11 +54,11 @@ const StoreScreen = ({nowProfile,nowProfileIndex,storeID,updateProfile}) => {
             </div>
             <div>
               <span>매장 코드</span>
-              <span>Put the store Code</span>
+              <span>{storeCode}</span>
             </div>
             <div>
               <span>매장 위치</span>
-              <span>대전시 유성구 장대동 352-9</span>
+              <span>{storeAddress}</span>
             </div>
             <div>
               <span>운영 시간</span>
@@ -116,16 +113,17 @@ const StoreScreen = ({nowProfile,nowProfileIndex,storeID,updateProfile}) => {
   );
 };
 const mapStateToProps = (state) =>{
-  const {nowProfile,nowProfileIndex,storeID} = state.store;
+  const {storeID,storeCode,storeAddress,storeName} = state.store;
   return {
-    nowProfile,
-    nowProfileIndex,
     storeID,
+    storeCode,
+    storeName,
+    storeAddress
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProfile:(profile)=>dispatch(updateProfile(profile)),
+    updateStore:(profile)=>dispatch(updateStore(profile)),
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps) (StoreScreen);

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchDatas, setFoodActive } from "../../../redux/foods/action";
+import { fetchDatas } from "../../../redux/order/action";
 import { useEffect } from "react";
 const OrderList = ({
   foodList,
@@ -15,7 +15,7 @@ const OrderList = ({
     const {
       parentNode: { id },
     } = e.target;
-    setFoodActive(id);
+    //setFoodActive(id);
   };
 
   useEffect(() => {
@@ -44,7 +44,8 @@ const OrderList = ({
               </tr>
             </>
           ) : (
-            foodList.map((e, index) => {
+            /*(
+            orderList.map((e, index) => {
               return (
                 <tr
                   key={e.id}
@@ -60,6 +61,7 @@ const OrderList = ({
                 </tr>
               );
             })
+          )*/ <span></span>
           )}
         </tbody>
       </table>
