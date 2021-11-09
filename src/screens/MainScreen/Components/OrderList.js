@@ -2,7 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchDatas, setFoodActive } from "../../../redux/foods/action";
 import { useEffect } from "react";
-const OrderList = ({ foodList, loading, fetchDatas, setFoodActive }) => {
+const OrderList = ({
+  foodList,
+  loading,
+  fetchDatas,
+  setFoodActive,
+  storeID,
+}) => {
   // 주문목록 메뉴 하나 클릭시 발생 => active = true
   const handleTableClick = (e) => {
     const {
@@ -12,8 +18,8 @@ const OrderList = ({ foodList, loading, fetchDatas, setFoodActive }) => {
   };
 
   useEffect(() => {
-    fetchDatas();
-  }, [fetchDatas]);
+    fetchDatas(storeID);
+  }, [fetchDatas, storeID]);
 
   return (
     <>
@@ -63,15 +69,17 @@ const OrderList = ({ foodList, loading, fetchDatas, setFoodActive }) => {
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
   const { foodList } = state.foods;
+  const { storeID } = state.store;
   return {
     foodList: foodList.list,
     loading: foodList.loading,
+    storeID: storeID,
   };
 };
 // store로 부터 dispatch 받아와서 함수를 prop으로 전달
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDatas: () => dispatch(fetchDatas()),
+    fetchDatas: (id) => dispatch(fetchDatas(id)),
     setFoodActive: (foodID) => dispatch(setFoodActive(foodID)),
   };
 };

@@ -8,16 +8,22 @@ import UpdateScreen from "./MenuUpdateScreen/update_screen";
 import AddFoodScreen from "./AddFoodScreen/add_food_screen";
 import Header from "../MainScreen/Components/Header";
 
-function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
+function AdminScreen({
+  foodList,
+  loading,
+  fetchDatas,
+  setFoodActive,
+  storeID,
+}) {
   const [IsAddFood, setIsAddFood] = useState(false);
   const [FoodName, setFoodName] = useState("");
   const [FoodPrice, setFoodPrice] = useState(0);
   const [FoodOrigin, setFoodOrigin] = useState("");
-
+  console.log(storeID);
   const childRef = useRef();
   useEffect(() => {
-    fetchDatas();
-  }, [fetchDatas]);
+    fetchDatas(storeID);
+  }, [fetchDatas, storeID]);
 
   const handleTableClick = (e) => {
     childRef.current.setEdit(false);
@@ -115,15 +121,17 @@ function AdminScreen({ foodList, loading, fetchDatas, setFoodActive }) {
 
 const mapStateToProps = (state) => {
   const { foodList } = state.foods;
+  const { storeID } = state.store;
   return {
     foodList: foodList.list,
     loading: foodList.loading,
+    storeID: storeID,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDatas: () => dispatch(fetchDatas()),
+    fetchDatas: (id) => dispatch(fetchDatas(id)),
     setFoodActive: (foodID) => dispatch(setFoodActive(foodID)),
   };
 };
