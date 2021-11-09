@@ -6,22 +6,22 @@ import { useHistory } from "react-router";
 import { setNowProfile, setProfile } from "../../redux/store/action";
 import { db } from "../../redux/foods/action";
 import { doc, updateDoc } from "firebase/firestore/lite";
-function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
+function ProfileScreen({ profile, setProfile, storeID, setNowProfile }) {
   const [profileWindow, setProfileWindow] = useState({
     visible: false,
     profileIdx: 0,
   });
   const history = useHistory();
   const showModal = (index) => {
-    console.log(profile[`${index-1}`]);
-    if(profile[`${index-1}`]) {
-      setNowProfile(index-1);
+    console.log(profile[`${index - 1}`]);
+    if (profile[`${index - 1}`]) {
+      setNowProfile(index - 1);
       history.push("/main");
     } else {
-    setProfileWindow({
-      visible: true,
-      profileIdx: index-1,
-    });
+      setProfileWindow({
+        visible: true,
+        profileIdx: index - 1,
+      });
     }
   };
   const closeModal = () => {
@@ -41,11 +41,13 @@ function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
         profileName,
         profileRep,
         profileDescription,
-        storeName:"",
-        lastAccessDate : `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`
-      }
-      await updateDoc(doc(db,"seller",storeID), {
-         [`profile.${profileIdx}`] : {...target}
+        storeName: "",
+        lastAccessDate: `${date.getFullYear()}-${String(
+          date.getMonth() + 1
+        ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`,
+      };
+      await updateDoc(doc(db, "seller", storeID), {
+        [`profile.${profileIdx}`]: { ...target },
       });
       setProfile(target, profileIdx);
       closeModal();
@@ -54,16 +56,25 @@ function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
       <div className="modal-backdrop">
         <div className="modal-window">
           <div className="modal-window__top">
-            <button onClick={() => saveProfile()}>
-              저장
-            </button>
+            <button onClick={() => saveProfile()}>저장</button>
             <span>{`프로필 ${profileIdx + 1}`}</span>
             <img src={closeImage} alt="closebtn" onClick={closeModal} />
           </div>
           <div className="modal-window__contents">
-            <input type="text" placeholder="프로필 이름" ref={el=>inputRef.current[0]=el} />
-            <input type="text" placeholder="프로필 관리자" ref={el=>inputRef.current[1]=el} />
-            <textarea placeholder="설명 ..." ref={el=>inputRef.current[2]=el}/>
+            <input
+              type="text"
+              placeholder="프로필 이름"
+              ref={(el) => (inputRef.current[0] = el)}
+            />
+            <input
+              type="text"
+              placeholder="프로필 관리자"
+              ref={(el) => (inputRef.current[1] = el)}
+            />
+            <textarea
+              placeholder="설명 ..."
+              ref={(el) => (inputRef.current[2] = el)}
+            />
           </div>
         </div>
       </div>
@@ -102,10 +113,10 @@ function ProfileScreen({profile,setProfile,storeID,setNowProfile}) {
 }
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
-  const { profile,storeID } = state.store;
+  const { profile, storeID } = state.store;
   return {
     profile,
-    storeID
+    storeID,
   };
 };
 const mapDispatchToProps = (dispatch) => {

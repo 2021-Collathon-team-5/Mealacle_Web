@@ -63,7 +63,6 @@
   bottom: 0;
   left: 0;
 }
-
-.navigation-bar__link {
-  text-decoration: none;
+.navigation-bar__link:visited {
+  color: unset;
 }

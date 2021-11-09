@@ -25,4 +25,4 @@ export const updateStore = (storeName) => {
     type:UPDATE_STORE,
     storeName
   };
-}
+};

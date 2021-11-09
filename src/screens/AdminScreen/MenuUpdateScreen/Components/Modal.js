@@ -1,5 +1,5 @@
 import React from "react";
-const Modal = ({ confirmDeleteImageYes,confirmDeleteImageNo ,message}) => {
+const Modal = ({ confirmDeleteImageYes, confirmDeleteImageNo, message }) => {
   return (
     <div className="modal-confirm-backdrop">
       <div className="modal-confirm-window">
