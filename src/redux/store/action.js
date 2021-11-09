@@ -1,10 +1,10 @@
-import { GET_PROFILE, SET_NOW_PROFILE, SET_PROFILE,UPDATE_PROFILE } from "./types";
+import { GET_PROFILE, SET_NOW_PROFILE, SET_PROFILE, UPDATE_STORE } from "./types";
 
-export const getProfile = (id,profile) => {
+export const getProfile = (storeID,storeData) => {
     return {
         type:GET_PROFILE,
-        profile,
-        id
+        storeData,
+        storeID,
     }
 }
 export const setProfile = (profile,idx) => {
@@ -20,9 +20,9 @@ export const setNowProfile = (idx) => {
     idx,
   };
 };
-export const updateProfile = (profile) => {
+export const updateStore = (storeName) => {
   return {
-    type:UPDATE_PROFILE,
-    profile
+    type:UPDATE_STORE,
+    storeName
   };
 }

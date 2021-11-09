@@ -1,19 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchDatas, setFoodActive } from "../../../redux/foods/action";
+import { fetchDatas } from "../../../redux/order/action";
 import { useEffect } from "react";
-const OrderList = ({ foodList, loading, fetchDatas, setFoodActive }) => {
+const OrderList = ({ orderList, loading, fetchDatas,storeID}) => {
   // 주문목록 메뉴 하나 클릭시 발생 => active = true
   const handleTableClick = (e) => {
     const {
       parentNode: { id },
     } = e.target;
-    setFoodActive(id);
+    //setFoodActive(id);
   };
 
   useEffect(() => {
-    fetchDatas();
-  }, [fetchDatas]);
+    if(storeID){
+      console.log(storeID);
+       fetchDatas(storeID);
+    }
+  }, [fetchDatas,storeID]);
 
   return (
     <>
@@ -36,8 +39,8 @@ const OrderList = ({ foodList, loading, fetchDatas, setFoodActive }) => {
                 <td>loading...</td>
               </tr>
             </>
-          ) : (
-            foodList.map((e, index) => {
+          ) : /*(
+            orderList.map((e, index) => {
               return (
                 <tr
                   key={e.id}
@@ -53,7 +56,7 @@ const OrderList = ({ foodList, loading, fetchDatas, setFoodActive }) => {
                 </tr>
               );
             })
-          )}
+          )*/<span></span>}
         </tbody>
       </table>
     </>
@@ -62,17 +65,18 @@ const OrderList = ({ foodList, loading, fetchDatas, setFoodActive }) => {
 
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
-  const { foodList } = state.foods;
+  const { orderList,loading } = state.order;
+  const {storeID} = state.store;
   return {
-    foodList: foodList.list,
-    loading: foodList.loading,
+    orderList,
+    loading,
+    storeID
   };
 };
 // store로 부터 dispatch 받아와서 함수를 prop으로 전달
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDatas: () => dispatch(fetchDatas()),
-    setFoodActive: (foodID) => dispatch(setFoodActive(foodID)),
+    fetchDatas: (storeID) => dispatch(fetchDatas(storeID)),
   };
 };
 //connect는 store과 component를 이어주는 다리 역할
