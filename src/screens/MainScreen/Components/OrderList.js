@@ -8,33 +8,32 @@ const OrderList = ({
   fetchDatas,
   storeID,
   nowProfileIndex,
-  setOrderDetail,
+  setOrderDetail
 }) => {
   const trRefs = useRef([]);
   const handleTableClick = (e) => {
     const {
       parentNode: { id },
     } = e.target;
-    for (const tr of trRefs.current) {
+    for(const tr of trRefs.current) {
       tr.classList.remove("active");
     }
     e.target.parentNode.classList.add("active");
-    const orderDetail = orderList.find((e) => id === e.id);
-    const orderIdx = orderList.indexOf(orderDetail) + 1;
-    setOrderDetail({ ...orderDetail, orderIdx });
+    const orderDetail = orderList.find((e)=>id===e.id);
+    const orderIdx = orderList.indexOf(orderDetail)+1;
+    setOrderDetail({...orderDetail,orderIdx});
   };
-  const orderLoaded = useRef(false);
-  useEffect(() => {
-    if (orderList.length < 1 && !orderLoaded.current) {
-      orderLoaded.current = true;
-      fetchDatas(storeID, nowProfileIndex);
+ const orderLoaded = useRef(false);
+  useEffect(()=>{
+    if(orderList.length<1&&!orderLoaded.current){
+      orderLoaded.current=true
+    fetchDatas(storeID,nowProfileIndex)
     }
-  }, [fetchDatas, storeID, nowProfileIndex, orderLoaded, orderList]);
+  }
+  ,[fetchDatas,storeID,nowProfileIndex,orderLoaded,orderList]);
   function addComma(num) {
-    if (num) {
-      var regexp = /\B(?=(\d{3})+(?!\d))/g;
-      return num.toString().replace(regexp, ",");
-    }
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return num.toString().replace(regexp, ',');
   }
   return (
     <>
@@ -60,14 +59,14 @@ const OrderList = ({
           ) : (
             orderList.map((e, index) => {
               return (
-                <tr
-                  key={e.id}
-                  id={e.id}
-                  onClick={handleTableClick}
-                  ref={(el) => (trRefs.current[index] = el)}
+                <tr 
+                key={e.id} 
+                id={e.id} 
+                onClick={handleTableClick} 
+                ref={(el) => trRefs.current[index]=el}
                 >
                   <td>{index + 1}</td>
-                  <td>{e.foodID.name}</td>
+                  <td>{`${e.foodID.name} (${e.foodID.options[e.option].option})`}</td>
                   <td>{e.count}</td>
                   <td>{addComma(e.foodID.price)}</td>
                   <td>{addComma(e.foodID.price * e.count)}</td>
