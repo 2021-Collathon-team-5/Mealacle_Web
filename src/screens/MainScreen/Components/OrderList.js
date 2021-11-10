@@ -31,8 +31,10 @@ const OrderList = ({
     }
   }, [fetchDatas, storeID, nowProfileIndex, orderLoaded, orderList]);
   function addComma(num) {
-    var regexp = /\B(?=(\d{3})+(?!\d))/g;
-    return num.toString().replace(regexp, ",");
+    if (num) {
+      var regexp = /\B(?=(\d{3})+(?!\d))/g;
+      return num.toString().replace(regexp, ",");
+    }
   }
   return (
     <>

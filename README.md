@@ -1,9 +1,9 @@
 # Mealacle
 
-
-## GitHub 
+## GitHub
 
 ### Upload
+
 1. branch -> git checkout junghun2/master/seungkyu 처럼
 2. git push origin junghun2 를 했을경우
 3. git checkout master -> git merge junghun2
@@ -12,10 +12,11 @@
 
 ### pull
 
-- fetch and merge . 
+- fetch and merge .
 - 즉 패치 후 병합한다는 얘기 => 충돌(Confilct) 발생 가능
 
 ### Merge Branch
+
 - 각자 seungkyu, junghun2 브랜치에서 작업 후 커밋, 푸쉬 .
 - 그 후 master 브랜치로 checkout 한 후 pull origin 브랜치명 or merge 브랜치명 해주면 합쳐진다.
 - master 브랜치 commit - push 하면 master에 정상적으로 병합된다.
