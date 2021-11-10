@@ -1,12 +1,11 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import OrderList from "./Components/OrderList";
 import DetailScreen from "../DetailScreen/detail_screen";
 import NavigationBar from "../Navigationbar/navigation_bar";
 import Header from "./Components/Header";
 
 function MainScreen() {
-  
-  const [orderDetail,setOrderDetail] = useState({});
+  const [orderDetail, setOrderDetail] = useState({});
   return (
     <>
       <NavigationBar />
@@ -15,10 +14,10 @@ function MainScreen() {
         <div>주문목록</div>
         <div>상세정보</div>
         <div>
-          <OrderList setOrderDetail={setOrderDetail}/>
+          <OrderList setOrderDetail={setOrderDetail} />
         </div>
         <div style={{ overflow: "scroll" }}>
-          <DetailScreen orderDetail={orderDetail}/>
+          <DetailScreen orderDetail={orderDetail} />
         </div>
         <div>
           <span>종합</span>
