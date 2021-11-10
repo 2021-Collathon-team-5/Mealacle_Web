@@ -83,7 +83,7 @@ function HomeScreen({ getProfile }) {
               </div>
               <div className="input_area_div">
                 <input
-                  type="text"
+                  type="password"
                   placeholder="비밀번호를 입력하세요."
                   onChange={PasswordChange}
                 />
