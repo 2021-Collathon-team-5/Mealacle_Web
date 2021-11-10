@@ -5,8 +5,7 @@ import { doc, deleteDoc } from "firebase/firestore/lite";
 import { updateOrder } from "../../redux/order/action";
 const DetailScreen = ({ orderList,orderDetail, cancelOrder }) => {
   let nothingSelected = true;
-  console.log(orderDetail);
-  if (Object.keys(orderDetail).length===0) {
+  if (Object.keys(orderDetail).length === 0) {
     nothingSelected = true;
   } else {
     nothingSelected = false;
@@ -22,14 +21,14 @@ const DetailScreen = ({ orderList,orderDetail, cancelOrder }) => {
   };
   function addComma(num) {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
-    return num.toString().replace(regexp, ',');
+    return num.toString().replace(regexp, ",");
   }
   function numToPhone(number) {
-    const strNumber= number.toString();
-    const firstNum = strNumber.substring(0,3);
-    const secondNum = strNumber.substring(3,7);
-    const lastNum = strNumber.substring(7,11);
-    return firstNum+"-"+secondNum+"-"+lastNum;
+    const strNumber = number.toString();
+    const firstNum = strNumber.substring(0, 3);
+    const secondNum = strNumber.substring(3, 7);
+    const lastNum = strNumber.substring(7, 11);
+    return firstNum + "-" + secondNum + "-" + lastNum;
   }
   return (
     <>
@@ -109,11 +108,19 @@ const DetailScreen = ({ orderList,orderDetail, cancelOrder }) => {
               <tbody>
                 <tr>
                   <td>배달원</td>
-                  <td>{Object.keys(orderDetail.riderID).length===0 ? "배달원 미정" : `${orderDetail.riderID.name} (${orderDetail.riderID.email})`}</td>
+                  <td>
+                    {Object.keys(orderDetail.riderID).length === 0
+                      ? "배달원 미정"
+                      : `${orderDetail.riderID.name} (${orderDetail.riderID.email})`}
+                  </td>
                 </tr>
                 <tr>
                   <td>연락처</td>
-                  <td>{Object.keys(orderDetail.riderID).length===0 ?"배달원 미정":numToPhone(orderDetail.riderID.phone)}</td>
+                  <td>
+                    {Object.keys(orderDetail.riderID).length === 0
+                      ? "배달원 미정"
+                      : numToPhone(orderDetail.riderID.phone)}
+                  </td>
                 </tr>
                 <tr>
                   <td>배달일시</td>

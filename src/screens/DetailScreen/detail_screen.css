@@ -75,7 +75,7 @@
 .detail__cancel-table tr:first-child {
   background-color: var(--order-table__click);
   font-weight: bold;
-  color:white;
+  color: white;
 }
 .detail__cancel-table tr:last-child {
   border-bottom: 3px solid var(--order-table__border);
@@ -89,10 +89,10 @@
 select {
   width: 100%;
   background-color: white;
-  border : none;
+  border: none;
 }
 select:focus {
-  outline:none;
+  outline: none;
 }
 
 /* orderer table */
@@ -103,14 +103,14 @@ select:focus {
   margin-bottom: 10px;
   font-size: 16px;
 }
-.detail__orderer table td{
+.detail__orderer table td {
   border: 1px solid var(--order-table__border);
   padding: 7px;
 }
-.detail__orderer table tr{
+.detail__orderer table tr {
   border-bottom: 3px solid var(--order-table__border);
 }
-.detail__orderer table tr td:first-child{
+.detail__orderer table tr td:first-child {
   width: 10%;
 }
 

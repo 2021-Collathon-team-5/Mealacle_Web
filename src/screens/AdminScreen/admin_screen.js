@@ -25,10 +25,11 @@ function AdminScreen({
   const childRef = useRef();
   const foodLoaded = useRef(false);
   useEffect(() => {
-    if(!foodLoaded.current && foodList.length<1) {
-    fetchDatas(storeID, nowProfile.profileName);
+    if (!foodLoaded.current && foodList.length < 1) {
+      foodLoaded.current = true;
+      fetchDatas(storeID, nowProfile.profileName);
     }
-  }, [fetchDatas, storeID, nowProfile,foodLoaded,foodList]);
+  }, [fetchDatas, storeID, nowProfile, foodLoaded, foodList]);
 
   const handleTableClick = (e) => {
     childRef.current.setEdit(false);
@@ -52,14 +53,14 @@ function AdminScreen({
     setFoodOrigin(e.target.value);
   };
   const idToNum = (id) => {
-    let num  ="";
-    for(var i =0;i<5;i++) {
-      const v =id.charCodeAt(i);
+    let num = "";
+    for (var i = 0; i < 5; i++) {
+      const v = id.charCodeAt(i);
       num += v;
     }
-    num = num.substr(0,10);
+    num = num.substr(0, 10);
     return num;
-  }
+  };
   const addFood = async () => {
     const db = firestoreService;
     const today = new Date();
@@ -112,8 +113,12 @@ function AdminScreen({
               ) : (
                 foodList.map((e) => {
                   return (
-                    <tr key={e.id} id={e.id} onClick={() => onClickEvent(e)}
-                    className={e.active ? "active" :""}>
+                    <tr
+                      key={e.id}
+                      id={e.id}
+                      onClick={() => onClickEvent(e)}
+                      className={e.active ? "active" : ""}
+                    >
                       <td>{idToNum(e.id)}</td>
                       <td>{e.name}</td>
                       <td>{e.stock}</td>
