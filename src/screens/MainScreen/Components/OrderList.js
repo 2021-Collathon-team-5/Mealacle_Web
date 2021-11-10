@@ -16,14 +16,13 @@ const OrderList = ({
     } = e.target;
     //setFoodActive(id);
   };
- const orderLoaded = useRef(false);
-  useEffect(()=>{
-    if(orderList.length<1&&!orderLoaded.current){
-      orderLoaded.current=true
-    fetchDatas(storeID,nowProfileIndex)
+  const orderLoaded = useRef(false);
+  useEffect(() => {
+    if (orderList.length < 1 && !orderLoaded.current) {
+      orderLoaded.current = true;
+      fetchDatas(storeID, nowProfileIndex);
     }
-  }
-  ,[fetchDatas,storeID,nowProfileIndex,orderLoaded,orderList]);
+  }, [fetchDatas, storeID, nowProfileIndex, orderLoaded, orderList]);
   return (
     <>
       <table className="order-table">

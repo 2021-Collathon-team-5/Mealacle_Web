@@ -18,8 +18,8 @@ export const fetchDatas = (storeID, profileIdx) => {
     );
     const querySnapshot = await getDocs(q);
     const orderList = [];
-    for(const e of querySnapshot.docs) {
-    const food = await getDoc(doc(db, "food", e.data().foodID));
+    for (const e of querySnapshot.docs) {
+      const food = await getDoc(doc(db, "food", e.data().foodID));
       const user = await getDoc(doc(db, "user", e.data().userID));
       const data = {
         ...e.data(),

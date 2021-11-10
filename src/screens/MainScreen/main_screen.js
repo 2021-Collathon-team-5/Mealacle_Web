@@ -34,11 +34,7 @@ function MainScreen() {
         <div style={{ overflow: "scroll" }}>
           <DetailScreen />
         </div>
-        <div>
-          <button onClick={addData}>addData</button>
-          <button onClick={getDatasss}>getData</button>
-          <button onClick={checkDatas}>checkDatas</button>
-        </div>
+        <div>종합</div>
         <div>공급가액</div>
         <div>판매수량</div>
         <div>총 매출</div>
