@@ -26,6 +26,7 @@ function AdminScreen({
   const foodLoaded = useRef(false);
   useEffect(() => {
     if (!foodLoaded.current && foodList.length < 1) {
+      foodLoaded.current = true;
       fetchDatas(storeID, nowProfile.profileName);
     }
   }, [fetchDatas, storeID, nowProfile, foodLoaded, foodList]);
