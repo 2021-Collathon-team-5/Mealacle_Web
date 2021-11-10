@@ -40,12 +40,8 @@ function UpdateScreen({ foodList, updateFood }, ref) {
       setEdit(true);
     }
   };
-  useEffect(()=> {
-    console.log("change")
-  },[foodList])
   useEffect(() => {
     if (food) {
-      console.log("foodchange");
       setText({
         name: food.name,
         price: food.price,

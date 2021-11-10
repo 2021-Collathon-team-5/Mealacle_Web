@@ -8,13 +8,20 @@ const OrderList = ({
   fetchDatas,
   storeID,
   nowProfileIndex,
+  setOrderDetail
 }) => {
-  // 주문목록 메뉴 하나 클릭시 발생 => active = true
+  const trRefs = useRef([]);
   const handleTableClick = (e) => {
     const {
       parentNode: { id },
     } = e.target;
-    //setFoodActive(id);
+    for(const tr of trRefs.current) {
+      tr.classList.remove("active");
+    }
+    e.target.parentNode.classList.add("active");
+    const orderDetail = orderList.find((e)=>id===e.id);
+    const orderIdx = orderList.indexOf(orderDetail)+1;
+    setOrderDetail({...orderDetail,orderIdx});
   };
  const orderLoaded = useRef(false);
   useEffect(()=>{
@@ -24,6 +31,10 @@ const OrderList = ({
     }
   }
   ,[fetchDatas,storeID,nowProfileIndex,orderLoaded,orderList]);
+  function addComma(num) {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return num.toString().replace(regexp, ',');
+  }
   return (
     <>
       <table className="order-table">
@@ -48,12 +59,17 @@ const OrderList = ({
           ) : (
             orderList.map((e, index) => {
               return (
-                <tr key={e.id} id={e.id} onClick={handleTableClick}>
+                <tr 
+                key={e.id} 
+                id={e.id} 
+                onClick={handleTableClick} 
+                ref={(el) => trRefs.current[index]=el}
+                >
                   <td>{index + 1}</td>
                   <td>{e.foodID.name}</td>
-                  <td>2</td>
-                  <td>{e.foodID.price}</td>
-                  <td>{e.foodID.price * 2}</td>
+                  <td>{e.count}</td>
+                  <td>{addComma(e.foodID.price)}</td>
+                  <td>{addComma(e.foodID.price * e.count)}</td>
                 </tr>
               );
             })
