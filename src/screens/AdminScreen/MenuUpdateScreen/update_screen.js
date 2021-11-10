@@ -149,10 +149,10 @@ function UpdateScreen({ foodList, updateFood }, ref) {
                 </span>
               </div>
             </div>
-          </div>
-          <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
+            <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
             수정
           </button>
+          </div>
         </>
       )}
     </>

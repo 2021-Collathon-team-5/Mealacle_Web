@@ -1,6 +1,7 @@
 .detail {
   height: 100%;
   width: 100%;
+  padding: 5px;
 }
 
 .detail-table__header {
@@ -116,4 +117,7 @@ select:focus {
 #detail__noimage {
   font-size: 26px;
   color:var(--main-screen-color);
+}
+.detail .edit-button {
+  margin-bottom: 10px;
 }

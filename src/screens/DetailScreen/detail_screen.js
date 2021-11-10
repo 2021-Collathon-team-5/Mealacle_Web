@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { db } from "../../redux/foods/action";
 import { doc, deleteDoc } from "firebase/firestore/lite";
-import { deleteFood } from "../../redux/foods/action";
-const DetailScreen = ({ orderDetail, deleteFood }) => {
+import { updateOrder } from "../../redux/order/action";
+const DetailScreen = ({ orderList,orderDetail, cancelOrder }) => {
   let nothingSelected = true;
   console.log(orderDetail);
   if (Object.keys(orderDetail).length===0) {
@@ -14,9 +14,11 @@ const DetailScreen = ({ orderDetail, deleteFood }) => {
   const {option,price} = !nothingSelected && orderDetail.foodID.options[orderDetail.option];
   const sumOptionPrice = !nothingSelected && Number(orderDetail.foodID.price)+Number(price);
   const mulCount = !nothingSelected && sumOptionPrice*Number(orderDetail.count);
-  const delDoc = async (id) => {
-    await deleteDoc(doc(db, "food", id));
-    deleteFood(id);
+  const delOrder = async () => {
+    const updatedList = orderList.filter((e)=>e.id!==orderDetail.id);
+    await deleteDoc(doc(db, "order", orderDetail.id)).then(()=>
+    cancelOrder(updatedList));
+
   };
   function addComma(num) {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
@@ -138,16 +140,21 @@ const DetailScreen = ({ orderDetail, deleteFood }) => {
               </tbody>
             </table>
           </div>
-          <button >취소하기</button>
+          <button className="edit-button" onClick={()=>delOrder()} >취소하기</button>
         </div>
       )}
     </>
   );
 };
-
+const mapStateToProps = (state) => {
+  const {orderList} = state.order;
+  return {
+    orderList
+  }
+}
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteFood: (foodID) => dispatch(deleteFood(foodID)),
+    cancelOrder: (orderList) => dispatch(updateOrder(orderList)),
   };
 };
-export default connect(null, mapDispatchToProps)(DetailScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);
