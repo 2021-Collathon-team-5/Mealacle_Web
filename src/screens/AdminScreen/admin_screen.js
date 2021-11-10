@@ -69,7 +69,7 @@ function AdminScreen({
       description: "",
       image: [],
       name: FoodName,
-      options: [],
+      options: [{ option: "기본맛", price: "0" }],
       origin: FoodOrigin,
       price: FoodPrice,
       registrationDate: today.toDateString(),
