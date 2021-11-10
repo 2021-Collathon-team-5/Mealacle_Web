@@ -2,6 +2,7 @@ import {
   collection,
   getDocs,
   getDoc,
+  updateDoc,
   doc,
   query,
   where,
@@ -41,6 +42,9 @@ export const fetchDatas = (storeID, profileIdx) => {
         id: e.id,
       };
       orderList.push(data);
+      await updateDoc(doc(db,"order",e.id),{
+        ready:true
+      });
     }
     dispatch(initializeOrderList(orderList));
   };
