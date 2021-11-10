@@ -1,4 +1,4 @@
-import { INIT_ORDERLIST, REQUEST_ORDERLIST } from "./types";
+import { INIT_ORDERLIST, REQUEST_ORDERLIST, UPDATE_ORDERLIST } from "./types";
 const initialState = {
   orderList: [],
   loading: true,
@@ -17,6 +17,11 @@ const orderReducer = (state = initialState, action) => {
         orderList,
         loading: false,
       };
+    case UPDATE_ORDERLIST:
+      return {
+        ...state,
+        orderList:action.orderList
+      }
     default:
       return state;
   }

@@ -159,17 +159,18 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
                 </span>
               </div>
             </div>
-          </div>
-          <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
-            수정
-          </button>
-          <button
+            <button
             className="delete-button"
             onClick={onDelete}
             ref={deleteButtonRef}
           >
             삭제
           </button>
+            </div>
+            <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
+            수정
+          </button>
+
         </>
       )}
     </>

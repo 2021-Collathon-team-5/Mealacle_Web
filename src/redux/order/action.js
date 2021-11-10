@@ -8,7 +8,7 @@ import {
   where,
 } from "firebase/firestore/lite";
 import { db } from "../foods/action";
-import { INIT_ORDERLIST, REQUEST_ORDERLIST } from "./types";
+import { INIT_ORDERLIST, REQUEST_ORDERLIST ,UPDATE_ORDERLIST} from "./types";
 const idToNum = (id) => {
   let num = "";
   for (var i = 0; i < 5; i++) {
@@ -67,3 +67,9 @@ const initializeOrderList = (orderList) => {
     orderList,
   };
 };
+export const updateOrder = (orderList) => {
+  return {
+    type : UPDATE_ORDERLIST,
+    orderList,
+  }
+}
