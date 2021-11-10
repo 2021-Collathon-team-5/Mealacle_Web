@@ -46,7 +46,6 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
     if (edit) {
       nothingSelected = true;
       await deleteDoc(doc(db, "food", food.id)).then(() => deleteFood(food.id));
-      setEdit(false);
     }
   };
   useEffect(() => {
@@ -59,22 +58,24 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
     }
   }, [foodList, food]);
   useEffect(() => {
-    if (checkboxRef && editButtonRef && inputRefs.current.length > 0) {
-      if (!edit) {
-        editButtonRef.current.innerText = "수정";
-        checkboxRef.current.disabled = true;
-        for (var i = 0; i < inputRefs.current.length; i++) {
-          inputRefs.current[i].disabled = true;
-        }
-      } else {
-        editButtonRef.current.innerText = "완료";
-        checkboxRef.current.disabled = false;
-        for (i = 0; i < inputRefs.current.length; i++) {
-          inputRefs.current[i].disabled = false;
+    if (food) {
+      if (checkboxRef && editButtonRef && inputRefs.current.length > 0) {
+        if (!edit) {
+          editButtonRef.current.innerText = "수정";
+          checkboxRef.current.disabled = true;
+          for (var i = 0; i < inputRefs.current.length; i++) {
+            inputRefs.current[i].disabled = true;
+          }
+        } else {
+          editButtonRef.current.innerText = "완료";
+          checkboxRef.current.disabled = false;
+          for (i = 0; i < inputRefs.current.length; i++) {
+            inputRefs.current[i].disabled = false;
+          }
         }
       }
     }
-  }, [edit]);
+  }, [edit, food]);
   const changeChecked = () => {
     if (checkboxRef.current.checked) {
       spanRef.current.innerText = "판매 중";
