@@ -3,20 +3,32 @@ import { connect } from "react-redux";
 import { db } from "../../redux/foods/action";
 import { doc, deleteDoc } from "firebase/firestore/lite";
 import { deleteFood } from "../../redux/foods/action";
-const DetailScreen = ({ foodList, deleteFood }) => {
+const DetailScreen = ({ orderDetail, deleteFood }) => {
   let nothingSelected = true;
-  const food = foodList.find((food) => food.active); // active된 food data
-  const idx = foodList.indexOf(food) + 1; // 주문 번호
-  if (food) {
-    nothingSelected = false;
-  } else {
+  console.log(orderDetail);
+  if (Object.keys(orderDetail).length===0) {
     nothingSelected = true;
+  } else {
+    nothingSelected = false;
   }
-
+  const {option,price} = !nothingSelected && orderDetail.foodID.options[orderDetail.option];
+  const sumOptionPrice = !nothingSelected && Number(orderDetail.foodID.price)+Number(price);
+  const mulCount = !nothingSelected && sumOptionPrice*Number(orderDetail.count);
   const delDoc = async (id) => {
     await deleteDoc(doc(db, "food", id));
     deleteFood(id);
   };
+  function addComma(num) {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return num.toString().replace(regexp, ',');
+  }
+  function numToPhone(number) {
+    const strNumber= number.toString();
+    const firstNum = strNumber.substring(0,3);
+    const secondNum = strNumber.substring(3,7);
+    const lastNum = strNumber.substring(7,11);
+    return firstNum+"-"+secondNum+"-"+lastNum;
+  }
   return (
     <>
       {nothingSelected ? (
@@ -27,21 +39,21 @@ const DetailScreen = ({ foodList, deleteFood }) => {
             <table className="detail-table__header">
               <thead>
                 <tr>
-                  <th>{idx}</th>
-                  <th>{food.name}</th>
+                  <th>{orderDetail.orderIdx}</th>
+                  <th>{`${orderDetail.foodID.name} (${option})`}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>주문 코드</td>
-                  <td>{food.id}</td>
+                  <td>{orderDetail.id}</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div className="detail__main">
-            {food.image[0] ? (
-              <img src={food.image[0]} alt="detail__image" />
+            {orderDetail.foodID.image[0] ? (
+              <img src={orderDetail.foodID.image[0]} alt="detail__image" />
             ) : (
               <span id="detail__noimage">No image</span>
             )}
@@ -49,27 +61,27 @@ const DetailScreen = ({ foodList, deleteFood }) => {
               <tbody>
                 <tr>
                   <td>상품명</td>
-                  <td>{food.name}</td>
+                  <td>{orderDetail.foodID.name}</td>
                 </tr>
                 <tr>
                   <td>상품번호</td>
-                  <td></td>
+                  <td>{orderDetail.foodID.id}</td>
                 </tr>
                 <tr>
                   <td>수량</td>
-                  <td>2개</td>
+                  <td>{`${orderDetail.count}개`}</td>
                 </tr>
                 <tr>
                   <td>가격</td>
-                  <td>{food.price}</td>
+                  <td>{addComma(sumOptionPrice)}</td>
                 </tr>
                 <tr>
                   <td>총금액</td>
-                  <td>{food.price * 2}</td>
+                  <td>{addComma(mulCount)}</td>
                 </tr>
                 <tr>
                   <td>남은재고</td>
-                  <td>37</td>
+                  <td>{`${orderDetail.foodID.stock}개`}</td>
                 </tr>
               </tbody>
             </table>
@@ -79,15 +91,15 @@ const DetailScreen = ({ foodList, deleteFood }) => {
               <tbody>
                 <tr>
                   <td>주문자</td>
-                  <td>홍길동</td>
+                  <td>{`${orderDetail.userID.name} (${orderDetail.userID.email})`}</td>
                 </tr>
                 <tr>
                   <td>연락처</td>
-                  <td>010-1234-5678</td>
+                  <td>{numToPhone(orderDetail.userID.phone)}</td>
                 </tr>
                 <tr>
                   <td>배송지</td>
-                  <td>대전광역시 유성구 대학로 99 (기숙사 8동)</td>
+                  <td>{orderDetail.userID.address}</td>
                 </tr>
               </tbody>
             </table>
@@ -95,11 +107,11 @@ const DetailScreen = ({ foodList, deleteFood }) => {
               <tbody>
                 <tr>
                   <td>배달원</td>
-                  <td>김철수 (tightrope01@gmail.com)</td>
+                  <td>{Object.keys(orderDetail.riderID).length===0 ? "배달원 미정" : `${orderDetail.riderID.name} (${orderDetail.riderID.email})`}</td>
                 </tr>
                 <tr>
                   <td>연락처</td>
-                  <td>010-5678-1234</td>
+                  <td>{Object.keys(orderDetail.riderID).length===0 ?"배달원 미정":numToPhone(orderDetail.riderID.phone)}</td>
                 </tr>
                 <tr>
                   <td>배달일시</td>
@@ -126,23 +138,16 @@ const DetailScreen = ({ foodList, deleteFood }) => {
               </tbody>
             </table>
           </div>
-          <button onClick={() => delDoc(food.id)}>취소하기</button>
+          <button >취소하기</button>
         </div>
       )}
     </>
   );
 };
 
-// store에서 부터 받아온 값을 prop으로 전달
-const mapStateToProps = (state) => {
-  const { foodList } = state.foods;
-  return {
-    foodList: foodList.list,
-  };
-};
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteFood: (foodID) => dispatch(deleteFood(foodID)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(DetailScreen);
+export default connect(null, mapDispatchToProps)(DetailScreen);

@@ -1,13 +1,13 @@
-import { doc, updateDoc } from "firebase/firestore/lite";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore/lite";
 import React, { useEffect, useState, useRef, useImperativeHandle } from "react";
-import { updateFood } from "../../../redux/foods/action";
+import { updateFood, deleteFood } from "../../../redux/foods/action";
 import { db } from "../../../redux/foods/action";
 import { connect } from "react-redux";
 import DescriptionImage from "./Components/DescriptionImage";
 import ImageList from "./Components/ImageList";
 import Option from "./Components/Option";
 
-function UpdateScreen({ foodList, updateFood }, ref) {
+function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
   const [text, setText] = useState({
     name: "",
     price: 0,
@@ -17,6 +17,7 @@ function UpdateScreen({ foodList, updateFood }, ref) {
   const checkboxRef = useRef(null);
   const spanRef = useRef(null);
   const editButtonRef = useRef(null);
+  const deleteButtonRef = useRef(null);
   const inputRefs = useRef([]);
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
@@ -40,19 +41,23 @@ function UpdateScreen({ foodList, updateFood }, ref) {
       setEdit(true);
     }
   };
-  useEffect(()=> {
-    console.log("change")
-  },[foodList])
+  const onDelete = async () => {
+    //fetchDatas
+    if (edit) {
+      nothingSelected = true;
+      await deleteDoc(doc(db, "food", food.id)).then(() => deleteFood(food.id));
+      setEdit(false);
+    }
+  };
   useEffect(() => {
     if (food) {
-      console.log("foodchange");
       setText({
         name: food.name,
         price: food.price,
         stock: food.stock,
       });
     }
-  }, [foodList,food]);
+  }, [foodList, food]);
   useEffect(() => {
     if (checkboxRef && editButtonRef && inputRefs.current.length > 0) {
       if (!edit) {
@@ -157,6 +162,13 @@ function UpdateScreen({ foodList, updateFood }, ref) {
           <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
             수정
           </button>
+          <button
+            className="delete-button"
+            onClick={onDelete}
+            ref={deleteButtonRef}
+          >
+            삭제
+          </button>
         </>
       )}
     </>
@@ -166,13 +178,17 @@ function UpdateScreen({ foodList, updateFood }, ref) {
 // store에서 부터 받아온 값을 prop으로 전달
 const mapStateToProps = (state) => {
   const { foodList } = state.foods;
+  const { nowProfile, storeID } = state.store;
   return {
     foodList: foodList.list,
+    nowProfile,
+    storeID,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     updateFood: (foodID, list) => dispatch(updateFood(foodID, list)),
+    deleteFood: (foodID) => dispatch(deleteFood(foodID)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps, null, {

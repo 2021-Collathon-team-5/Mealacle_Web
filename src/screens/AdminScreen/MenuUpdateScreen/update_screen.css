@@ -6,21 +6,21 @@
   border-radius: 5px;
   padding: 5px 8px;
   margin: 20px 0px;
-  font-size:18px;
+  font-size: 18px;
 }
-.menu-option img{
+.menu-option img {
   width: 24px;
   height: 24px;
   margin-left: 5px;
   cursor: pointer;
 }
-.menu-option img:hover{
+.menu-option img:hover {
   transform: scale(1.1);
 }
 .menu-option img:active {
-  transform: scale(1.0);
+  transform: scale(1);
 }
-.menu-option>div:nth-child(2) {
+.menu-option > div:nth-child(2) {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -108,7 +108,8 @@
 .update-main > div > input[type="text"]:disabled {
   background-color: var(--main-screen-color);
 }
-.edit-button {
+.edit-button,
+.delete-button {
   background-color: var(--button-input-color);
   border: none;
   cursor: pointer;
@@ -118,10 +119,12 @@
   width: 100px;
   height: 30px;
 }
-.edit-button:hover {
+.edit-button:hover,
+.delete-button:hover {
   transform: scale(1.05);
 }
-.edit-button:active {
+.edit-button:active,
+.delete-button:active {
   transform: scale(1);
 }
 .update_contents-editdiv {
