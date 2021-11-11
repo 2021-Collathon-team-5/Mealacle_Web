@@ -28,10 +28,8 @@ export const fetchDatas = (storeID, profileIdx) => {
     const querySnapshot = await getDocs(q);
     const orderList = [];
     for (const e of querySnapshot.docs) {
-      console.log(e.data());
       const food = await getDoc(doc(db, "food", e.data().foodID));
       const user = await getDoc(doc(db, "user", e.data().userID));
-      console.log(food, user);
       const rider =
         e.data().riderID !== ""
           ? await getDoc(doc(db, "rider", e.data().riderID))

@@ -22,6 +22,7 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
   useImperativeHandle(ref, () => ({
+
     setEdit,
   }));
   if (food) {
@@ -85,12 +86,16 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
       spanRef.current.className = "product-notonsale";
     }
   };
+  const test = () => {
+    food.stock = 10;
+  }
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setText({
       ...text,
       [name]: value,
     });
+    food[name] = value; 
   };
   return (
     <>
@@ -167,7 +172,7 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
             삭제
           </button>
             </div>
-            <button className="edit-button" onClick={onEdit} ref={editButtonRef}>
+            <button className="edit-button" onClick={onEdit} onMouseOver={()=>test()} ref={editButtonRef}>
             수정
           </button>
 

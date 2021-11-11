@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import { connect } from "react-redux";
 import { fetchDatas } from "../../../redux/order/action";
 import { useEffect } from "react";
+import { doc, onSnapshot } from "@firebase/firestore";
+import { db } from "../../../Firebase";
 const OrderList = ({
   orderList,
   loading,
@@ -11,6 +13,15 @@ const OrderList = ({
   setOrderDetail
 }) => {
   const trRefs = useRef([]);
+  useEffect(()=> {
+    const test = onSnapshot(doc(db,"food","0q6LIlTT4nl9jvg2NDbo"),(doc) => {
+      console.log("change",doc.data());
+    });
+    return ()=>{
+      test();
+    }
+  },[]);
+
   const handleTableClick = (e) => {
     const {
       parentNode: { id },
