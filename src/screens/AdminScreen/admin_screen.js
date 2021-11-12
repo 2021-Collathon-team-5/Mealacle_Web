@@ -78,7 +78,7 @@ function AdminScreen({
         profile_name: nowProfile.profileName,
         sellerid: storeID,
       },
-      stock: 999,
+      stock: 0,
     };
     await addDoc(collection(db, "food"), body)
       .then(() => fetchDatas(storeID, nowProfile.profileName))
