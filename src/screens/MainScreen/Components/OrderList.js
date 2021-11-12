@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { connect } from "react-redux";
 import { fetchDatas } from "../../../redux/order/action";
 import { useEffect } from "react";
-import { doc, onSnapshot } from "@firebase/firestore";
+import { collection, onSnapshot } from "@firebase/firestore";
 import { db } from "../../../Firebase";
 const OrderList = ({
   orderList,
@@ -14,13 +14,13 @@ const OrderList = ({
 }) => {
   const trRefs = useRef([]);
   useEffect(()=> {
-    const test = onSnapshot(doc(db,"food","0q6LIlTT4nl9jvg2NDbo"),(doc) => {
-      console.log("change",doc.data());
+    const refreshData = onSnapshot(collection(db,"order"),(doc) => {
+      fetchDatas(storeID,nowProfileIndex);
     });
     return ()=>{
-      test();
+      refreshData();
     }
-  },[]);
+  },[fetchDatas,storeID,nowProfileIndex]);
 
   const handleTableClick = (e) => {
     const {
@@ -34,14 +34,7 @@ const OrderList = ({
     const orderIdx = orderList.indexOf(orderDetail)+1;
     setOrderDetail({...orderDetail,orderIdx});
   };
- const orderLoaded = useRef(false);
-  useEffect(()=>{
-    if(orderList.length<1&&!orderLoaded.current){
-      orderLoaded.current=true
-    fetchDatas(storeID,nowProfileIndex)
-    }
-  }
-  ,[fetchDatas,storeID,nowProfileIndex,orderLoaded,orderList]);
+ 
   function addComma(num) {
     var regexp = /\B(?=(\d{3})+(?!\d))/g;
     return num.toString().replace(regexp, ',');
