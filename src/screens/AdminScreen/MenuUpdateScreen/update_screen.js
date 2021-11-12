@@ -1,4 +1,12 @@
-import { doc, updateDoc, deleteDoc } from "firebase/firestore/lite";
+import {
+  doc,
+  updateDoc,
+  deleteDoc,
+  query,
+  collection,
+  where,
+  getDocs,
+} from "firebase/firestore/lite";
 import React, { useEffect, useState, useRef, useImperativeHandle } from "react";
 import { updateFood, deleteFood } from "../../../redux/foods/action";
 import { db } from "../../../redux/foods/action";
@@ -22,7 +30,6 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
   let nothingSelected = true;
   const food = foodList.find((food) => food.active); // active된 food data
   useImperativeHandle(ref, () => ({
-
     setEdit,
   }));
   if (food) {
@@ -47,10 +54,16 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
     if (edit) {
       nothingSelected = true;
       await deleteDoc(doc(db, "food", food.id)).then(() => deleteFood(food.id));
+      const q = query(collection(db, "order"), where("foodID", "==", food.id));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.docs.forEach(async (e) => {
+        await deleteDoc(doc(db, "order", e.id));
+      });
     }
   };
   useEffect(() => {
     if (food) {
+      console.log("food:", food);
       setText({
         name: food.name,
         price: food.price,
@@ -88,14 +101,14 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
   };
   const test = () => {
     food.stock = 10;
-  }
+  };
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setText({
       ...text,
       [name]: value,
     });
-    food[name] = value; 
+    food[name] = value;
   };
   return (
     <>
@@ -165,17 +178,21 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
               </div>
             </div>
             <button
-            className="delete-button"
-            onClick={onDelete}
-            ref={deleteButtonRef}
+              className="delete-button"
+              onClick={onDelete}
+              ref={deleteButtonRef}
+            >
+              삭제
+            </button>
+          </div>
+          <button
+            className="edit-button"
+            onClick={onEdit}
+            onMouseOver={() => test()}
+            ref={editButtonRef}
           >
-            삭제
-          </button>
-            </div>
-            <button className="edit-button" onClick={onEdit} onMouseOver={()=>test()} ref={editButtonRef}>
             수정
           </button>
-
         </>
       )}
     </>

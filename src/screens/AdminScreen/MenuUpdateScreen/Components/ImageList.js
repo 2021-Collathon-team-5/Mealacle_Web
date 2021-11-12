@@ -32,12 +32,12 @@ const ImageList = React.forwardRef(
         const ImageChange = async () => {
           const storagedb = firestorageService;
           await uploadBytes(
-            ref(storagedb, `images/${food.name}/${food.image.length + 1}`),
+            ref(storagedb, `images/${food.id}/${food.image.length + 1}`),
             File
           );
           setFileURL(
             await getDownloadURL(
-              ref(storagedb, `images/${food.name}/${food.image.length + 1}`)
+              ref(storagedb, `images/${food.id}/${food.image.length + 1}`)
             )
           );
         };
