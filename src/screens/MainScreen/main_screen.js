@@ -10,20 +10,17 @@ function MainScreen({ orderList }) {
   const [finalCount, setFinalCount] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
   useEffect(() => {
-    if (finalCount === 0 && finalPrice === 0) {
       let tempPrice = 0;
       let tempCount = 0;
       for (let e in orderList) {
-        console.log(orderList[e]);
         const a = Number(orderList[e].foodID.price);
         const b = orderList[e].count;
         tempPrice = tempPrice + a * b;
         tempCount = tempCount + b;
-      }
       setFinalCount(tempCount);
       setFinalPrice(tempPrice);
     }
-  }, [orderList, finalCount, finalPrice]);
+  }, [orderList]);
 
   function addComma(num) {
     if (num) {
@@ -49,7 +46,7 @@ function MainScreen({ orderList }) {
         </div>
         <div>
           공급가액
-          <span className="order_span">{addComma(finalPrice * 0.9)} 원</span>
+          <span className="order_span">{addComma(Math.round(finalPrice * 0.9))} 원</span>
         </div>
         <div>
           판매수량<span className="order_span">{finalCount} 개</span>
@@ -68,8 +65,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+
+export default connect(mapStateToProps, null)(MainScreen);

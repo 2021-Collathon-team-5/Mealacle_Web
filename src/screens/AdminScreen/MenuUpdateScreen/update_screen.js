@@ -99,9 +99,6 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
       spanRef.current.className = "product-notonsale";
     }
   };
-  const test = () => {
-    food.stock = 10;
-  };
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setText({
@@ -188,7 +185,6 @@ function UpdateScreen({ foodList, updateFood, deleteFood }, ref) {
           <button
             className="edit-button"
             onClick={onEdit}
-            onMouseOver={() => test()}
             ref={editButtonRef}
           >
             수정

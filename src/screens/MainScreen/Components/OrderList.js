@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { fetchDatas } from "../../../redux/order/action";
 import { useEffect } from "react";
-import { collection, onSnapshot } from "@firebase/firestore";
+import { collection, onSnapshot, query, where } from "@firebase/firestore";
 import { db } from "../../../Firebase";
 const OrderList = ({
   orderList,
@@ -12,15 +12,20 @@ const OrderList = ({
   nowProfileIndex,
   setOrderDetail,
 }) => {
-  const trRefs = useRef([]);
+  const [trRefs] = useState([]);
   useEffect(() => {
-    const refreshData = onSnapshot(collection(db, "order"), (doc) => {
+    const q = query(collection(db, "order"),where("sellerID","==",storeID));
+    const q2=query(q,where("profile_idx","==",nowProfileIndex));
+    const refreshData = onSnapshot(q2, (doc) => {
+      let flag = false;
       doc.docChanges().forEach((e) => {
-        if (e.type === "added" || e.type === "removed") {
-          fetchDatas(storeID, nowProfileIndex);
-          console.log(doc.docs);
+        if (e.type === "added"||e.type==="removed") {
+          flag = true;
         }
       });
+      if(flag){
+        fetchDatas(storeID,nowProfileIndex);
+      }
     });
     return () => {
       refreshData();
@@ -31,8 +36,10 @@ const OrderList = ({
     const {
       parentNode: { id },
     } = e.target;
-    for (const tr of trRefs.current) {
+    for (const tr of trRefs) {
+      if(tr!==null) {
       tr.classList.remove("active");
+      }
     }
     e.target.parentNode.classList.add("active");
     const orderDetail = orderList.find((e) => id === e.id);
@@ -72,7 +79,7 @@ const OrderList = ({
                   key={e.id}
                   id={e.id}
                   onClick={handleTableClick}
-                  ref={(el) => (trRefs.current[index] = el)}
+                  ref={(el) => (trRefs[index] = el)}
                 >
                   <td>{index + 1}</td>
                   <td>{`${e.foodID.name} (${

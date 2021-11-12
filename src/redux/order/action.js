@@ -46,9 +46,11 @@ export const fetchDatas = (storeID, profileIdx) => {
         id: e.id,
       };
       orderList.push(data);
+      if(!e.data().ready) {
       await updateDoc(doc(db,"order",e.id),{
         ready:true
       });
+    }
     }
     dispatch(initializeOrderList(orderList));
   };

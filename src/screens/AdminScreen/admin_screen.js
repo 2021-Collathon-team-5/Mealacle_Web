@@ -84,6 +84,10 @@ function AdminScreen({
       .then(() => fetchDatas(storeID, nowProfile.profileName))
       .then(() => setIsAddFood(false));
   };
+  function addComma(num) {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return num.toString().replace(regexp, ",");
+  }
   return (
     <div className="admin-screen-container">
       <NavigationBar />
@@ -121,8 +125,8 @@ function AdminScreen({
                     >
                       <td>{idToNum(e.id)}</td>
                       <td>{e.name}</td>
-                      <td>{e.stock}</td>
-                      <td>{e.price}</td>
+                      <td>{addComma(e.stock)}</td>
+                      <td>{addComma(e.price)}</td>
                     </tr>
                   );
                 })
